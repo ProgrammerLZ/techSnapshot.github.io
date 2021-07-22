@@ -25,6 +25,10 @@
     <link rel="shortcut icon" href="/techSnapshot.github.io/favicon.png">
   
   
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
   
 <link rel="stylesheet" href="/techSnapshot.github.io/css/style.css">
 
@@ -107,44 +111,8 @@
 <blockquote>
 <p>Starters are a set of convenient dependency descriptors that you can include in your application. You get a one-stop-shop for all the Spring and related technology that you need, without having to hunt through sample code and copy paste loads of dependency descriptors. For example, if you want to get started using Spring and JPA for database access, just include the spring-boot-starter-data-jpa dependency in your project, and you are good to go.</p>
 </blockquote>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.1.3.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-    &lt;groupId&gt;xin.desertcamel&lt;/groupId&gt;
-    &lt;artifactId&gt;helloworld&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-    &lt;name&gt;demo&lt;/name&gt;
-    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.3.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>xin.desertcamel<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>helloworld<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>demo<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Demo project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-    &lt;properties&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-
-    &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-
-&lt;/project&gt;
-</code></pre>
 <p><code>spring-boot-starter-web</code> 一个起步依赖。通过Maven的依赖传递，可以得到一个web工程所需要的全部基础依赖。可以理解为，<code>Spring Boot为我们提供了一层高级抽象，屏蔽了底层细节，在这个实例代码中，开发者所应该关注的事情是我要做一个什么样的项目，要实现这个项目的功能需要依赖哪些功能，而不用再去关心我要具体依赖哪些库，起步依赖同时也管理了所要依赖的库的版本，让开发者从繁琐的包管理中解脱出来，而更关注应用程序的业务实现。</code></p>
 <p><parent>标签的意义是，我们可以继承spring boot的一些默认的选项:</p>
 <ul>
@@ -156,18 +124,10 @@
 </li>
 </ul>
 <p>如果不想从spring boot parent继承，可以这样做：</p>
-<pre><code class="xml">&lt;dependencyManagement&gt;
-&lt;dependencies&gt;
-        &lt;dependency&gt;   
-          &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;         
-          &lt;artifactId&gt;spring-boot-dependencies&lt;/artifactId&gt;  
-          &lt;version&gt;1.2.6&lt;/version&gt;    
-          &lt;type&gt;pom&lt;/type&gt;  
-          &lt;scope&gt;import&lt;/scope&gt; 
-       &lt;/dependency&gt; 
-   &lt;/dependencies&gt;
-&lt;/dependencyManagement&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>   </span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>         </span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span>    </span><br><span class="line">          <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span>  </span><br><span class="line">          <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span> </span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="二、Spring-Boot-Auto-Configuration"><a href="#二、Spring-Boot-Auto-Configuration" class="headerlink" title="二、Spring Boot Auto Configuration"></a>二、Spring Boot Auto Configuration</h3><p>除了自动管理项目依赖之外，Spring Boot也提供了自动配置的能力。</p>
 <p>当我们开发web应用程序时，我们需要在xml中或java以代码的形式来配置基于Spring的开发环境。比如我们需要配置Dispatcher Servlet、DataSource、ViewResolver等等这些必须的bean，这些操作每次都是重复的，所以Spring Boot就把它们也自动化掉了。Spring Boot会检测ClassPath当中的jar包，如果包含了web开发所需要使用jar包（Spring MVC），Spring就会把上述所说的配置都配置好，不用我们再去配置。同样贴上官方的解释：</p>
 <blockquote>
@@ -175,36 +135,23 @@
 </blockquote>
 <p>Spring Boot会根据类路径中的jar包、类，为jar包里的类自动配置，这样可以极大的减少配置的数量。简单点说就是它会根据定义在classpath下的类，自动的给你生成一些Bean，并加载到Spring的Context中。自动配置充分的利用了spring 4.0的条件化配置特性，能够自动配置特定的Spring bean，用来启动某项特性。</p>
 <h4 id="条件化配置"><a href="#条件化配置" class="headerlink" title="条件化配置"></a>条件化配置</h4><p>假设你希望一个或多个bean只有在某种特殊的情况下才需要被创建，比如，一个应用同时服务于中美用户，要在中美部署，有的服务在美国集群中需要提供，在中国集群中就不需要提供。在Spring 4之前，要实现这种级别的条件化配置是比较复杂的，但是，<strong>Spring 4</strong>引入了一个新的<code>@Conditional</code>注解可以有效的解决这类问题。</p>
-<pre><code class="java">@Bean
-@Conditional(ChinaEnvironmentCondition.class)
-public ServiceBean serviceBean()&#123;
-    return new ServiceBean();
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@Conditional(ChinaEnvironmentCondition.class)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ServiceBean <span class="title">serviceBean</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ServiceBean();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>当<code>@Conditional(ChinaEnvironmentCondition.class)</code>条件的值为true的时候，该<code>ServiceBean</code>才会被创建，否则该bean就会被忽略。</p>
 <p><code>@Conditional</code>指定了一个条件。他的条件的实现是一个Java类——<code>ChinaEnvironmentCondition</code>，要实现以上功能就要定义<code>ChinaEnvironmentCondition</code>类，并继承<code>Condition</code>接口并重写其中的<code>matches</code>方法。</p>
-<pre><code class="java">class ChinaEnvironmentCondition implements Condition&#123;
-    public final boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) &#123;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ChinaEnvironmentCondition</span> <span class="keyword">implements</span> <span class="title">Condition</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">matches</span><span class="params">(ConditionContext context, AnnotatedTypeMetadata metadata)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Environment env = context.getEnvironment();</span><br><span class="line">        <span class="keyword">return</span> env.containProperty(<span class="string">&quot;ENV_CN&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        Environment env = context.getEnvironment();
-        return env.containProperty(&quot;ENV_CN&quot;);
-    &#125;
-&#125;
-</code></pre>
 <p>在上面的代码中，matches方法的内容比较简单，他通过给定的<code>ConditionContext</code>对象进而获取<code>Environment</code>对象，然后使用该对象检查环境中是否存在<code>ENV_CN</code>属性。如果存在该方法则直接返回true，反之返回false。当该方法返回true的时候，就符合了<code>@Conditional</code>指定的条件，那么<code>ServiceBean</code>就会被创建。反之，如果环境中没有这个属性，那么这个<code>ServiceBean</code>就不会被创建。</p>
 <p>除了可以自定义一些条件之外，Spring 4本身提供了很多已有的条件供直接使用，如：</p>
-<pre><code class="java">@ConditionalOnBean
-@ConditionalOnClass
-@ConditionalOnExpression
-@ConditionalOnMissingBean
-@ConditionalOnMissingClass
-@ConditionalOnNotWebApplication
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ConditionalOnBean</span></span><br><span class="line"><span class="meta">@ConditionalOnClass</span></span><br><span class="line"><span class="meta">@ConditionalOnExpression</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingClass</span></span><br><span class="line"><span class="meta">@ConditionalOnNotWebApplication</span></span><br></pre></td></tr></table></figure>
+
+
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/01/08/SpringBoot%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" data-id="ckrejnha6000lfkggdvns5scc" data-title="SpringBoot核心概念" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2021/01/08/SpringBoot%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" data-id="ckrejt3by000djwgg6fxofcku" data-title="SpringBoot核心概念" class="article-share-link">分享</a>
       
       
       

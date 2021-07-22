@@ -6,12 +6,12 @@
   
   <title>Servlet容器、Spring容器、SpringMVC容器 | 小楼昨夜又东风</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="本文基于一个问题：在使用 SpringMVC 时，Spring 容器是如何与 Servlet 容器进行交互的？  Spring 容器的加载可否还记得，当年还没有 Springboot 的时候，在 Tomcat 的 web.xml 中进行面向 xml 编程的青葱岁月？其中有那么几段配置总是令我记忆犹新： 首先是 Spring 容器配置： &lt;context-param&gt;   &lt;pa">
+  <meta name="description" content="本文基于一个问题：在使用 SpringMVC 时，Spring 容器是如何与 Servlet 容器进行交互的？  Spring 容器的加载可否还记得，当年还没有 Springboot 的时候，在 Tomcat 的 web.xml 中进行面向 xml 编程的青葱岁月？其中有那么几段配置总是令我记忆犹新： 首先是 Spring 容器配置： 1234&lt;context-param&gt;  &amp;lt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Servlet容器、Spring容器、SpringMVC容器">
 <meta property="og:url" content="https://programmerlz.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/index.html">
 <meta property="og:site_name" content="小楼昨夜又东风">
-<meta property="og:description" content="本文基于一个问题：在使用 SpringMVC 时，Spring 容器是如何与 Servlet 容器进行交互的？  Spring 容器的加载可否还记得，当年还没有 Springboot 的时候，在 Tomcat 的 web.xml 中进行面向 xml 编程的青葱岁月？其中有那么几段配置总是令我记忆犹新： 首先是 Spring 容器配置： &lt;context-param&gt;   &lt;pa">
+<meta property="og:description" content="本文基于一个问题：在使用 SpringMVC 时，Spring 容器是如何与 Servlet 容器进行交互的？  Spring 容器的加载可否还记得，当年还没有 Springboot 的时候，在 Tomcat 的 web.xml 中进行面向 xml 编程的青葱岁月？其中有那么几段配置总是令我记忆犹新： 首先是 Spring 容器配置： 1234&lt;context-param&gt;  &amp;lt">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205328.png">
 <meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205759.png">
@@ -39,6 +39,10 @@
   
     <link rel="shortcut icon" href="/techSnapshot.github.io/favicon.png">
   
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
   
   
 <link rel="stylesheet" href="/techSnapshot.github.io/css/style.css">
@@ -116,16 +120,11 @@
 </blockquote>
 <h2 id="Spring-容器的加载"><a href="#Spring-容器的加载" class="headerlink" title="Spring 容器的加载"></a>Spring 容器的加载</h2><p>可否还记得，当年还没有 Springboot 的时候，在 Tomcat 的 web.xml 中进行面向 xml 编程的青葱岁月？其中有那么几段配置总是令我记忆犹新：</p>
 <p>首先是 Spring 容器配置：</p>
-<pre><code>&lt;context-param&gt;
-  &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
-  &lt;param-value&gt;classpath:spring-config.xml&lt;/param-value&gt;
-&lt;/context-param&gt;
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;context-param&gt;</span><br><span class="line">  &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">  &lt;param-value&gt;classpath:spring-config.xml&lt;/param-value&gt;</span><br><span class="line">&lt;/context-param&gt;</span><br></pre></td></tr></table></figure>
+
 <p>其次是 Servlet 容器监听器配置：</p>
-<pre><code>&lt;listener&gt;
-  &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
-&lt;/listener&gt;
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;listener&gt;</span><br><span class="line">  &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;</span><br><span class="line">&lt;/listener&gt;</span><br></pre></td></tr></table></figure>
+
 <p>在 Tomcat 启动时，根据这两段配置，究竟做了什么动作，使得 Tomcat 与 Spring 完美地结合在一起了呢？</p>
 <p>首先我们来看下 ContextLoaderListener 监听器的源码：</p>
 <p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205328.png" alt="img"></p>
@@ -184,7 +183,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/" data-id="ckrejnh9y0009fkgg85m336kr" data-title="Servlet容器、Spring容器、SpringMVC容器" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/" data-id="ckrejt3bx000cjwgg5u1ratl2" data-title="Servlet容器、Spring容器、SpringMVC容器" class="article-share-link">分享</a>
       
       
       

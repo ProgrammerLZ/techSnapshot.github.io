@@ -27,6 +27,10 @@
     <link rel="shortcut icon" href="/techSnapshot.github.io/favicon.png">
   
   
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
   
 <link rel="stylesheet" href="/techSnapshot.github.io/css/style.css">
 
@@ -99,25 +103,8 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h4 id="Spring-Boot应用的启动入口"><a href="#Spring-Boot应用的启动入口" class="headerlink" title="Spring Boot应用的启动入口"></a>Spring Boot应用的启动入口</h4><p><strong>自动配置</strong>充分的利用了spring 4.0的条件化配置特性，那么，Spring Boot是如何实现自动配置的？Spring 4中的条件化配置又是怎么运用到Spring Boot中的呢？这要从Spring Boot的启动类说起。Spring Boot应用通常有一个名为<code>*Application</code>的入口类，入口类中有一个<code>main</code>方法，这个方法其实就是一个标准的Java应用的入口方法。一般在<code>main</code>方法中使用<code>SpringApplication.run()</code>来启动整个应用。值得注意的是，这个入口类要使用<code>@SpringBootApplication</code>注解声明。<code>@SpringBootApplication</code>是Spring Boot的核心注解，他是一个组合注解。</p>
-<pre><code class="java">@Target(&#123;ElementType.TYPE&#125;)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Inherited
-@SpringBootConfiguration
-@EnableAutoConfiguration
-@ComponentScan(
-    excludeFilters = &#123;@Filter(
-    type = FilterType.CUSTOM,
-    classes = &#123;TypeExcludeFilter.class&#125;
-), @Filter(
-    type = FilterType.CUSTOM,
-    classes = &#123;AutoConfigurationExcludeFilter.class&#125;
-)&#125;
-)
-public @interface SpringBootApplication &#123;
-    // 略
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="meta">@SpringBootConfiguration</span></span><br><span class="line"><span class="meta">@EnableAutoConfiguration</span></span><br><span class="line"><span class="meta">@ComponentScan(</span></span><br><span class="line"><span class="meta">    excludeFilters = &#123;@Filter(</span></span><br><span class="line"><span class="meta">    type = FilterType.CUSTOM,</span></span><br><span class="line"><span class="meta">    classes = &#123;TypeExcludeFilter.class&#125;</span></span><br><span class="line"><span class="meta">), @Filter(</span></span><br><span class="line"><span class="meta">    type = FilterType.CUSTOM,</span></span><br><span class="line"><span class="meta">    classes = &#123;AutoConfigurationExcludeFilter.class&#125;</span></span><br><span class="line"><span class="meta">)&#125;</span></span><br><span class="line"><span class="meta">)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> SpringBootApplication &#123;</span><br><span class="line">    <span class="comment">// 略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><code>@SpringBootApplication</code>是一个组合注解，它主要包含<code>@SpringBootConfiguration</code>、<code>@EnableAutoConfiguration</code>等几个注解。也就是说可以直接在启动类中使用这些注解来代替<code>@SpringBootApplication</code>注解。 关于Spring Boot中的Spring自动化配置主要是<code>@EnableAutoConfiguration</code>的功劳。该注解可以让Spring Boot根据类路径中的jar包依赖为当前项目进行自动配置。</p>
 <p>至此，我们知道，Spring Boot的自动化配置主要是通过<code>@EnableAutoConfiguration</code>来实现的，因为我们在程序的启动入口使用了<code>@SpringBootApplication</code>注解，而该注解中组合了<code>@EnableAutoConfiguration</code>注解。所以，在启动类上使用<code>@EnableAutoConfiguration</code>注解，就会开启自动配置。</p>
 <p>那么，本着刨根问底的原则，当然要知道<code>@EnableAutoConfiguration</code>又是如何实现自动化配置的，因为目前为止，我们还没有发现Spring 4中条件化配置的影子。</p>
@@ -128,16 +115,8 @@ public @interface SpringBootApplication &#123;
 <p><code>@EnableAutoConfiguration</code>也是借助<code>@Import</code>的帮助，将所有符合自动配置条件的bean定义加载到IoC容器。</p>
 </blockquote>
 <p>下面是<code>EnableAutoConfiguration</code>注解的源码：</p>
-<pre><code class="java">@Target(&#123;ElementType.TYPE&#125;)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Inherited
-@AutoConfigurationPackage
-@Import(&#123;EnableAutoConfigurationImportSelector.class&#125;)
-public @interface EnableAutoConfiguration &#123;
-    //略
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(&#123;ElementType.TYPE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="meta">@AutoConfigurationPackage</span></span><br><span class="line"><span class="meta">@Import(&#123;EnableAutoConfigurationImportSelector.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> EnableAutoConfiguration &#123;</span><br><span class="line">    <span class="comment">//略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>观察<code>@EnableAutoConfiguration</code>可以发现，这里<strong>Import</strong>了<code>@EnableAutoConfigurationImportSelector</code>，这就是Spring Boot自动化配置的“始作俑者”。</p>
 <p>至此，我们知道，由于我们在Spring Boot的启动类上使用了<code>@SpringBootApplication</code>注解，而该注解组合了<code>@EnableAutoConfiguration</code>注解，<code>@EnableAutoConfiguration</code>是自动化配置的“始作俑者”，而<code>@EnableAutoConfiguration</code>中Import了<code>@EnableAutoConfigurationImportSelector</code>注解，该注解的内部实现已经很接近我们要找的“真相”了。</p>
 <h4 id="EnableAutoConfigurationImport-Selector"><a href="#EnableAutoConfigurationImport-Selector" class="headerlink" title="EnableAutoConfigurationImport-Selector"></a>EnableAutoConfigurationImport-Selector</h4><p><code>EnableAutoConfigurationImportSelector</code>的源码在这里就不贴了，感兴趣的可以直接去看一下，其实实现也比较简单，主要就是使用Spring4 提供的的<code>SpringFactoriesLoader</code>工具类。通过<code>SpringFactoriesLoader.loadFactoryNames()</code>读取了ClassPath下面的<code>META-INF/spring.factories</code>文件。</p>
@@ -145,44 +124,15 @@ public @interface EnableAutoConfiguration &#123;
 <p>这里要简单提一下<code>spring.factories</code>文件，它是一个典型的java properties文件，配置的格式为<strong>Key = Value</strong>形式。</p>
 </blockquote>
 <p><code>EnableAutoConfigurationImportSelector</code>通过读取<code>spring.factories</code>中的key为<code>org.springframework.boot.autoconfigure.EnableAutoConfiguration</code>的值。如<code>spring-boot-autoconfigure-1.5.1.RELEASE.jar</code>中的<code>spring.factories</code>文件包含以下内容：</p>
-<pre><code class="java"># Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration,\
-org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
-org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,\
-org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration,\
-org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration,\
-org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration,\
-org.springframework.boot.autoconfigure.cloud.CloudAutoConfiguration,\
-......
-org.springframework.boot.autoconfigure.webservices.WebServicesAutoConfiguration
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Auto Configure</span><br><span class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span><br><span class="line">org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration,\</span><br><span class="line">org.springframework.boot.autoconfigure.cloud.CloudAutoConfiguration,\</span><br><span class="line">......</span><br><span class="line">org.springframework.boot.autoconfigure.webservices.WebServicesAutoConfiguration</span><br></pre></td></tr></table></figure>
+
 <p>上面的<code>EnableAutoConfiguration</code>配置了多个类，这些都是Spring Boot中的自动配置相关类；在启动过程中会解析对应类配置信息。每个<code>Configuation</code>都定义了相关bean的实例化配置。都说明了哪些bean可以被自动配置，什么条件下可以自动配置，并把这些bean实例化出来。</p>
 <blockquote>
 <p>如果我们新定义了一个starter的话，也要在该starter的jar包中提供 <code>spring.factories</code>文件，并且为其配置<code>org.springframework.boot.autoconfigure.EnableAutoConfiguration</code>对应的配置类。</p>
 </blockquote>
 <h4 id="Configuation"><a href="#Configuation" class="headerlink" title="Configuation"></a>Configuation</h4><p>我们从<code>spring-boot-autoconfigure-1.5.1.RELEASE.jar</code>中的<code>spring.factories</code>文件随便找一个Configuration，看看他是如何自动加载bean的。</p>
-<pre><code class="java">@Configuration
-@AutoConfigureAfter(&#123;JmxAutoConfiguration.class&#125;)
-@ConditionalOnProperty(
-    prefix = &quot;spring.application.admin&quot;,
-    value = &#123;&quot;enabled&quot;&#125;,
-    havingValue = &quot;true&quot;,
-    matchIfMissing = false
-)
-public class SpringApplicationAdminJmxAutoConfiguration &#123;
-    @Bean
-    @ConditionalOnMissingBean
-    public SpringApplicationAdminMXBeanRegistrar springApplicationAdminRegistrar() throws MalformedObjectNameException &#123;
-        String jmxName = this.environment.getProperty(&quot;spring.application.admin.jmx-name&quot;, &quot;org.springframework.boot:type=Admin,name=SpringApplication&quot;);
-        if(this.mbeanExporter != null) &#123;
-            this.mbeanExporter.addExcludedBean(jmxName);
-        &#125;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@AutoConfigureAfter(&#123;JmxAutoConfiguration.class&#125;)</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty(</span></span><br><span class="line"><span class="meta">    prefix = &quot;spring.application.admin&quot;,</span></span><br><span class="line"><span class="meta">    value = &#123;&quot;enabled&quot;&#125;,</span></span><br><span class="line"><span class="meta">    havingValue = &quot;true&quot;,</span></span><br><span class="line"><span class="meta">    matchIfMissing = false</span></span><br><span class="line"><span class="meta">)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringApplicationAdminJmxAutoConfiguration</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SpringApplicationAdminMXBeanRegistrar <span class="title">springApplicationAdminRegistrar</span><span class="params">()</span> <span class="keyword">throws</span> MalformedObjectNameException </span>&#123;</span><br><span class="line">        String jmxName = <span class="keyword">this</span>.environment.getProperty(<span class="string">&quot;spring.application.admin.jmx-name&quot;</span>, <span class="string">&quot;org.springframework.boot:type=Admin,name=SpringApplication&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.mbeanExporter != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.mbeanExporter.addExcludedBean(jmxName);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SpringApplicationAdminMXBeanRegistrar(jmxName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        return new SpringApplicationAdminMXBeanRegistrar(jmxName);
-    &#125;
-&#125;
-</code></pre>
 <p>看到上面的代码，终于找到了我们要找的东西——Spring 4的条件化配置。上面<code>SpringApplicationAdminJmxAutoConfiguration</code>在决定对哪些bean进行自动化配置的时候，使用了两个条件注解：<code>ConditionalOnProperty</code>和<code>ConditionalOnMissingBean</code>。只有满足这种条件的时候，对应的bean才会被创建。这样做的好处是什么？这样可以保证某些bean在没满足特定条件的情况下就可以不必初始化，避免在bean初始化过程中由于条件不足，导致应用启动失败。</p>
 <p>至此，我们可以总结一下Spring Boot的自动化配置的实现：</p>
 <p><img src="/techSnapshot.github.io/SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/r-20201030105053638.png" alt="img"></p>
@@ -192,7 +142,7 @@ public class SpringApplicationAdminJmxAutoConfiguration &#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/01/08/SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/" data-id="ckrejnha6000mfkgg9x0c7rap" data-title="SpringBoot自动配置原理" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2021/01/08/SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/" data-id="ckrejt3c0000ejwggaf5g9emg" data-title="SpringBoot自动配置原理" class="article-share-link">分享</a>
       
       
       

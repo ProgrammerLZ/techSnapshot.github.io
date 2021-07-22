@@ -41,6 +41,10 @@
     <link rel="shortcut icon" href="/techSnapshot.github.io/favicon.png">
   
   
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
   
 <link rel="stylesheet" href="/techSnapshot.github.io/css/style.css">
 
@@ -154,29 +158,19 @@
 <p>如果它的值不为 0，那 constant_pool 表在这个索引处的项必须为Constant_Class_info类型常 量，表示这个 Class 文件所定义的类的直接父类。当前类的直接父类，以及它所有间接父类的 <code>access_flag</code> 中都不能带有<code>ACC_FINAL</code> 标记。对于接口来说，它的Class文件的super_class项的 值必须是对constant_pool表中项目的一个有效索引值，这个索引处的项必须为代表 java.lang.Object 的 CONSTANT_Class_info 类型常量 。</p>
 <p>如果 Class 文件的 super_class的值为 0，那这个Class文件只可能是定义的是 java.lang.Object类，只有它是唯一没有父类的类。</p>
 <h3 id="接口计数器"><a href="#接口计数器" class="headerlink" title="接口计数器"></a>接口计数器</h3><p>接口计数器，interfaces_count的值表示当前类或接口的【直接父接口数量】。</p>
-<pre><code class="java">public class ClassA implements InterfaceA,InterfaceB
-&#123;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassA</span> <span class="keyword">implements</span> <span class="title">InterfaceA</span>,<span class="title">InterfaceB</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-&#125;
-</code></pre>
 <p>接口计数器的值为2。</p>
 <h3 id="接口信息数据区"><a href="#接口信息数据区" class="headerlink" title="接口信息数据区"></a>接口信息数据区</h3><p><code>interfaces</code>每个成员的值必须是一个constant_pool的一个有效索引值，索引处所对应的值必须为 Constant_Class_info类型常量。interfaces的长度为 interfaces_count。在interfaces中，成员所表示的接口顺序和对应的源代码中给定的接口顺序(从左至右)一样，即interfaces[0]对 应的是源代码中最左边的接口。</p>
-<pre><code class="java">public class ClassA implements InterfaceA,InterfaceB
-&#123;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassA</span> <span class="keyword">implements</span> <span class="title">InterfaceA</span>,<span class="title">InterfaceB</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-&#125;
-</code></pre>
 <p>interfaces[0] 处的值引用constant_pool中的某个Constant_Class_info类型的常量，表示的是InterfaceA</p>
 <p>interfaces[1] 处的值引用constant_pool中的某个Constant_Class_info类型的常量，表示的是InterfaceB</p>
 <img src="JVM-Class文件/image-20210114223641114.png" alt="image-20210114223641114" style="zoom:50%;" />
 
 <h3 id="字段计数器"><a href="#字段计数器" class="headerlink" title="字段计数器"></a>字段计数器</h3><p><code>fields_count</code>的值表示当前 Class 文件 fields的成员个数。 fields 中每一项都是一个field_info结构的数据项，它用于表示该类或接口声明的类字段或者实例字段。</p>
-<pre><code class="java">public class ClassA implements InterfaceA,InterfaceB
-&#123;
-        private String str0;
-    private String str1;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassA</span> <span class="keyword">implements</span> <span class="title">InterfaceA</span>,<span class="title">InterfaceB</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">		<span class="keyword">private</span> String str0;</span><br><span class="line">    <span class="keyword">private</span> String str1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>字段计数器的值 = 2。</p>
 <h3 id="字段信息数据区"><a href="#字段信息数据区" class="headerlink" title="字段信息数据区"></a>字段信息数据区</h3><p><code>fields</code>中的每个成员都必须是一个fields_info结构的数据项，用于表示当前类或接 口中某个字段的完整描述。 fields[]数组描述当前类或接口声明的所有字段，但不包括从父类或父接 口继承的部分。</p>
 <h3 id="方法计数器"><a href="#方法计数器" class="headerlink" title="方法计数器"></a>方法计数器</h3><p><code>methods_count</code>的值表示当前Class 文件 methods的成员个数。methods中每一项都是一个 method_info 结构的数据项。</p>
@@ -284,7 +278,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/" data-id="ckrejnh9r0003fkggbgvp7d4l" data-title="JVM-Class文件" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/" data-id="ckrejt3bt0008jwggb6t9hzj9" data-title="JVM-Class文件" class="article-share-link">分享</a>
       
       
       

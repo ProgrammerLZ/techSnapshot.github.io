@@ -29,6 +29,10 @@
     <link rel="shortcut icon" href="/techSnapshot.github.io/favicon.png">
   
   
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
   
 <link rel="stylesheet" href="/techSnapshot.github.io/css/style.css">
 
@@ -105,43 +109,10 @@
 <span id="more"></span>    
 
 <p>基于JDK动态代理的示例代码：</p>
-<pre><code class="java">public class MyDynamicProxy &#123;
-    public static  void main (String[] args) &#123;
-        HelloImpl hello = new HelloImpl();
-        MyInvocationHandler handler = new MyInvocationHandler(hello);
-        // 动态的生成代理类
-        Hello proxyHello = (Hello) Proxy.newProxyInstance(HelloImpl.class.getClassLoader(), HelloImpl.class.getInterfaces(), handler);
-        // 调用代理方法，实际上会调用handler的invoke方法
-        proxyHello.sayHello();
-    &#125;
-&#125;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDynamicProxy</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        HelloImpl hello = <span class="keyword">new</span> HelloImpl();</span><br><span class="line">        MyInvocationHandler handler = <span class="keyword">new</span> MyInvocationHandler(hello);</span><br><span class="line">        <span class="comment">// 动态的生成代理类</span></span><br><span class="line">        Hello proxyHello = (Hello) Proxy.newProxyInstance(HelloImpl.class.getClassLoader(), HelloImpl.class.getInterfaces(), handler);</span><br><span class="line">        <span class="comment">// 调用代理方法，实际上会调用handler的invoke方法</span></span><br><span class="line">        proxyHello.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Hello</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloImpl</span> <span class="keyword">implements</span>  <span class="title">Hello</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyInvocationHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object target;<span class="comment">//委托类</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyInvocationHandler</span><span class="params">(Object target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Invoking sayHello&quot;</span>);<span class="comment">//对委托类进行预处理</span></span><br><span class="line">        Object result = method.invoke(target, args);<span class="comment">//消息转发</span></span><br><span class="line">      	System.out.println(<span class="string">&quot;Invoking sayHello&quot;</span>);<span class="comment">//对委托类进行后续处理</span></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-interface Hello &#123;
-    void sayHello();
-&#125;
 
-class HelloImpl implements  Hello &#123;
-    @Override
-    public void sayHello() &#123;
-        System.out.println(&quot;Hello World&quot;);
-    &#125;
-&#125;
 
-class MyInvocationHandler implements InvocationHandler &#123;
-    private Object target;//委托类
-    public MyInvocationHandler(Object target) &#123;
-        this.target = target;
-    &#125;
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args)
-            throws Throwable &#123;
-        System.out.println(&quot;Invoking sayHello&quot;);//对委托类进行预处理
-        Object result = method.invoke(target, args);//消息转发
-          System.out.println(&quot;Invoking sayHello&quot;);//对委托类进行后续处理
-        return result;
-    &#125;
-&#125;
-</code></pre>
 <ol>
 <li>首先创建被调用类的实例hello</li>
 <li>然后<strong>以接口Hello为纽带</strong>，创建了一个Proxy的实例</li>
@@ -167,45 +138,15 @@ class MyInvocationHandler implements InvocationHandler &#123;
 </ul>
 <p>通过代理类这中间一层，<strong>能有效控制对委托类对象的直接访问</strong>，也可以很好地<strong>隐藏和保护委托类对象</strong>，同时也为<strong>实施不同控制策略预留了空间</strong>，从而在设计上获得了更大的灵活性。</p>
 <h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><p>静态代理和动态代理都是代理设计模式的实现，但是静态代理在程序还没有运行之前，就把所有的代码都写好了，下边是一个静态代理的例子：</p>
-<pre><code class="java">/**
- * 生产厂家
- */
-public class Vendor implements Sell &#123; 
-    public void sell() &#123; 
-        System.out.println(&quot;In sell method&quot;); 
-    &#125; 
-    
-    public void ad() &#123; 
-        System,out.println(&quot;ad method&quot;);
-    &#125;
-&#125; 
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 生产厂家</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Vendor</span> <span class="keyword">implements</span> <span class="title">Sell</span> </span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sell</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        System.out.println(<span class="string">&quot;In sell method&quot;</span>); </span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ad</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        System,out.println(<span class="string">&quot;ad method&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 代理类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BusinessAgent</span> <span class="keyword">implements</span> <span class="title">Sell</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Sell vendor;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BusinessAgent</span><span class="params">(Sell vendor)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.vendor = vendor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sell</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        vendor.sell();</span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ad</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        vendor.ad();</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
 
-/**
- * 代理类
- */
-public class BusinessAgent implements Sell &#123;
-    private Sell vendor;
-    
-    public BusinessAgent(Sell vendor)&#123;
-        this.vendor = vendor;
-    &#125;
-
-    public void sell() &#123; 
-        vendor.sell();
-    &#125; 
-    
-    public void ad() &#123;
-        vendor.ad();
-    &#125;
-&#125; 
-</code></pre>
 <p>然而，动态代理使用了一种更为灵活的方式，从之前的代码可以看出，动态代理是在程序的运行过程当中，通过Proxy这个动态代理的核心类，动态的生成了代理类，因此得名<strong>动态代理</strong>。</p>
 <p>浅析一下Proxy类的<code>newProxyInstance</code>方法。</p>
-<pre><code class="java">static Object newProxyInstance(ClassLoader loader, Class[] interfaces, InvocationHandler h);
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader, Class[] interfaces, InvocationHandler h)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <p>根据静态代理了解到，代理类必须实现和委托类相同的接口，因此<code>interfaces</code>就是一个委托类所实现的接口的数组。而InvocationHandler从字面意思来看是代表一个调用处理器，实际上他的功能也是用于处理方法调用，我们需要自己去实现这个接口，从而对委托类进行扩展，下面是InvocationHandler接口当中定义的唯一的一个方法。</p>
-<pre><code class="java">public Object invoke(Object proxy, Method method, Object[] args) throws Throwable;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>proxy即为我们所自动生成的代理</li>
 <li>method是代理类所实现的方法———–(可能不准确，这块没有理解透彻)</li>
@@ -254,7 +195,7 @@ public class BusinessAgent implements Sell &#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" data-id="ckrejnh9w0006fkggbalza3b1" data-title="Java动态代理" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" data-id="ckrejt3bv0009jwggh4lo8ao0" data-title="Java动态代理" class="article-share-link">分享</a>
       
       
       
