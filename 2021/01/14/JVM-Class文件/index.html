@@ -13,27 +13,27 @@
 <meta property="og:site_name" content="小楼昨夜又东风">
 <meta property="og:description" content="Class文件的结构    基本概念Class文件采用一种类似于C语言的结构体的伪结构来存储数据，这种结构只有两种数据类型：无符号数和表。 无符号数 基本的数据类型，以u1,u2,u4,u8来分别代表1、2、4、8个字节的无符号数。无符号数可以用来描述数字、索引引用、数量值或者按照UTF-8编码构成字符串值。 表 由多个无符号数或者其他表作为数据项构成的复合数据类型，所有表都习惯性的用_info结">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210114213638161.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210114214609620.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210114215706024.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210114220816073.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210114223641114.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210117195054266.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210117203550208.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210117203849652.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210118220250754.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210118220315591.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210118220811792.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210118221207663.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210118221234164.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210118222511003.png">
-<meta property="og:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210118221234164.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114213638161.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114214609620.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114215706024.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114220816073.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114223641114.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210117195054266.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210117203550208.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210117203849652.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118220250754.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118220315591.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118220811792.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118221207663.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118221234164.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118222511003.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118221234164.png">
 <meta property="article:published_time" content="2021-01-14T14:54:24.000Z">
 <meta property="article:modified_time" content="2021-01-18T15:07:38.151Z">
 <meta property="article:author" content="liu">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class文件/image-20210114213638161.png">
+<meta name="twitter:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114213638161.png">
   
     <link rel="alternate" href="/techSnapshot.github.io/atom.xml" title="小楼昨夜又东风" type="application/atom+xml">
   
@@ -116,7 +116,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="Class文件的结构"><a href="#Class文件的结构" class="headerlink" title="Class文件的结构"></a>Class文件的结构</h2><img src="JVM-Class文件/image-20210114213638161.png" alt="image-20210114213638161" style="zoom:80%;" />
+        <h2 id="Class文件的结构"><a href="#Class文件的结构" class="headerlink" title="Class文件的结构"></a>Class文件的结构</h2><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114213638161.png" alt="image-20210114213638161" style="zoom:80%;">
 
 
 
@@ -135,7 +135,7 @@
 </blockquote>
 <p>另外，可以采用<code>javap -v $&#123;ClassFileName&#125; </code>来查看Class文件的版本号。</p>
 <h3 id="常量池计数器"><a href="#常量池计数器" class="headerlink" title="常量池计数器"></a>常量池计数器</h3><p>首先要知道，常量池是由一组 <code>cp_info</code>结构体数组组成，暂且把这个数组叫做A。</p>
-<img src="JVM-Class文件/image-20210114214609620.png" alt="image-20210114214609620" style="zoom:50%;" />
+<img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114214609620.png" alt="image-20210114214609620" style="zoom:50%;">
 
 <p>常量池计数器的作用主要是为常量池计数。他的数量是常量池中的常量的数量的值加一。例如，常量池中的常量的数量为100，那么这个计数器的值为101。<code>constant_pool</code>表的<strong>索引值</strong>只有在大于 0 且小于<code>constant_pool_count</code>时才会被认为是有效的。</p>
 <blockquote>
@@ -143,14 +143,14 @@
 </blockquote>
 <p>A的0号索引处的值被空出，当某些数据在特定的情况下想表达“<strong>不引用任何一个常量池项</strong>”的意思时，就可以将其引用的常量的索引值设置为0来表示。这也是常量池计数器大于等于一的原因。</p>
 <h3 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h3><p>上边说到的<code>constant_pool</code>，其中表示的是一个<code>cp_info</code>数组，<code>cp_info</code>表示的是<strong>常量池项</strong>，下图表示的是其结构。</p>
-<img src="JVM-Class文件/image-20210114215706024.png" alt="image-20210114215706024" style="zoom:50%;" />
+<img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114215706024.png" alt="image-20210114215706024" style="zoom:50%;">
 
 
 
 
 
 <h3 id="访问标志"><a href="#访问标志" class="headerlink" title="访问标志"></a>访问标志</h3><p>用于表示某个类或者接口的<strong>访问权限</strong>及<strong>基础属性</strong>。</p>
-<img src="JVM-Class文件/image-20210114220816073.png" alt="image-20210114220816073" style="zoom:50%;" />
+<img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114220816073.png" alt="image-20210114220816073" style="zoom:50%;">
 
 <p>表示这个 Class 文件所定义的类或接 口。</p>
 <h3 id="类索引"><a href="#类索引" class="headerlink" title="类索引"></a>类索引</h3><p><code>this_class</code>的值必须是constant_pool表的一个有效索引，索引处的类型为<code>Constant_Class_info</code>，表示这个 Class 文件所定义的类或接 口。</p>
@@ -166,7 +166,7 @@
 
 <p>interfaces[0] 处的值引用constant_pool中的某个Constant_Class_info类型的常量，表示的是InterfaceA</p>
 <p>interfaces[1] 处的值引用constant_pool中的某个Constant_Class_info类型的常量，表示的是InterfaceB</p>
-<img src="JVM-Class文件/image-20210114223641114.png" alt="image-20210114223641114" style="zoom:50%;" />
+<img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114223641114.png" alt="image-20210114223641114" style="zoom:50%;">
 
 <h3 id="字段计数器"><a href="#字段计数器" class="headerlink" title="字段计数器"></a>字段计数器</h3><p><code>fields_count</code>的值表示当前 Class 文件 fields的成员个数。 fields 中每一项都是一个field_info结构的数据项，它用于表示该类或接口声明的类字段或者实例字段。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassA</span> <span class="keyword">implements</span> <span class="title">InterfaceA</span>,<span class="title">InterfaceB</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">		<span class="keyword">private</span> String str0;</span><br><span class="line">    <span class="keyword">private</span> String str1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -200,43 +200,43 @@
 <p>对于支持Class文件格式版本号为 51.0 或更高的 Java 虚拟机实现，必须正确识别并读取 attributes表中的BootstrapMethods属性。</p>
 <p>Java 7 规范 要求 任一 Java 虚拟机实现可以自动忽略 Class 文件的 attributes表中的若干 (甚至全部) 它不可 识别的属性项。任何本规范未定义的属性不能影响Class文件的语义，只能提供附加的描述信息。</p>
 </blockquote>
-<h2 id="常量池-1"><a href="#常量池-1" class="headerlink" title="常量池"></a>常量池</h2><h3 id="常量池项的结构"><a href="#常量池项的结构" class="headerlink" title="常量池项的结构"></a>常量池项的结构</h3><img src="JVM-Class文件/image-20210117195054266.png" alt="image-20210117195054266" style="zoom:50%;" />
+<h2 id="常量池-1"><a href="#常量池-1" class="headerlink" title="常量池"></a>常量池</h2><h3 id="常量池项的结构"><a href="#常量池项的结构" class="headerlink" title="常量池项的结构"></a>常量池项的结构</h3><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210117195054266.png" alt="image-20210117195054266" style="zoom:50%;">
 
 
 
-<h3 id="常量池项的结构-1"><a href="#常量池项的结构-1" class="headerlink" title="常量池项的结构"></a>常量池项的结构</h3><img src="JVM-Class文件/image-20210117203550208.png" alt="image-20210117203550208" style="zoom:50%;" />
+<h3 id="常量池项的结构-1"><a href="#常量池项的结构-1" class="headerlink" title="常量池项的结构"></a>常量池项的结构</h3><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210117203550208.png" alt="image-20210117203550208" style="zoom:50%;">
 
 <blockquote>
 <p>cp_info会记录class文件中某种类型的字面量。JVM根据tag值确定cp_info表示什么类型的字面量</p>
 </blockquote>
 <p>tag有多种取值，<strong>不同tag值表示的不同结构</strong>。</p>
-<img src="JVM-Class文件/image-20210117203849652.png" alt="image-20210117203849652" style="zoom:50%;" />
+<img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210117203849652.png" alt="image-20210117203849652" style="zoom:50%;">
 
 <p>细化后的常量池结构</p>
-<img src="JVM-Class文件/image-20210118220250754.png" alt="image-20210118220250754" style="zoom:50%;" />
+<img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118220250754.png" alt="image-20210118220250754" style="zoom:50%;">
 
 
 
 
 
-<h3 id="不同类型的常量池项的存储方式"><a href="#不同类型的常量池项的存储方式" class="headerlink" title="不同类型的常量池项的存储方式"></a>不同类型的常量池项的存储方式</h3><h4 id="int和float类型"><a href="#int和float类型" class="headerlink" title="int和float类型"></a>int和float类型</h4><img src="JVM-Class文件/image-20210118220315591.png" alt="image-20210118220315591" style="zoom:50%;" />
+<h3 id="不同类型的常量池项的存储方式"><a href="#不同类型的常量池项的存储方式" class="headerlink" title="不同类型的常量池项的存储方式"></a>不同类型的常量池项的存储方式</h3><h4 id="int和float类型"><a href="#int和float类型" class="headerlink" title="int和float类型"></a>int和float类型</h4><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118220315591.png" alt="image-20210118220315591" style="zoom:50%;">
 
 <p><code>CONSTANT_Integer_info</code>和<code>CONSTANT_Float_info</code>直接用四个字节进行数据的存储。</p>
-<h4 id="long和double类型"><a href="#long和double类型" class="headerlink" title="long和double类型"></a>long和double类型</h4><img src="JVM-Class文件/image-20210118220811792.png" alt="image-20210118220811792" style="zoom:50%;" />
+<h4 id="long和double类型"><a href="#long和double类型" class="headerlink" title="long和double类型"></a>long和double类型</h4><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118220811792.png" alt="image-20210118220811792" style="zoom:50%;">
 
 <p><code>CONSTANT_Long_info</code>和<code>CONSTANT_Double_info</code>直接用两个u4进行存储。</p>
-<h4 id="String类型"><a href="#String类型" class="headerlink" title="String类型"></a>String类型</h4><img src="JVM-Class文件/image-20210118221207663.png" alt="image-20210118221207663" style="zoom:50%;" />
+<h4 id="String类型"><a href="#String类型" class="headerlink" title="String类型"></a>String类型</h4><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118221207663.png" alt="image-20210118221207663" style="zoom:50%;">
 
-<img src="JVM-Class文件/image-20210118221234164.png" alt="image-20210118221234164" style="zoom:50%;" />
+<img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118221234164.png" alt="image-20210118221234164" style="zoom:50%;">
 
 <p>由上两图可以看出，String类型相较于前两种类型的存储方式的不同之处在于：它并没有直接在<code>CONSTANT_String_info</code>中直接存储字符串的数据。它先用<code>CONSTANT_String_info</code>这种高级结构中的<code>tag</code>指定了cp_info的结构是String，然后用一个两字节的<code>string_index</code>存储了一个指向<code>CONSTANT_Utf8_info</code>结构的指针，在<code>CONSTANT_Utf8_info</code>中存储的了真正的字符串数据。</p>
 <blockquote>
 <p>问题：</p>
 <p>为什么不在CONSTANT_String_info中，直接存储字符串数据呢？</p>
 </blockquote>
-<h4 id="类文件中定义的类名和类中使用到的类"><a href="#类文件中定义的类名和类中使用到的类" class="headerlink" title="类文件中定义的类名和类中使用到的类"></a>类文件中定义的类名和类中使用到的类</h4><img src="JVM-Class文件/image-20210118222511003.png" alt="image-20210118222511003" style="zoom:50%;" />
+<h4 id="类文件中定义的类名和类中使用到的类"><a href="#类文件中定义的类名和类中使用到的类" class="headerlink" title="类文件中定义的类名和类中使用到的类"></a>类文件中定义的类名和类中使用到的类</h4><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118222511003.png" alt="image-20210118222511003" style="zoom:50%;">
 
-<img src="JVM-Class文件/image-20210118221234164.png" alt="image-20210118221234164" style="zoom:50%;" />
+<img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210118221234164.png" alt="image-20210118221234164" style="zoom:50%;">
 
 <p>与字符串的存储结构几乎相同。</p>
 <h3 id="哪些字面量会被存储进常量池"><a href="#哪些字面量会被存储进常量池" class="headerlink" title="哪些字面量会被存储进常量池"></a>哪些字面量会被存储进常量池</h3><ol>
@@ -278,7 +278,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/" data-id="ckrek3ie00001u1ggfby59385" data-title="JVM-Class文件" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/" data-id="ckreklkve00038cgg5xyv14g6" data-title="JVM-Class文件" class="article-share-link">分享</a>
       
       
       
