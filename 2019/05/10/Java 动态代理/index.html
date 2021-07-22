@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Java动态代理 | 小楼昨夜又东风</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="动态代理简介动态代理是一种方便运行时动态构建代理、动态处理代理方法调用的机制。很多场景都是利用类似机制做到的，比如用来包装 RPC 调用、面向切面的编程（AOP）。 代理模式以及装饰器模式的一种实现。能够实现调用者和实现者之间的解耦。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java动态代理">
+<meta property="og:url" content="https://programmerlz.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/index.html">
+<meta property="og:site_name" content="小楼昨夜又东风">
+<meta property="og:description" content="动态代理简介动态代理是一种方便运行时动态构建代理、动态处理代理方法调用的机制。很多场景都是利用类似机制做到的，比如用来包装 RPC 调用、面向切面的编程（AOP）。 代理模式以及装饰器模式的一种实现。能够实现调用者和实现者之间的解耦。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://programmerlz.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/ba9a5b6228b188f5b9b15017e29a302b.png">
+<meta property="og:image" content="https://programmerlz.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/ba9a5b6228b188f5b9b15017e29a302b.png">
+<meta property="article:published_time" content="2019-05-10T05:59:32.000Z">
+<meta property="article:modified_time" content="2021-03-28T23:21:49.533Z">
+<meta property="article:author" content="liu">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://programmerlz.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/ba9a5b6228b188f5b9b15017e29a302b.png">
+  
+    <link rel="alternate" href="/atom.xml" title="小楼昨夜又东风" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">小楼昨夜又东风</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://programmerlz.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Java 动态代理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2019-05-10T05:59:32.000Z" itemprop="datePublished">2019-05-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Java动态代理
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="动态代理简介"><a href="#动态代理简介" class="headerlink" title="动态代理简介"></a>动态代理简介</h2><p><strong>动态代理是一种方便运行时动态构建代理、动态处理代理方法调用的机制</strong>。很多场景都是利用类似机制做到的，比如用来包装 RPC 调用、面向切面的编程（AOP）。</p>
+<p>代理模式以及装饰器模式的一种实现。能够实现<strong>调用者</strong>和<strong>实现者</strong>之间的<strong>解耦</strong>。</p>
+<span id="more"></span>    
+
+<p>基于JDK动态代理的示例代码：</p>
+<pre><code class="java">public class MyDynamicProxy &#123;
+    public static  void main (String[] args) &#123;
+        HelloImpl hello = new HelloImpl();
+        MyInvocationHandler handler = new MyInvocationHandler(hello);
+        // 动态的生成代理类
+        Hello proxyHello = (Hello) Proxy.newProxyInstance(HelloImpl.class.getClassLoader(), HelloImpl.class.getInterfaces(), handler);
+        // 调用代理方法，实际上会调用handler的invoke方法
+        proxyHello.sayHello();
+    &#125;
+&#125;
+
+interface Hello &#123;
+    void sayHello();
+&#125;
+
+class HelloImpl implements  Hello &#123;
+    @Override
+    public void sayHello() &#123;
+        System.out.println(&quot;Hello World&quot;);
+    &#125;
+&#125;
+
+class MyInvocationHandler implements InvocationHandler &#123;
+    private Object target;//委托类
+    public MyInvocationHandler(Object target) &#123;
+        this.target = target;
+    &#125;
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args)
+            throws Throwable &#123;
+        System.out.println(&quot;Invoking sayHello&quot;);//对委托类进行预处理
+        Object result = method.invoke(target, args);//消息转发
+          System.out.println(&quot;Invoking sayHello&quot;);//对委托类进行后续处理
+        return result;
+    &#125;
+&#125;
+</code></pre>
+<ol>
+<li>首先创建被调用类的实例hello</li>
+<li>然后<strong>以接口Hello为纽带</strong>，创建了一个Proxy的实例</li>
+<li>然后调用代理方法</li>
+</ol>
+<p>由上可以看出，要使用动态代理需要三个元素：</p>
+<ul>
+<li>委托类</li>
+<li>一组接口</li>
+<li>代理(通过Proxy+委托类+一组接口进行创建)</li>
+</ul>
+<p>这种依赖接口去使用动态代理的方式，在API设计和实现的角度上来看，多有不便，如果被调用类没有实现任何接口，这种方法就不适用。在这种情况下，可以使用其他的方式，例如在Spring的AOP当中支持的两种模式的代理方式：</p>
+<ul>
+<li>JDK Proxy</li>
+<li>cglib</li>
+</ul>
+<p>cglib就能够克服对接口的依赖。</p>
+<h2 id="深入一点点"><a href="#深入一点点" class="headerlink" title="深入一点点"></a>深入一点点</h2><h3 id="代理设计模式"><a href="#代理设计模式" class="headerlink" title="代理设计模式"></a>代理设计模式</h3><p>代理设计模式的一个目的就是为对象提供一个代理以控制对某个对象的访问，代理类对委托类有几点需要负责：</p>
+<ul>
+<li>预处理消息</li>
+<li>过滤消息并转发消息</li>
+<li>消息被委托类执行后的后续处理</li>
+</ul>
+<p>通过代理类这中间一层，<strong>能有效控制对委托类对象的直接访问</strong>，也可以很好地<strong>隐藏和保护委托类对象</strong>，同时也为<strong>实施不同控制策略预留了空间</strong>，从而在设计上获得了更大的灵活性。</p>
+<h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><p>静态代理和动态代理都是代理设计模式的实现，但是静态代理在程序还没有运行之前，就把所有的代码都写好了，下边是一个静态代理的例子：</p>
+<pre><code class="java">/**
+ * 生产厂家
+ */
+public class Vendor implements Sell &#123; 
+    public void sell() &#123; 
+        System.out.println(&quot;In sell method&quot;); 
+    &#125; 
+    
+    public void ad() &#123; 
+        System,out.println(&quot;ad method&quot;);
+    &#125;
+&#125; 
+
+/**
+ * 代理类
+ */
+public class BusinessAgent implements Sell &#123;
+    private Sell vendor;
+    
+    public BusinessAgent(Sell vendor)&#123;
+        this.vendor = vendor;
+    &#125;
+
+    public void sell() &#123; 
+        vendor.sell();
+    &#125; 
+    
+    public void ad() &#123;
+        vendor.ad();
+    &#125;
+&#125; 
+</code></pre>
+<p>然而，动态代理使用了一种更为灵活的方式，从之前的代码可以看出，动态代理是在程序的运行过程当中，通过Proxy这个动态代理的核心类，动态的生成了代理类，因此得名<strong>动态代理</strong>。</p>
+<p>浅析一下Proxy类的<code>newProxyInstance</code>方法。</p>
+<pre><code class="java">static Object newProxyInstance(ClassLoader loader, Class[] interfaces, InvocationHandler h);
+</code></pre>
+<p>根据静态代理了解到，代理类必须实现和委托类相同的接口，因此<code>interfaces</code>就是一个委托类所实现的接口的数组。而InvocationHandler从字面意思来看是代表一个调用处理器，实际上他的功能也是用于处理方法调用，我们需要自己去实现这个接口，从而对委托类进行扩展，下面是InvocationHandler接口当中定义的唯一的一个方法。</p>
+<pre><code class="java">public Object invoke(Object proxy, Method method, Object[] args) throws Throwable;
+</code></pre>
+<ul>
+<li>proxy即为我们所自动生成的代理</li>
+<li>method是代理类所实现的方法———–(可能不准确，这块没有理解透彻)</li>
+<li>args是method方法的参数</li>
+</ul>
+<p>总结一下，在动态代理当中一共分了三种角色：</p>
+<ul>
+<li>代理类(动态生成)</li>
+<li>委托类(预先定义)</li>
+<li>中介类(invocationHandler接口的实现类)</li>
+</ul>
+<p>所有对动态生成的代理类的调用，最终都会调用中介类的invoke方法，而在invoke方法当中又去调用了委托类的相关方法，在invoke方法里边我们就可以处理对委托类这个方法调用的增强操作。对比一下静态代理，就能看出动态代理的好处。</p>
+<p>设想这样一种业务场景，有一个服务接口叫Service，他的实现类是ServiceImpl，需要为ServiceImpl所实现的每个方法都添加log输出。如果我们用，静态代理实现，实现步骤如下：</p>
+<ol>
+<li>创建静态代理实现类，并实现Service接口</li>
+<li>给每个实现的方法，都添加一个日志输出，并在其中调用委托类的对应方法</li>
+<li>客户端调用都调用代理类</li>
+</ol>
+<p>而动态代理的实现则是：</p>
+<ol>
+<li>创建调用处理器类，其实现了InvocationHandler接口，在其invoke方法中，先打印一个log然后调用委托类的相应方法。</li>
+<li>外部调用的地方，通过Proxy动态的生成代理实例，然后调用动态代理的方法。</li>
+</ol>
+<p>可见，动态代理节省了大量的日志输出重复代码，这是通过引入中介类实现的。</p>
+<h2 id="关于技术选型"><a href="#关于技术选型" class="headerlink" title="关于技术选型"></a>关于技术选型</h2><h3 id="JDK-Proxy的优势"><a href="#JDK-Proxy的优势" class="headerlink" title="JDK Proxy的优势"></a>JDK Proxy的优势</h3><ul>
+<li>最小化依赖关系，减少依赖意味着简化开发和维护</li>
+<li>JDK本身的支持，可能比cglib更加可靠，并且能够平滑进行JDK版本升级，字节码类库则需要进行更新从而能够保证在新版本的Java上能够使用</li>
+<li>代码实现比较简单</li>
+</ul>
+<h3 id="基于类似cglib框架的优势"><a href="#基于类似cglib框架的优势" class="headerlink" title="基于类似cglib框架的优势"></a>基于类似cglib框架的优势</h3><ul>
+<li>不依赖于接口，减少对开发者代码的侵入性</li>
+<li>只操作关心的类，不必为其他类做多余的操作</li>
+<li>高性能</li>
+</ul>
+<p>从性能角度，补充几句。记得有人曾经得出结论说 JDK Proxy 比 cglib 或者 Javassist 慢几十倍。坦白说，<strong>不去争论具体的 benchmark 细节，在主流 JDK 版本中，JDK Proxy 在典型场景可以提供对等的性能水平，数量级的差距基本上不是广泛存在的</strong>。而且，<strong>反射机制性能在现代 JDK 中，自身已经得到了极大的改进和优化</strong>，同时，JDK Proxy很多功能也不完全是反射，同样使用了 ASM 进行字节码操作。</p>
+<p>我们在选型中，性能未必是唯一考量，<strong>可靠性、可维护性、编程工作量</strong>等往往是更主要的考虑因素，毕竟标准类库和反射编程的门槛要低得多，代码量也是更加可控的，如果<strong>我们比较下不同开源项目在动态代理开发上的投入，也能看到这一点</strong>。</p>
+<h2 id="动态代理的应用"><a href="#动态代理的应用" class="headerlink" title="动态代理的应用"></a>动态代理的应用</h2><p>动态代理目前来看最实用的地方是<strong>完美符合Spring AOP切面编程的要求</strong>。</p>
+<blockquote>
+<p>切面编程<code>是对面向对象编程的一种补充</code>，可以把纠缠在各个模块间相同的逻辑抽离出来，从来提高代码的抽象度，进而提高开发效率和复用度。</p>
+</blockquote>
+<p>AOP能力的一个图解。</p>
+<img src="/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/ba9a5b6228b188f5b9b15017e29a302b.png" class="" title="slug">
+
+<p><img src="Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/ba9a5b6228b188f5b9b15017e29a302b.png" alt="ba9a5b6228b188f5b9b15017e29a302b"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://programmerlz.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" data-id="ckrehtnl30006z4gg9dvrfqj2" data-title="Java动态代理" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Servlet容器、Spring容器、SpringMVC容器
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/web%E5%89%8D%E7%AB%AF/">web前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/">JVM-Class文件</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/13/Docker/">Docker</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/08/SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/">SpringBoot自动配置原理</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/08/SpringBoot%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">SpringBoot核心概念</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/">Servlet容器、Spring容器、SpringMVC容器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 liu<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
