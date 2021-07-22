@@ -69,12 +69,16 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-JVM-Class文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/techSnapshot.github.io/2021/05/04/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2021-05-04T05:46:21.528Z" itemprop="datePublished">2021-05-04</time>
+    <a href="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2021-01-14T14:54:24.000Z" itemprop="datePublished">2021-01-14</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/techSnapshot.github.io/categories/Java/">Java</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -83,7 +87,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/techSnapshot.github.io/2021/05/04/hello-world/">Hello World</a>
+      <a class="p-name article-title" href="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/">JVM-Class文件</a>
     </h1>
   
 
@@ -91,24 +95,952 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;
+        <h2 id="Class文件的结构"><a href="#Class文件的结构" class="headerlink" title="Class文件的结构"></a>Class文件的结构</h2><img src="JVM-Class文件/image-20210114213638161.png" alt="image-20210114213638161" style="zoom:80%;" />
+
+
+
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>Class文件采用一种类似于C语言的结构体的伪结构来存储数据，这种结构只有两种数据类型：无符号数和表。</p>
+<p><strong>无符号数</strong></p>
+<p>基本的数据类型，以u1,u2,u4,u8来分别代表1、2、4、8个字节的无符号数。无符号数<strong>可以用来描述数字、索引引用、数量值或者按照UTF-8编码构成字符串值</strong>。</p>
+<p><strong>表</strong></p>
+<p>由多个无符号数或者其他表作为数据项构成的复合数据类型，所有表都习惯性的用<code>_info</code>结尾。表用于描述有层次关系的复合结构的数据，整个Class文件本质上就是一张表，它由下表所示的数据项构成。</p>
+<p>![Screen Shot 2019-05-31 at 9.45.25 AM](JVM-Class文件/Screen Shot 2019-05-31 at 9.45.25 AM.png)</p>
+<h3 id="魔数和class文件版本信息"><a href="#魔数和class文件版本信息" class="headerlink" title="魔数和class文件版本信息"></a>魔数和class文件版本信息</h3><p>魔术用来标识是否是一个Class文件，Class文件的魔数用16进制标识是<code>CAFEBABE</code>。</p>
+<p>版本信息分为次版本和主版本，主版本号从<code>45</code>开始，对应JDK1.1。</p>
+<p>JDK1.1 &lt;——&gt; 45</p>
+<p>JDK<strong>向下兼容</strong>旧版本的Class文件。例如，Class文件的major_version（主版本号）为0x34（52），则支持的JDK为，1 + (52 -45) = 8，也就是1.8以及1.8以上版本的JDK都可以执行这个Class文件。</p>
+<blockquote>
+<p>可见<strong>JVM是要和Class文件相兼容的</strong>。如果Class的主版本号过高导致JDK无法兼容，则会抛出“<em>java.lang.UnsupportedClassVersionError: Bad version number in .class file</em>”异常。</p>
+</blockquote>
+<p>另外，可以采用<code>javap -v $&#123;ClassFileName&#125; </code>来查看Class文件的版本号。</p>
+<h3 id="常量池计数器"><a href="#常量池计数器" class="headerlink" title="常量池计数器"></a>常量池计数器</h3><p>首先要知道，常量池是由一组 <code>cp_info</code>结构体数组组成，暂且把这个数组叫做A。</p>
+<img src="JVM-Class文件/image-20210114214609620.png" alt="image-20210114214609620" style="zoom:50%;" />
+
+<p>常量池计数器的作用主要是为常量池计数。他的数量是常量池中的常量的数量的值加一。例如，常量池中的常量的数量为100，那么这个计数器的值为101。<code>constant_pool</code>表的<strong>索引值</strong>只有在大于 0 且小于<code>constant_pool_count</code>时才会被认为是有效的。</p>
+<blockquote>
+<p>也就是说，常量池计数器的计数=A的长度。</p>
+</blockquote>
+<p>A的0号索引处的值被空出，当某些数据在特定的情况下想表达“<strong>不引用任何一个常量池项</strong>”的意思时，就可以将其引用的常量的索引值设置为0来表示。这也是常量池计数器大于等于一的原因。</p>
+<h3 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h3><p>上边说到的<code>constant_pool</code>，其中表示的是一个<code>cp_info</code>数组，<code>cp_info</code>表示的是<strong>常量池项</strong>，下图表示的是其结构。</p>
+<img src="JVM-Class文件/image-20210114215706024.png" alt="image-20210114215706024" style="zoom:50%;" />
+
+
+
+
+
+<h3 id="访问标志"><a href="#访问标志" class="headerlink" title="访问标志"></a>访问标志</h3><p>用于表示某个类或者接口的<strong>访问权限</strong>及<strong>基础属性</strong>。</p>
+<img src="JVM-Class文件/image-20210114220816073.png" alt="image-20210114220816073" style="zoom:50%;" />
+
+<p>表示这个 Class 文件所定义的类或接 口。</p>
+<h3 id="类索引"><a href="#类索引" class="headerlink" title="类索引"></a>类索引</h3><p><code>this_class</code>的值必须是constant_pool表的一个有效索引，索引处的类型为<code>Constant_Class_info</code>，表示这个 Class 文件所定义的类或接 口。</p>
+<h3 id="父类索引"><a href="#父类索引" class="headerlink" title="父类索引"></a>父类索引</h3><p>父类索引，对于类来说，<code>super_class</code> 的值必须为 0 或者是对constant_pool 表中项目的一个有 效索引值。</p>
+<p>如果它的值不为 0，那 constant_pool 表在这个索引处的项必须为Constant_Class_info类型常 量，表示这个 Class 文件所定义的类的直接父类。当前类的直接父类，以及它所有间接父类的 <code>access_flag</code> 中都不能带有<code>ACC_FINAL</code> 标记。对于接口来说，它的Class文件的super_class项的 值必须是对constant_pool表中项目的一个有效索引值，这个索引处的项必须为代表 java.lang.Object 的 CONSTANT_Class_info 类型常量 。</p>
+<p>如果 Class 文件的 super_class的值为 0，那这个Class文件只可能是定义的是 java.lang.Object类，只有它是唯一没有父类的类。</p>
+<h3 id="接口计数器"><a href="#接口计数器" class="headerlink" title="接口计数器"></a>接口计数器</h3><p>接口计数器，interfaces_count的值表示当前类或接口的【直接父接口数量】。</p>
+<pre><code class="java">public class ClassA implements InterfaceA,InterfaceB
+&#123;
+
+&#125;
 </code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server
+<p>接口计数器的值为2。</p>
+<h3 id="接口信息数据区"><a href="#接口信息数据区" class="headerlink" title="接口信息数据区"></a>接口信息数据区</h3><p><code>interfaces</code>每个成员的值必须是一个constant_pool的一个有效索引值，索引处所对应的值必须为 Constant_Class_info类型常量。interfaces的长度为 interfaces_count。在interfaces中，成员所表示的接口顺序和对应的源代码中给定的接口顺序(从左至右)一样，即interfaces[0]对 应的是源代码中最左边的接口。</p>
+<pre><code class="java">public class ClassA implements InterfaceA,InterfaceB
+&#123;
+
+&#125;
 </code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate
+<p>interfaces[0] 处的值引用constant_pool中的某个Constant_Class_info类型的常量，表示的是InterfaceA</p>
+<p>interfaces[1] 处的值引用constant_pool中的某个Constant_Class_info类型的常量，表示的是InterfaceB</p>
+<img src="JVM-Class文件/image-20210114223641114.png" alt="image-20210114223641114" style="zoom:50%;" />
+
+<h3 id="字段计数器"><a href="#字段计数器" class="headerlink" title="字段计数器"></a>字段计数器</h3><p><code>fields_count</code>的值表示当前 Class 文件 fields的成员个数。 fields 中每一项都是一个field_info结构的数据项，它用于表示该类或接口声明的类字段或者实例字段。</p>
+<pre><code class="java">public class ClassA implements InterfaceA,InterfaceB
+&#123;
+        private String str0;
+    private String str1;
+&#125;
 </code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy
+<p>字段计数器的值 = 2。</p>
+<h3 id="字段信息数据区"><a href="#字段信息数据区" class="headerlink" title="字段信息数据区"></a>字段信息数据区</h3><p><code>fields</code>中的每个成员都必须是一个fields_info结构的数据项，用于表示当前类或接 口中某个字段的完整描述。 fields[]数组描述当前类或接口声明的所有字段，但不包括从父类或父接 口继承的部分。</p>
+<h3 id="方法计数器"><a href="#方法计数器" class="headerlink" title="方法计数器"></a>方法计数器</h3><p><code>methods_count</code>的值表示当前Class 文件 methods的成员个数。methods中每一项都是一个 method_info 结构的数据项。</p>
+<h3 id="方法信息数据区"><a href="#方法信息数据区" class="headerlink" title="方法信息数据区"></a>方法信息数据区</h3><p><code>methods</code>中的每个成员都必须是一个 method_info 结构的数据项，用于表示当前类或接口中某个方法的完整描述。</p>
+<p>如果某个method_info 结构的<code>access_flags</code>项既没有设置 ACC_NATIVE 标志也没有设置 ACC_ABSTRACT 标志，那么它所对应的方法体就应当可以被 Java 虚拟机直接从当前类加载，而不需 要引用其它类。</p>
+<p>method_info结构可以表示类和接口中定义的所有方法，包括实例方法、类方法、实例初始化方法和类 或接口初始化方法 。</p>
+<blockquote>
+<p>methods只描述当前类或接口中声明的方法，<strong>不包括从父类或父接口继承的方法</strong>。</p>
+</blockquote>
+<h3 id="属性计数器"><a href="#属性计数器" class="headerlink" title="属性计数器"></a>属性计数器</h3><p><code>attributes_count</code>的值表示当前 Class 文件attributes表的成员个数。 attributes表中每一项都是一个attribute_info 结构的数据项。</p>
+<h3 id="属性信息数据区"><a href="#属性信息数据区" class="headerlink" title="属性信息数据区"></a>属性信息数据区</h3><p><code>attributes</code> 表的每个项的值必须是attribute_info结构。</p>
+<p>在Java 7 规范里，Class文件结构中的attributes表的项包括下列定义的属性: </p>
+<ul>
+<li>InnerClasses </li>
+<li>EnclosingMethod </li>
+<li>Synthetic </li>
+<li>Signature</li>
+<li>SourceFile</li>
+<li>SourceDebugExtension </li>
+<li>Deprecated</li>
+<li>RuntimeVisibleAnnotations </li>
+<li>RuntimeInvisibleAnnotations</li>
+<li>BootstrapMethods</li>
+</ul>
+<blockquote>
+<p>对于支持 Class 文件格式版本号为 49.0 或更高的 Java 虚拟机实现，必须正确识别并读取 attributes表中的Signature、RuntimeVisibleAnnotations和 RuntimeInvisibleAnnotations属性。</p>
+<p>对于支持Class文件格式版本号为 51.0 或更高的 Java 虚拟机实现，必须正确识别并读取 attributes表中的BootstrapMethods属性。</p>
+<p>Java 7 规范 要求 任一 Java 虚拟机实现可以自动忽略 Class 文件的 attributes表中的若干 (甚至全部) 它不可 识别的属性项。任何本规范未定义的属性不能影响Class文件的语义，只能提供附加的描述信息。</p>
+</blockquote>
+<h2 id="常量池-1"><a href="#常量池-1" class="headerlink" title="常量池"></a>常量池</h2><h3 id="常量池项的结构"><a href="#常量池项的结构" class="headerlink" title="常量池项的结构"></a>常量池项的结构</h3><img src="JVM-Class文件/image-20210117195054266.png" alt="image-20210117195054266" style="zoom:50%;" />
+
+
+
+<h3 id="常量池项的结构-1"><a href="#常量池项的结构-1" class="headerlink" title="常量池项的结构"></a>常量池项的结构</h3><img src="JVM-Class文件/image-20210117203550208.png" alt="image-20210117203550208" style="zoom:50%;" />
+
+<blockquote>
+<p>cp_info会记录class文件中某种类型的字面量。JVM根据tag值确定cp_info表示什么类型的字面量</p>
+</blockquote>
+<p>tag有多种取值，<strong>不同tag值表示的不同结构</strong>。</p>
+<img src="JVM-Class文件/image-20210117203849652.png" alt="image-20210117203849652" style="zoom:50%;" />
+
+<p>细化后的常量池结构</p>
+<img src="JVM-Class文件/image-20210118220250754.png" alt="image-20210118220250754" style="zoom:50%;" />
+
+
+
+
+
+<h3 id="不同类型的常量池项的存储方式"><a href="#不同类型的常量池项的存储方式" class="headerlink" title="不同类型的常量池项的存储方式"></a>不同类型的常量池项的存储方式</h3><h4 id="int和float类型"><a href="#int和float类型" class="headerlink" title="int和float类型"></a>int和float类型</h4><img src="JVM-Class文件/image-20210118220315591.png" alt="image-20210118220315591" style="zoom:50%;" />
+
+<p><code>CONSTANT_Integer_info</code>和<code>CONSTANT_Float_info</code>直接用四个字节进行数据的存储。</p>
+<h4 id="long和double类型"><a href="#long和double类型" class="headerlink" title="long和double类型"></a>long和double类型</h4><img src="JVM-Class文件/image-20210118220811792.png" alt="image-20210118220811792" style="zoom:50%;" />
+
+<p><code>CONSTANT_Long_info</code>和<code>CONSTANT_Double_info</code>直接用两个u4进行存储。</p>
+<h4 id="String类型"><a href="#String类型" class="headerlink" title="String类型"></a>String类型</h4><img src="JVM-Class文件/image-20210118221207663.png" alt="image-20210118221207663" style="zoom:50%;" />
+
+<img src="JVM-Class文件/image-20210118221234164.png" alt="image-20210118221234164" style="zoom:50%;" />
+
+<p>由上两图可以看出，String类型相较于前两种类型的存储方式的不同之处在于：它并没有直接在<code>CONSTANT_String_info</code>中直接存储字符串的数据。它先用<code>CONSTANT_String_info</code>这种高级结构中的<code>tag</code>指定了cp_info的结构是String，然后用一个两字节的<code>string_index</code>存储了一个指向<code>CONSTANT_Utf8_info</code>结构的指针，在<code>CONSTANT_Utf8_info</code>中存储的了真正的字符串数据。</p>
+<blockquote>
+<p>问题：</p>
+<p>为什么不在CONSTANT_String_info中，直接存储字符串数据呢？</p>
+</blockquote>
+<h4 id="类文件中定义的类名和类中使用到的类"><a href="#类文件中定义的类名和类中使用到的类" class="headerlink" title="类文件中定义的类名和类中使用到的类"></a>类文件中定义的类名和类中使用到的类</h4><img src="JVM-Class文件/image-20210118222511003.png" alt="image-20210118222511003" style="zoom:50%;" />
+
+<img src="JVM-Class文件/image-20210118221234164.png" alt="image-20210118221234164" style="zoom:50%;" />
+
+<p>与字符串的存储结构几乎相同。</p>
+<h3 id="哪些字面量会被存储进常量池"><a href="#哪些字面量会被存储进常量池" class="headerlink" title="哪些字面量会被存储进常量池"></a>哪些字面量会被存储进常量池</h3><ol>
+<li>final类型的8种<strong>基本类型</strong>的值会进入常量池。</li>
+<li>非final类型(包括static的)的8种基本类型的值，只有<code>double</code>、<code>float</code>、<code>long</code>的值会进入常量 池。</li>
+<li>字符串类型字面量(<strong>双引号</strong>引起来的字符串值)。</li>
+</ol>
+<h2 id="Class文件中的引用和特殊字符串"><a href="#Class文件中的引用和特殊字符串" class="headerlink" title="Class文件中的引用和特殊字符串"></a>Class文件中的引用和特殊字符串</h2><h3 id="符号引用"><a href="#符号引用" class="headerlink" title="符号引用"></a>符号引用</h3><p><strong>符号引用以一组符号来描述所引用的目标，符号可以是任何形式的字面量，使用时能够正确的定义到目标即可。</strong></p>
+<p>Java源代码会被编译为Class文件，在<strong>编译期</strong>可能无法得知当前类引用的累的地址，因此使用符号引用进行代替。符号引用在Class文件中的结构有以下几种：</p>
+<ul>
+<li>CONSTANT_Class_info</li>
+<li>CONSTANT_Fieldref_info</li>
+<li>CONSTANT_Methodref_info</li>
+</ul>
+<blockquote>
+<p>猜想</p>
+<p><code>CONSTANT_Fieldref_info</code>、<code>CONSTANT_Methodref_info</code>这两种结构应该跟<code>CONSTANT_Class_info</code>的存储方式是一致的。</p>
+</blockquote>
+<p>符号引用与虚拟机的内存布局无关，引用的目标不一定会被加载到内存当中。</p>
+<h3 id="直接引用"><a href="#直接引用" class="headerlink" title="直接引用"></a>直接引用</h3><p>直接引用可以是：</p>
+<ul>
+<li>直接指向目标的指针（如：指向类方法的直接引用可能是指向方法区的指针）。</li>
+<li>相对偏移量</li>
+<li>一个能间接定义到目标的句柄</li>
+</ul>
+<p>直接引用与虚拟机的内存布局相关，上边所说的符号引用会被替换成直接引用，同一个符号引用在不同的虚拟机上被替换成的直接引用一般不会相同。<strong>如果有了直接引用，那么所引用的对象一定是已经被加载到内存当中了</strong>。</p>
+<h3 id="符号引用替换成直接引用"><a href="#符号引用替换成直接引用" class="headerlink" title="符号引用替换成直接引用"></a>符号引用替换成直接引用</h3><h4 id="替换时机"><a href="#替换时机" class="headerlink" title="替换时机"></a>替换时机</h4><p>类的加载过程分为：</p>
+<ol>
+<li>加载</li>
+<li>连接<ol>
+<li>验证</li>
+<li>准备</li>
+<li>解析  *</li>
+</ol>
+</li>
+</ol>
+<p>解析阶段符号引用会被替换为直接引用。</p>
+<h3 id="特殊字符串"><a href="#特殊字符串" class="headerlink" title="特殊字符串"></a>特殊字符串</h3><h5 id="类的完全限定名"><a href="#类的完全限定名" class="headerlink" title="类的完全限定名"></a>类的完全限定名</h5><h5 id="描述符"><a href="#描述符" class="headerlink" title="描述符"></a>描述符</h5><h6 id="各数据类型的描述符"><a href="#各数据类型的描述符" class="headerlink" title="各数据类型的描述符"></a>各数据类型的描述符</h6><h6 id="字段描述符"><a href="#字段描述符" class="headerlink" title="字段描述符"></a>字段描述符</h6><h6 id="方法描述符"><a href="#方法描述符" class="headerlink" title="方法描述符"></a>方法描述符</h6><h5 id="特殊方法的方法名"><a href="#特殊方法的方法名" class="headerlink" title="特殊方法的方法名"></a>特殊方法的方法名</h5>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/" data-id="ckreizh1h000iy7gg1ig9eb2j" data-title="JVM-Class文件" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/techSnapshot.github.io/tags/JVM/" rel="tag">JVM</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Docker" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/techSnapshot.github.io/2021/01/13/Docker/" class="article-date">
+  <time class="dt-published" datetime="2021-01-13T12:25:45.000Z" itemprop="datePublished">2021-01-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/techSnapshot.github.io/categories/web%E5%89%8D%E7%AB%AF/">web前端</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/techSnapshot.github.io/2021/01/13/Docker/">Docker</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="容器-VS-虚拟机"><a href="#容器-VS-虚拟机" class="headerlink" title="容器 VS 虚拟机"></a>容器 VS 虚拟机</h2><p>操作系统太重了<img src="Docker/v2-c20cb49c88034e73e09059668b8cecfb_1440w.jpg" alt="v2-c20cb49c88034e73e09059668b8cecfb_1440w" style="zoom:50%;" /></p>
+<p>操作系统重启是非常慢的</p>
+<p>与虚拟机通过操作系统实现隔离不同，容器技术<strong>只隔离应用程序的运行时环境但容器之间可以共享同一个操作系统</strong></p>
+<h2 id="什么是Docker？"><a href="#什么是Docker？" class="headerlink" title="什么是Docker？"></a>什么是Docker？</h2><p>Docker是一个开源的引擎，可以轻松的为任何应用创建一个：</p>
+<ul>
+<li>轻量级的</li>
+<li>可移植的</li>
+<li>自给自足的</li>
+</ul>
+<p>容器。开发者在笔记本上编译测试通过的容器可以批量地在生产环境中部署，包括VMs（虚拟机）、bare metal、OpenStack 集群和其他的基础应用平台。</p>
+<p>容器是一种通用技术，docker只是其中的一种实现。</p>
+<h2 id="Docker拥有哪些能力？"><a href="#Docker拥有哪些能力？" class="headerlink" title="Docker拥有哪些能力？"></a>Docker拥有哪些能力？</h2><p>Docker提供了在称为容器的松散隔离环境中打包和运行应用程序的能力。这样你的程序可以在任何环境都会有一致的表现，因此docker最重要的能力就是：<strong>可以屏蔽环境差异</strong>。</p>
+<p>由于Docker具有屏蔽环境的差异的能力，由此衍生出了另外一个重要的应用能力：<strong>快速部署</strong>。只要确保一个容器中的程序正确运行，那么你就能确信无论在生产环境部署多少都能正确运行。真正实现<strong>“build once, run everywhere”</strong>。</p>
+<h2 id="我能用Docker干啥？"><a href="#我能用Docker干啥？" class="headerlink" title="我能用Docker干啥？"></a>我能用Docker干啥？</h2><ul>
+<li>快速、一致的交付你的应用程序</li>
+<li>响应式发布和扩展</li>
+<li>在相同的硬件上能够运行更多的工作负载</li>
+</ul>
+<p>​    </p>
+<h2 id="Docker引擎介绍"><a href="#Docker引擎介绍" class="headerlink" title="Docker引擎介绍"></a>Docker引擎介绍</h2><p>docker客户端</p>
+<ul>
+<li>SERVER（docker daemon）</li>
+<li>REST API</li>
+<li>CLI</li>
+</ul>
+<img src="Docker/engine-components-flow.png" alt="engine-components-flow" style="zoom:80%;" />
+
+<blockquote>
+<p>docker客户端和服务端一般运行在同一台机器上</p>
+</blockquote>
+<h2 id="Docker架构"><a href="#Docker架构" class="headerlink" title="Docker架构"></a>Docker架构</h2><img src="Docker/architecture.svg" alt="architecture" style="zoom:80%;" />
+
+<ul>
+<li><p>The <strong>Docker daemon (</strong><code>dockerd</code>) listens for Docker API requests and manages Docker objects such as images, containers, networks, and volumes. A daemon can also communicate with other daemons to manage Docker services.</p>
+</li>
+<li><p>The <strong>Docker client</strong> (<code>docker</code>) is the primary way that many Docker users interact with Docker. When you use commands such as <code>docker run</code>, the client sends these commands to <code>dockerd</code>, which carries them out. The <code>docker</code> command uses the Docker API. The Docker client can communicate with more than one daemon.</p>
+</li>
+<li><p>A <strong>Docker <em>registry</em></strong> stores Docker images. Docker Hub is a public registry that anyone can use, and Docker is configured to look for images on Docker Hub by default. You can even run your own private registry.</p>
+<p>When you use the <code>docker pull</code> or <code>docker run</code> commands, the required images are pulled from your configured registry. When you use the <code>docker push</code> command, your image is pushed to your configured registry.</p>
+</li>
+</ul>
+<h2 id="Docker核心概念"><a href="#Docker核心概念" class="headerlink" title="Docker核心概念"></a>Docker核心概念</h2><p>docker中有这样几个概念：</p>
+<ul>
+<li>dockerfile：源程序</li>
+<li>image：可执行程序</li>
+<li>container：进程</li>
+</ul>
+<p>实际上你可以简单的把image理解为可执行程序，container就是运行起来的进程。</p>
+<p>那么写程序需要源代码，那么“写”image就需要dockerfile，dockerfile就是image的源代码，docker就是”编译器”。</p>
+<p>因此我们只需要在dockerfile中指定需要哪些程序、依赖什么样的配置，之后把dockerfile交给“编译器”docker进行“编译”，也就是docker build命令，生成的可执行程序就是image，之后就可以运行这个image了，这就是docker run命令，image运行起来后就是docker container。</p>
+<h2 id="Docker使用"><a href="#Docker使用" class="headerlink" title="Docker使用"></a>Docker使用</h2><h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><p>CentOS7</p>
+<pre><code class="shell">yum install -y docker    
+systemctl start docker
 </code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h3 id="镜像加速"><a href="#镜像加速" class="headerlink" title="镜像加速"></a>镜像加速</h3><pre><code class="shell">#CentOS7
+#/etc/docker/daemon.json
+&#123;&quot;registry-mirrors&quot;:[&quot;https://reg-mirror.qiniu.com/&quot;]&#125;
+</code></pre>
+<h3 id="容器使用"><a href="#容器使用" class="headerlink" title="容器使用"></a>容器使用</h3><h4 id="查看容器"><a href="#查看容器" class="headerlink" title="查看容器"></a>查看容器</h4><pre><code class="shell">#查看所有运行中的容器
+docker ps 
+
+#查看所有容器，包括所有状态
+docker ps -a
+
+#查看最后一次创建的容器
+docker ps -l 
+</code></pre>
+<p>容器状态有7种：</p>
+<ul>
+<li>created（已创建）</li>
+<li>restarting（重启中）</li>
+<li>running 或 Up（运行中）</li>
+<li>removing（迁移中）</li>
+<li>paused（暂停）</li>
+<li>exited（停止）</li>
+<li>dead（死亡）</li>
+</ul>
+<h4 id="启停容器"><a href="#启停容器" class="headerlink" title="启停容器"></a>启停容器</h4><pre><code class="shell">#Docker 以 ubuntu15.10 镜像创建一个新容器，然后在容器里执行 bin/echo &quot;Hello world&quot;，然后输出结果。
+docker run ubuntu:15.10 /bin/echo &quot;Hello world&quot;
+
+#-t: 在新容器内指定一个伪终端或终端。
+#-i: 允许你对容器内的标准输入 (STDIN) 进行交互。
+docker run -i -t ubuntu:15.10 /bin/bash
+
+#-d：后台启动
+docker run -d ubuntu:15.10 /bin/sh -c &quot;while true; do echo hello world; sleep 1; done&quot;
+
+#启动已经停止的容器
+docker start &lt;容器Id&gt;
+docker restart &lt;容器Id&gt;
+
+#停止容器
+docker stop &lt;容器Id&gt;
+</code></pre>
+<p><strong>为什么Docker刚运行完run命令就停止了？</strong></p>
+<blockquote>
+<p>Docker 容器启动后，默认会把容器内部第一个进程，也就是pid=1的程序作为docker容器是否正在运行的依据。<br>如果docker 容器pid=1进程挂了，那么docker容器便会直接退出。这样的话，如果我们在前台维持一个运行的进程，docker 容器就会一直处于运行的状态中。</p>
+</blockquote>
+<h4 id="监控容器"><a href="#监控容器" class="headerlink" title="监控容器"></a>监控容器</h4><h5 id="查看容器日志"><a href="#查看容器日志" class="headerlink" title="查看容器日志"></a>查看容器日志</h5><pre><code class="shell">#查看日志
+#1 查看标准输出
+docker logs &#123;容器ID或者容器名称&#125;
+#2 让docker logs 像使用 tail -f 一样来输出容器内部的标准输出。
+docker logs -f &#123;容器ID或者容器名称&#125;  
+</code></pre>
+<h5 id="查看容器进程"><a href="#查看容器进程" class="headerlink" title="查看容器进程"></a>查看容器进程</h5><pre><code class="shell">docker top &lt;容器Id&gt;
+</code></pre>
+<h5 id="检查Docker"><a href="#检查Docker" class="headerlink" title="检查Docker"></a>检查Docker</h5><pre><code class="shell">docker inspect &lt;容器Id&gt;
+</code></pre>
+<h4 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h4><pre><code class="shell">#这种方式进入容器，exit的时候，会将容器停止，不推荐使用
+docker attach &lt;容器Id&gt; 
+
+#如果从这个容器退出，容器不会停止，这就是为什么推荐使用 docker exec 的原因
+docker exec -it &lt;容器Id&gt; /bin/bash
+</code></pre>
+<h4 id="导入和导出容器"><a href="#导入和导出容器" class="headerlink" title="导入和导出容器"></a>导入和导出容器</h4><pre><code class="shell">#导出容器
+docker export &lt;容器Id&gt; &gt; ubuntu.tar
+
+#导入容器1
+cat docker/ubuntu.tar | docker import - test/ubuntu:v1
+#导入容器2
+docker import http://example.com/exampleimage.tgz example/imagerepo
+</code></pre>
+<h4 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h4><pre><code class="shell">#删除某个容器
+docker rm -f &lt;容器Id&gt;
+
+#删除所有处于终止状态的容器
+docker container prune
+</code></pre>
+<h3 id="镜像使用"><a href="#镜像使用" class="headerlink" title="镜像使用"></a>镜像使用</h3><p>####列出所有镜像</p>
+<pre><code class="shell">docker images
+</code></pre>
+<ul>
+<li><strong>REPOSITORY：</strong>表示镜像的仓库源</li>
+<li><strong>TAG：</strong>镜像的标签</li>
+<li><strong>IMAGE ID：</strong>镜像ID</li>
+<li><strong>CREATED：</strong>镜像创建时间</li>
+<li><strong>SIZE：</strong>镜像大小</li>
+</ul>
+<h4 id="运行某个镜像"><a href="#运行某个镜像" class="headerlink" title="运行某个镜像"></a>运行某个镜像</h4><pre><code class="shell">#运行某个镜像
+#-t: 在新容器内指定一个伪终端或终端。
+#-i: 允许你对容器内的标准输入 (STDIN) 进行交互。
+docker run -i -t ubuntu:15.10 /bin/bash
+
+#-d 在后台运行
+#-P 与主机的高端口绑定
+#--name 指定容器名称
+docker run -d -P --name runoob training/webapp python app.py
+</code></pre>
+<ul>
+<li><strong>REPOSITORY：</strong>表示镜像的仓库源</li>
+<li><strong>TAG：</strong>镜像的标签</li>
+<li><strong>IMAGE ID：</strong>镜像ID</li>
+<li><strong>CREATED：</strong>镜像创建时间</li>
+<li><strong>SIZE：</strong>镜像大小</li>
+</ul>
+<h4 id="获取一个镜像"><a href="#获取一个镜像" class="headerlink" title="获取一个镜像"></a>获取一个镜像</h4><pre><code class="shell">docker pull ubuntu:13.10
+</code></pre>
+<h4 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h4><pre><code class="shell">docker search &lt;镜像名称&gt;
+</code></pre>
+<h4 id="拖取镜像"><a href="#拖取镜像" class="headerlink" title="拖取镜像"></a>拖取镜像</h4><pre><code class="shell">docker pull &lt;镜像名称&gt;
+</code></pre>
+<h4 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h4><pre><code class="shell">docker rmi hello-world
+</code></pre>
+<h4 id="创建镜像"><a href="#创建镜像" class="headerlink" title="创建镜像"></a>创建镜像</h4><h5 id="更新镜像"><a href="#更新镜像" class="headerlink" title="更新镜像"></a>更新镜像</h5><pre><code class="shell">#启动一个镜像，比如Ubuntu
+docker run -t -i ubuntu:15.10 /bin/bash
+#做一些更新操作
+apt-get update 
+#然后提交更新
+docker commit -m=&quot;has update&quot; -a=&quot;runoob&quot; &lt;Docker Id&gt; runoob/ubuntu:v2
+</code></pre>
+<p>各个参数说明：</p>
+<ul>
+<li><strong>-m:</strong> 提交的描述信息</li>
+<li><strong>-a:</strong> 指定镜像作者</li>
+<li><strong>e218edb10161：</strong>容器 ID</li>
+<li><strong>runoob/ubuntu:v2:</strong> 指定要创建的目标镜像名</li>
+</ul>
+<h5 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h5><p><strong>Dockerfile</strong> 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。下边是一个Dockerfile的示例：</p>
+<pre><code class="dockerfile">FROM    centos:6.7
+MAINTAINER      Fisher &quot;fisher@sudops.com&quot;
+
+RUN     /bin/echo &#39;root:123456&#39; |chpasswd
+RUN     useradd runoob
+RUN     /bin/echo &#39;runoob:123456&#39; |chpasswd
+RUN     /bin/echo -e &quot;LANG=\&quot;en_US.UTF-8\&quot;&quot; &gt;/etc/default/local
+EXPOSE  22
+EXPOSE  80
+CMD     /usr/sbin/sshd -D
+</code></pre>
+<p>每一个指令都会在镜像上创建一个新的层，每一个指令的前缀都必须是大写的。</p>
+<p>第一条FROM，指定使用哪个镜像源</p>
+<p>RUN 指令告诉docker 在镜像内执行命令，安装了什么。</p>
+<p>然后，使用 Dockerfile 文件，通过 docker build 命令来构建一个镜像。</p>
+<pre><code>docker build -t runoob/centos:6.7 .
+</code></pre>
+<p>参数说明：</p>
+<ul>
+<li><strong>-t</strong> ：指定要创建的目标镜像名</li>
+<li><strong>.</strong> ：Dockerfile 文件所在目录，可以指定Dockerfile 的绝对路径</li>
+</ul>
+<h4 id="给镜像添加标签"><a href="#给镜像添加标签" class="headerlink" title="给镜像添加标签"></a>给镜像添加标签</h4><pre><code class="docker">docker tag 860c279d2fec runoob/centos:dev
+</code></pre>
+<h3 id="Docker容器连接"><a href="#Docker容器连接" class="headerlink" title="Docker容器连接"></a>Docker容器连接</h3><h4 id="网络端口映射"><a href="#网络端口映射" class="headerlink" title="网络端口映射"></a>网络端口映射</h4><pre><code class="shell">docker run -d -P training/webapp python app.py
+docker run -d -p training/webapp python app.py
+</code></pre>
+<ul>
+<li><strong>-P :<strong>是容器内部端口</strong>随机</strong>映射到主机的高端口。</li>
+<li><strong>-p :</strong> 是容器内部端口绑定到<strong>指定</strong>的主机端口。</li>
+</ul>
+<p>也可以绑定主机的Ip地址：</p>
+<pre><code class="shell">docker run -d -p 127.0.0.1:5001:5000 training/webapp python app.py
+</code></pre>
+<h5 id="绑定UDP端口"><a href="#绑定UDP端口" class="headerlink" title="绑定UDP端口"></a>绑定UDP端口</h5><p>端口后面加上 <strong>/udp</strong></p>
+<pre><code class="shell">docker run -d -p 127.0.0.1:5000:5000/udp training/webapp python app.py
+</code></pre>
+<h5 id="查看端口绑定情况"><a href="#查看端口绑定情况" class="headerlink" title="查看端口绑定情况"></a>查看端口绑定情况</h5><p><strong>docker port</strong> 命令可以让我们快捷地查看容器的端口的绑定情况</p>
+<pre><code class="shell">#查看容器的5000端口是如主机的哪个端口相绑定
+docker port &lt;容器Id&gt; 5000
+</code></pre>
+<h4 id="Docker容器互联"><a href="#Docker容器互联" class="headerlink" title="Docker容器互联"></a>Docker容器互联</h4><p>Docker 有一个连接系统允许将多个容器连接在一起，共享连接信息。</p>
+<p>Docker 连接会创建一个<strong>父子关系</strong>，其中父容器可以看到子容器的信息。</p>
+<h5 id="操作"><a href="#操作" class="headerlink" title="操作"></a><strong>操作</strong></h5><ol>
+<li>先创建一个新的 Docker 网络</li>
+</ol>
+<pre><code class="shell"># -d：参数指定 Docker 网络类型，有 bridge、overlay。
+docker network create -d bridge test-net
+</code></pre>
+<ol start="2">
+<li>运行一个容器并连接到新建的 test-net 网络，指定容器名称为test1</li>
+</ol>
+<pre><code class="shell">docker run -itd --name test1 --network test-net ubuntu /bin/bash
+</code></pre>
+<ol start="3">
+<li>再运行一个容器并加入到 test-net 网络，指定容器名称为test2</li>
+</ol>
+<pre><code>docker run -itd --name test2 --network test-net ubuntu /bin/bash
+</code></pre>
+<ol start="4">
+<li>验证</li>
+</ol>
+<pre><code class="shell">#进入容器test1去ping test2
+docker exec -it test1 /bin/bash
+#没有ping命令则需要执行:
+# apt-get update
+# apt install iputils-ping
+ping test2
+
+#test2 ping test1
+#操作同上
+</code></pre>
+<h4 id="配置DNS"><a href="#配置DNS" class="headerlink" title="配置DNS"></a>配置DNS</h4><h5 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h5><p>CentOS上，Docker的配置文件在：/etc/docker/daemon.json这个位置。</p>
+<pre><code class="shell">&#123;
+  &quot;dns&quot; : [
+    &quot;114.114.114.114&quot;,
+    &quot;8.8.8.8&quot;
+  ]
+&#125;
+</code></pre>
+<p>配置完后，重启Docker。</p>
+<p>查看是否生效</p>
+<pre><code class="shell">docker run -it --rm  ubuntu  cat etc/resolv.conf
+</code></pre>
+<h5 id="指定容器配置"><a href="#指定容器配置" class="headerlink" title="指定容器配置"></a>指定容器配置</h5><pre><code class="shell">docker run -it --rm -h host_ubuntu  --dns=114.114.114.114 --dns-search=test.com ubuntu
+</code></pre>
+<p><strong>–rm</strong>：容器退出时自动清理容器内部的文件系统。</p>
+<p><strong>-h HOSTNAME 或者 –hostname=HOSTNAME</strong>： 设定容器的主机名，它会被写到容器内的 /etc/hostname 和 /etc/hosts。</p>
+<p><strong>–dns=IP_ADDRESS</strong>： 添加 DNS 服务器到容器的 /etc/resolv.conf 中，让容器用这个服务器来解析所有不在 /etc/hosts 中的主机名。</p>
+<p><strong>–dns-search=DOMAIN</strong>： 设定容器的搜索域，当设定搜索域为 .example.com 时，在搜索一个名为 host 的主机时，DNS 不仅搜索 host，还会搜索 host.example.com。</p>
+<blockquote>
+<p>如果在容器启动时没有指定 <strong>–dns</strong> 和 <strong>–dns-search</strong>，Docker 会默认用宿主主机上的 /etc/resolv.conf 来配置容器的 DNS。</p>
+</blockquote>
+<h3 id="仓库管理"><a href="#仓库管理" class="headerlink" title="仓库管理"></a>仓库管理</h3><p>仓库（Repository）是集中存放镜像的地方。</p>
+<pre><code class="shell">docker login
+docker search ubuntu
+docker pull ubuntu 
+docker tag ubuntu:18.04 &lt;username&gt;/ubuntu:18.04
+docker push &lt;username&gt;/ubuntu:18.04
+docker search &lt;username&gt;/ubuntu
+docker logout
+</code></pre>
+<h2 id="Docker工具"><a href="#Docker工具" class="headerlink" title="Docker工具"></a>Docker工具</h2><h3 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h3><p>Compose 是用于定义和运行多容器 Docker 应用程序的工具。通过 Compose，您可以使用 YML 文件来配置应用程序需要的所有服务。然后，使用一个命令，就可以从 YML 文件配置中创建并启动所有服务。</p>
+<h4 id="Compose-三部曲"><a href="#Compose-三部曲" class="headerlink" title="Compose 三部曲"></a>Compose 三部曲</h4><ul>
+<li>使用 Dockerfile 定义应用程序的环境。</li>
+<li>使用 docker-compose.yml 定义构成应用程序的服务，这样它们可以在隔离环境中一起运行。</li>
+<li>最后，执行 docker-compose up 命令来启动并运行整个应用程序。</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/05/04/hello-world/" data-id="ckreixsx70000vuggecid1584" data-title="Hello World" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2021/01/13/Docker/" data-id="ckreizh100001y6ggde2odcz4" data-title="Docker" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-SpringBoot自动配置原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/techSnapshot.github.io/2021/01/08/SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2021-01-08T14:15:40.000Z" itemprop="datePublished">2021-01-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/techSnapshot.github.io/categories/%E6%A1%86%E6%9E%B6/">框架</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/techSnapshot.github.io/2021/01/08/SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/">SpringBoot自动配置原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="Spring-Boot应用的启动入口"><a href="#Spring-Boot应用的启动入口" class="headerlink" title="Spring Boot应用的启动入口"></a>Spring Boot应用的启动入口</h4><p><strong>自动配置</strong>充分的利用了spring 4.0的条件化配置特性，那么，Spring Boot是如何实现自动配置的？Spring 4中的条件化配置又是怎么运用到Spring Boot中的呢？这要从Spring Boot的启动类说起。Spring Boot应用通常有一个名为<code>*Application</code>的入口类，入口类中有一个<code>main</code>方法，这个方法其实就是一个标准的Java应用的入口方法。一般在<code>main</code>方法中使用<code>SpringApplication.run()</code>来启动整个应用。值得注意的是，这个入口类要使用<code>@SpringBootApplication</code>注解声明。<code>@SpringBootApplication</code>是Spring Boot的核心注解，他是一个组合注解。</p>
+<pre><code class="java">@Target(&#123;ElementType.TYPE&#125;)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan(
+    excludeFilters = &#123;@Filter(
+    type = FilterType.CUSTOM,
+    classes = &#123;TypeExcludeFilter.class&#125;
+), @Filter(
+    type = FilterType.CUSTOM,
+    classes = &#123;AutoConfigurationExcludeFilter.class&#125;
+)&#125;
+)
+public @interface SpringBootApplication &#123;
+    // 略
+&#125;
+</code></pre>
+<p><code>@SpringBootApplication</code>是一个组合注解，它主要包含<code>@SpringBootConfiguration</code>、<code>@EnableAutoConfiguration</code>等几个注解。也就是说可以直接在启动类中使用这些注解来代替<code>@SpringBootApplication</code>注解。 关于Spring Boot中的Spring自动化配置主要是<code>@EnableAutoConfiguration</code>的功劳。该注解可以让Spring Boot根据类路径中的jar包依赖为当前项目进行自动配置。</p>
+<p>至此，我们知道，Spring Boot的自动化配置主要是通过<code>@EnableAutoConfiguration</code>来实现的，因为我们在程序的启动入口使用了<code>@SpringBootApplication</code>注解，而该注解中组合了<code>@EnableAutoConfiguration</code>注解。所以，在启动类上使用<code>@EnableAutoConfiguration</code>注解，就会开启自动配置。</p>
+<p>那么，本着刨根问底的原则，当然要知道<code>@EnableAutoConfiguration</code>又是如何实现自动化配置的，因为目前为止，我们还没有发现Spring 4中条件化配置的影子。</p>
+<h4 id="EnableAutoConfiguration"><a href="#EnableAutoConfiguration" class="headerlink" title="EnableAutoConfiguration"></a>EnableAutoConfiguration</h4><p>其实Spring框架本身也提供了几个名字为<code>@Enable</code>开头的Annotation定义。比如<code>@EnableScheduling</code>、<code>@EnableCaching</code>、<code>@EnableMBeanExport</code>等，<code>@EnableAutoConfiguration</code>的理念和这些注解其实是一脉相承的。</p>
+<blockquote>
+<p><code>@EnableScheduling</code>是通过<code>@Import</code>将Spring调度框架相关的bean定义都加载到IoC容器。</p>
+<p><code>@EnableMBeanExport</code>是通过<code>@Import</code>将JMX相关的bean定义加载到IoC容器。</p>
+<p><code>@EnableAutoConfiguration</code>也是借助<code>@Import</code>的帮助，将所有符合自动配置条件的bean定义加载到IoC容器。</p>
+</blockquote>
+<p>下面是<code>EnableAutoConfiguration</code>注解的源码：</p>
+<pre><code class="java">@Target(&#123;ElementType.TYPE&#125;)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@AutoConfigurationPackage
+@Import(&#123;EnableAutoConfigurationImportSelector.class&#125;)
+public @interface EnableAutoConfiguration &#123;
+    //略
+&#125;
+</code></pre>
+<p>观察<code>@EnableAutoConfiguration</code>可以发现，这里<strong>Import</strong>了<code>@EnableAutoConfigurationImportSelector</code>，这就是Spring Boot自动化配置的“始作俑者”。</p>
+<p>至此，我们知道，由于我们在Spring Boot的启动类上使用了<code>@SpringBootApplication</code>注解，而该注解组合了<code>@EnableAutoConfiguration</code>注解，<code>@EnableAutoConfiguration</code>是自动化配置的“始作俑者”，而<code>@EnableAutoConfiguration</code>中Import了<code>@EnableAutoConfigurationImportSelector</code>注解，该注解的内部实现已经很接近我们要找的“真相”了。</p>
+<h4 id="EnableAutoConfigurationImport-Selector"><a href="#EnableAutoConfigurationImport-Selector" class="headerlink" title="EnableAutoConfigurationImport-Selector"></a>EnableAutoConfigurationImport-Selector</h4><p><code>EnableAutoConfigurationImportSelector</code>的源码在这里就不贴了，感兴趣的可以直接去看一下，其实实现也比较简单，主要就是使用Spring4 提供的的<code>SpringFactoriesLoader</code>工具类。通过<code>SpringFactoriesLoader.loadFactoryNames()</code>读取了ClassPath下面的<code>META-INF/spring.factories</code>文件。</p>
+<blockquote>
+<p>这里要简单提一下<code>spring.factories</code>文件，它是一个典型的java properties文件，配置的格式为<strong>Key = Value</strong>形式。</p>
+</blockquote>
+<p><code>EnableAutoConfigurationImportSelector</code>通过读取<code>spring.factories</code>中的key为<code>org.springframework.boot.autoconfigure.EnableAutoConfiguration</code>的值。如<code>spring-boot-autoconfigure-1.5.1.RELEASE.jar</code>中的<code>spring.factories</code>文件包含以下内容：</p>
+<pre><code class="java"># Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration,\
+org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
+org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,\
+org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration,\
+org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration,\
+org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration,\
+org.springframework.boot.autoconfigure.cloud.CloudAutoConfiguration,\
+......
+org.springframework.boot.autoconfigure.webservices.WebServicesAutoConfiguration
+</code></pre>
+<p>上面的<code>EnableAutoConfiguration</code>配置了多个类，这些都是Spring Boot中的自动配置相关类；在启动过程中会解析对应类配置信息。每个<code>Configuation</code>都定义了相关bean的实例化配置。都说明了哪些bean可以被自动配置，什么条件下可以自动配置，并把这些bean实例化出来。</p>
+<blockquote>
+<p>如果我们新定义了一个starter的话，也要在该starter的jar包中提供 <code>spring.factories</code>文件，并且为其配置<code>org.springframework.boot.autoconfigure.EnableAutoConfiguration</code>对应的配置类。</p>
+</blockquote>
+<h4 id="Configuation"><a href="#Configuation" class="headerlink" title="Configuation"></a>Configuation</h4><p>我们从<code>spring-boot-autoconfigure-1.5.1.RELEASE.jar</code>中的<code>spring.factories</code>文件随便找一个Configuration，看看他是如何自动加载bean的。</p>
+<pre><code class="java">@Configuration
+@AutoConfigureAfter(&#123;JmxAutoConfiguration.class&#125;)
+@ConditionalOnProperty(
+    prefix = &quot;spring.application.admin&quot;,
+    value = &#123;&quot;enabled&quot;&#125;,
+    havingValue = &quot;true&quot;,
+    matchIfMissing = false
+)
+public class SpringApplicationAdminJmxAutoConfiguration &#123;
+    @Bean
+    @ConditionalOnMissingBean
+    public SpringApplicationAdminMXBeanRegistrar springApplicationAdminRegistrar() throws MalformedObjectNameException &#123;
+        String jmxName = this.environment.getProperty(&quot;spring.application.admin.jmx-name&quot;, &quot;org.springframework.boot:type=Admin,name=SpringApplication&quot;);
+        if(this.mbeanExporter != null) &#123;
+            this.mbeanExporter.addExcludedBean(jmxName);
+        &#125;
+
+        return new SpringApplicationAdminMXBeanRegistrar(jmxName);
+    &#125;
+&#125;
+</code></pre>
+<p>看到上面的代码，终于找到了我们要找的东西——Spring 4的条件化配置。上面<code>SpringApplicationAdminJmxAutoConfiguration</code>在决定对哪些bean进行自动化配置的时候，使用了两个条件注解：<code>ConditionalOnProperty</code>和<code>ConditionalOnMissingBean</code>。只有满足这种条件的时候，对应的bean才会被创建。这样做的好处是什么？这样可以保证某些bean在没满足特定条件的情况下就可以不必初始化，避免在bean初始化过程中由于条件不足，导致应用启动失败。</p>
+<p>至此，我们可以总结一下Spring Boot的自动化配置的实现：</p>
+<p><img src="SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/r-20201030105053638.png" alt="img"></p>
+<p>通过Spring 4的条件配置决定哪些bean可以被配置，将这些条件定义成具体的<code>Configuation</code>，然后将这些<code>Configuation</code>配置到<code>spring.factories</code>文件中，作为key: <code>org.springframework.boot.autoconfigure.EnableAutoConfiguration</code>的值，这时候，容器在启动的时候，由于使用了EnableAutoConfiguration注解，该注解Import的<code>EnableAutoConfigurationImportSelector</code>会去扫描classpath下的所有<code>spring.factories</code>文件，然后进行bean的自动化配置。</p>
+<p>所以，如果我们想要自定义一个starter的话，可以通过以上方式将自定义的starter中的bean自动化配置到Spring的上下文中，从而避免大量的配置。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://programmerlz.github.io/2021/01/08/SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/" data-id="ckreizh1b0009y6gg71j10td1" data-title="SpringBoot自动配置原理" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/techSnapshot.github.io/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-SpringBoot核心概念" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/techSnapshot.github.io/2021/01/08/SpringBoot%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" class="article-date">
+  <time class="dt-published" datetime="2021-01-08T14:12:39.000Z" itemprop="datePublished">2021-01-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/techSnapshot.github.io/categories/%E6%A1%86%E6%9E%B6/">框架</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/techSnapshot.github.io/2021/01/08/SpringBoot%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">SpringBoot核心概念</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>纵然Spring已经能够为我们提供种种我们所需要的功能了，但是它依然还是不完美的。<strong>基于Spring的程序需要进行很多的配置</strong>。比如我们要开发web应用程序，我们需要考虑使用哪些Spring模块以及其他的框架，并且还需要考虑框架之间的版本是否兼容。除此之外，我们还要进行大量的基础配置，配置来配置去，这种重复操作总会让人闻到一股怀味道。</p>
+<p>Spring的开发者们注意到了这些问题，于是Spring Boot诞生了。</p>
+<p>Spring Boot通过两个方式使得我们从上述的重复操作中得以解脱：</p>
+<ul>
+<li>Spring Boot Auto Configuration</li>
+<li>Spring Boot Starter Project</li>
+</ul>
+<h3 id="一、Spring-Boot-Starter-Project"><a href="#一、Spring-Boot-Starter-Project" class="headerlink" title="一、Spring Boot Starter Project"></a>一、Spring Boot Starter Project</h3><p>Spring Boot像是一个大管家，我们只需要告诉他，我们要做什么类型的程序，由他来负责帮助我们去做具体的事情。还是以web开发为例，我们只需要告诉Spring Boot我要干一个web项目，去给我准备相关的东西，Spring Boot就会去干事了。具体到操作上就是，我们提供给Spring Boot一个<strong>spring-boot-starter-web</strong>的选项，Spring Boot就会知道我们的意思，然后为我们生成出来一个工程，这个工程就已经具备了所有web应用程序开发所需要的所有依赖，完全没必要我们自己再去到pom中手动配置。Spring Boot的文档是这样解释的：</p>
+<blockquote>
+<p>Starters are a set of convenient dependency descriptors that you can include in your application. You get a one-stop-shop for all the Spring and related technology that you need, without having to hunt through sample code and copy paste loads of dependency descriptors. For example, if you want to get started using Spring and JPA for database access, just include the spring-boot-starter-data-jpa dependency in your project, and you are good to go.</p>
+</blockquote>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.1.3.RELEASE&lt;/version&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+    &lt;groupId&gt;xin.desertcamel&lt;/groupId&gt;
+    &lt;artifactId&gt;helloworld&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;name&gt;demo&lt;/name&gt;
+    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
+
+    &lt;properties&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+
+&lt;/project&gt;
+</code></pre>
+<p><code>spring-boot-starter-web</code> 一个起步依赖。通过Maven的依赖传递，可以得到一个web工程所需要的全部基础依赖。可以理解为，<code>Spring Boot为我们提供了一层高级抽象，屏蔽了底层细节，在这个实例代码中，开发者所应该关注的事情是我要做一个什么样的项目，要实现这个项目的功能需要依赖哪些功能，而不用再去关心我要具体依赖哪些库，起步依赖同时也管理了所要依赖的库的版本，让开发者从繁琐的包管理中解脱出来，而更关注应用程序的业务实现。</code></p>
+<p><parent>标签的意义是，我们可以继承spring boot的一些默认的选项:</p>
+<ul>
+<li><p>默认编译级别为Java 1.6</p>
+</li>
+<li><p>源码编码为UTF-8</p>
+</li>
+<li><p>一个依赖管理节点，允许你省略普通依赖的<version>标签。</p>
+</li>
+</ul>
+<p>如果不想从spring boot parent继承，可以这样做：</p>
+<pre><code class="xml">&lt;dependencyManagement&gt;
+&lt;dependencies&gt;
+        &lt;dependency&gt;   
+          &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;         
+          &lt;artifactId&gt;spring-boot-dependencies&lt;/artifactId&gt;  
+          &lt;version&gt;1.2.6&lt;/version&gt;    
+          &lt;type&gt;pom&lt;/type&gt;  
+          &lt;scope&gt;import&lt;/scope&gt; 
+       &lt;/dependency&gt; 
+   &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+</code></pre>
+<h3 id="二、Spring-Boot-Auto-Configuration"><a href="#二、Spring-Boot-Auto-Configuration" class="headerlink" title="二、Spring Boot Auto Configuration"></a>二、Spring Boot Auto Configuration</h3><p>除了自动管理项目依赖之外，Spring Boot也提供了自动配置的能力。</p>
+<p>当我们开发web应用程序时，我们需要在xml中或java以代码的形式来配置基于Spring的开发环境。比如我们需要配置Dispatcher Servlet、DataSource、ViewResolver等等这些必须的bean，这些操作每次都是重复的，所以Spring Boot就把它们也自动化掉了。Spring Boot会检测ClassPath当中的jar包，如果包含了web开发所需要使用jar包（Spring MVC），Spring就会把上述所说的配置都配置好，不用我们再去配置。同样贴上官方的解释：</p>
+<blockquote>
+<p><em>Spring Boot looks at a) Frameworks available on the CLASSPATH b) Existing configuration for the application. Based on these, Spring Boot provides basic configuration needed to configure the application with these frameworks. This is called</em> <code>Auto Configuration</code>.</p>
+</blockquote>
+<p>Spring Boot会根据类路径中的jar包、类，为jar包里的类自动配置，这样可以极大的减少配置的数量。简单点说就是它会根据定义在classpath下的类，自动的给你生成一些Bean，并加载到Spring的Context中。自动配置充分的利用了spring 4.0的条件化配置特性，能够自动配置特定的Spring bean，用来启动某项特性。</p>
+<h4 id="条件化配置"><a href="#条件化配置" class="headerlink" title="条件化配置"></a>条件化配置</h4><p>假设你希望一个或多个bean只有在某种特殊的情况下才需要被创建，比如，一个应用同时服务于中美用户，要在中美部署，有的服务在美国集群中需要提供，在中国集群中就不需要提供。在Spring 4之前，要实现这种级别的条件化配置是比较复杂的，但是，<strong>Spring 4</strong>引入了一个新的<code>@Conditional</code>注解可以有效的解决这类问题。</p>
+<pre><code class="java">@Bean
+@Conditional(ChinaEnvironmentCondition.class)
+public ServiceBean serviceBean()&#123;
+    return new ServiceBean();
+&#125;
+</code></pre>
+<p>当<code>@Conditional(ChinaEnvironmentCondition.class)</code>条件的值为true的时候，该<code>ServiceBean</code>才会被创建，否则该bean就会被忽略。</p>
+<p><code>@Conditional</code>指定了一个条件。他的条件的实现是一个Java类——<code>ChinaEnvironmentCondition</code>，要实现以上功能就要定义<code>ChinaEnvironmentCondition</code>类，并继承<code>Condition</code>接口并重写其中的<code>matches</code>方法。</p>
+<pre><code class="java">class ChinaEnvironmentCondition implements Condition&#123;
+    public final boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) &#123;
+
+        Environment env = context.getEnvironment();
+        return env.containProperty(&quot;ENV_CN&quot;);
+    &#125;
+&#125;
+</code></pre>
+<p>在上面的代码中，matches方法的内容比较简单，他通过给定的<code>ConditionContext</code>对象进而获取<code>Environment</code>对象，然后使用该对象检查环境中是否存在<code>ENV_CN</code>属性。如果存在该方法则直接返回true，反之返回false。当该方法返回true的时候，就符合了<code>@Conditional</code>指定的条件，那么<code>ServiceBean</code>就会被创建。反之，如果环境中没有这个属性，那么这个<code>ServiceBean</code>就不会被创建。</p>
+<p>除了可以自定义一些条件之外，Spring 4本身提供了很多已有的条件供直接使用，如：</p>
+<pre><code class="java">@ConditionalOnBean
+@ConditionalOnClass
+@ConditionalOnExpression
+@ConditionalOnMissingBean
+@ConditionalOnMissingClass
+@ConditionalOnNotWebApplication
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://programmerlz.github.io/2021/01/08/SpringBoot%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" data-id="ckreizh180006y6ggee6257ut" data-title="SpringBoot核心概念" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/techSnapshot.github.io/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Servlet容器、Spring容器、SpringMVC容器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2021-01-08T13:29:03.000Z" itemprop="datePublished">2021-01-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/techSnapshot.github.io/categories/%E6%A1%86%E6%9E%B6/">框架</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/">Servlet容器、Spring容器、SpringMVC容器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><strong>本文基于一个问题：在使用 SpringMVC 时，Spring 容器是如何与 Servlet 容器进行交互的？</strong></p>
+</blockquote>
+<h2 id="Spring-容器的加载"><a href="#Spring-容器的加载" class="headerlink" title="Spring 容器的加载"></a>Spring 容器的加载</h2><p>可否还记得，当年还没有 Springboot 的时候，在 Tomcat 的 web.xml 中进行面向 xml 编程的青葱岁月？其中有那么几段配置总是令我记忆犹新：</p>
+<p>首先是 Spring 容器配置：</p>
+<pre><code>&lt;context-param&gt;
+  &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+  &lt;param-value&gt;classpath:spring-config.xml&lt;/param-value&gt;
+&lt;/context-param&gt;
+</code></pre>
+<p>其次是 Servlet 容器监听器配置：</p>
+<pre><code>&lt;listener&gt;
+  &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+&lt;/listener&gt;
+</code></pre>
+<p>在 Tomcat 启动时，根据这两段配置，究竟做了什么动作，使得 Tomcat 与 Spring 完美地结合在一起了呢？</p>
+<p>首先我们来看下 ContextLoaderListener 监听器的源码：</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205328.png" alt="img"></p>
+<p>我们发现它继承了 ContextLoader，并且实现了 ServletContextListener 接口，下面说下这两个东西的作用：</p>
+<ol>
+<li>ContextLoader：正如其名，ContextLoader 可以在启动时载入 IOC 容器；</li>
+<li>ServletContextListener：ServletContextListener 接口有两个抽象方法，contextInitialized 和 contextDestroyed，该监听器会结合 Web 容器的生命周期被调，ContextLoaderListener 正是实现了该接口。</li>
+</ol>
+<p>因此，ContextLoaderListener 最主要的作用就是在 Tomcat 启动时，根据配置加载 Spring 容器。</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205759.png" alt="img"></p>
+<p>以上就是 ContextLoaderListener 实现 contextInitialized 方法的逻辑，也是加载并初始化 Spring 容器的开始。</p>
+<p>org.springframework.web.context.ContextLoader#initWebApplicationContext</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210832.png" alt="img"></p>
+<p>以上代码逻辑主要做了以下几个操作：</p>
+<ol>
+<li>调用 createWebApplicationContext 方法创建一个容器，会创建一个 contextClass 类型的容器，如果没有配置，则默认创建 WebApplicationContext 类型的容器；</li>
+<li>将容器强转为 ConfigurableWebApplicationContext 类型；</li>
+<li>调用 configureAndRefreshWebApplicationContext 方法初始化 Spring 容器；</li>
+<li>最后将 Spring 容器，以一个元素的形式保存到 Servlet 容器中，这也就意味着，得到 Servlet 容器，同时也可以得到 Spring 容器。</li>
+</ol>
+<p>还发现 Spring 容器保存到 Servlet 容器中的 key 为 ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE，我们顺藤摸瓜找到获取 Spring 容器的方法：</p>
+<p>org.springframework.web.context.support.WebApplicationContextUtils#getWebApplicationContext</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220655.png" alt="img"></p>
+<p>关于这个方法在哪里调用后面有说到。</p>
+<p>org.springframework.web.context.ContextLoader#configureAndRefreshWebApplicationContext</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210900.png" alt="img"></p>
+<p>以上是 Spring 容器初始化逻辑，其中，CONFIG_LOCATION_PARAM 即是我们在 xml 中配置的 contextConfigLocation 参数：</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320212506.png" alt="img"></p>
+<p>同时还会将 Servlet 容器保存到 Spring 容器中，最后调用 refresh 方法进行初始化。</p>
+<p>在将 Spring 容器初始化最后以一个元素的形式保存到 Servlet 容器之后，那么 SpringMVC 在初始化时，是如何拿到 Spring 容器的呢？</p>
+<p>我们继续看 SpringMVC 初始化是怎么操作的。</p>
+<h2 id="SpringMVC-容器的加载"><a href="#SpringMVC-容器的加载" class="headerlink" title="SpringMVC 容器的加载"></a>SpringMVC 容器的加载</h2><p>SpringMVC 本质上来讲，就是一个大号的 Servlet，其各种机制都是围绕着一个名叫 DispatcherServlet 的 Servlet 展开的，因此它必然实现了 Servlet 接口，那么在 Tomcat 启动时，它必然会通过 Servlet#init 方法进行初始化动作，我在其调用链路上发现以下方法：</p>
+<p>org.springframework.web.servlet.FrameworkServlet#initWebApplicationContext</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220032.png" alt="img"></p>
+<p>DispatcherServlet 的父类同样有一个方法，该方法是加载 SpringMVC 容器，即源码中的 webApplicationContext：</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320221939.png" alt="img"></p>
+<p>我们发现，rootContext 就是 ContextLoaderListener 加载的 <strong>Spring 容器</strong>，在这里，它会以父容器的身份保存到 SpringMVC 容器中。</p>
+<p>当然，如果是用 Springboot 环境，那么默认只会存在一个上下文环境，原因如下：</p>
+<p>1、在 Springboot 应用程序启动时，在 SpringBootServletInitializer#onStartup 方法中，会创建一个 rootAppContext 容器，如下：</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320235338.png" alt="img"></p>
+<p><strong>同时将上文所说的 ContextLoaderListener 监听器添加到 Servlet 容器中，同样达到了 xml 配置的效果</strong>，而调用 createRootApplicationContext 方法创建 rootAppContext 容器时，会将 contextClass 设置为 AnnotationConfigServletWebServerApplicationContext.class。</p>
+<p>2、DispatcherServlet 此时作为一个 Bean，实现了 ApplicationContextAware 接口，会自动将上下文环境保存到 webApplicationContext 字段中；</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320233807.png" alt="img"></p>
+<p>DispatcherServlet 初始化时，经过 debug 可以看到，rootContext 和 webApplicationContext 是同一个实例对象：</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320231335.png" alt="img"></p>
+<p>原因是通过 ContextLoaderListener 加载的上下文环境，通过 ApplicationContextAware 接口自动 set 进来保存到 DispatcherServlet 的 webApplicationContext 变量中了。</p>
+<p>在 FrameworkServlet#initWebApplicationContext 方法最后，最终会将 webApplicationContext 注入以一个元素的形式保存到 Servlet 容器中：</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320234137.png" alt="img"></p>
+<h2 id="DispatcherServlet-初始化"><a href="#DispatcherServlet-初始化" class="headerlink" title="DispatcherServlet 初始化"></a>DispatcherServlet 初始化</h2><p>最终，SpringMVC 初始化会调用该方法：</p>
+<p>org.springframework.web.servlet.DispatcherServlet#onRefresh</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321000909.png" alt="img"></p>
+<p>DispatcherServlet 初始化时，从 Spring 容器中获取相关 Bean，初始化各种不同的组件，比如初始化 HandlerMapping：</p>
+<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321001725.png" alt="img"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本质上来讲，Servlet 容器与 Spring 容器并不互通，但因为有 Servlet 容器的监听器 ServletContextListener，在它们之间构筑了桥梁。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://programmerlz.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/" data-id="ckreizh140003y6ggcqut439r" data-title="Servlet容器、Spring容器、SpringMVC容器" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/techSnapshot.github.io/tags/Spring/" rel="tag">Spring</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Java 动态代理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/techSnapshot.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2019-05-10T05:59:32.000Z" itemprop="datePublished">2019-05-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/techSnapshot.github.io/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/techSnapshot.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">Java动态代理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="动态代理简介"><a href="#动态代理简介" class="headerlink" title="动态代理简介"></a>动态代理简介</h2><p><strong>动态代理是一种方便运行时动态构建代理、动态处理代理方法调用的机制</strong>。很多场景都是利用类似机制做到的，比如用来包装 RPC 调用、面向切面的编程（AOP）。</p>
+<p>代理模式以及装饰器模式的一种实现。能够实现<strong>调用者</strong>和<strong>实现者</strong>之间的<strong>解耦</strong>。</p>
+        
+          <p class="article-more-link">
+            <a href="/techSnapshot.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://programmerlz.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" data-id="ckreizh1l000sy6gg588y4l8k" data-title="Java动态代理" class="article-share-link">分享</a>
       
       
       
@@ -127,18 +1059,39 @@
           <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/web%E5%89%8D%E7%AB%AF/">web前端</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E6%A1%86%E6%9E%B6/">框架</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/techSnapshot.github.io/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/techSnapshot.github.io/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/techSnapshot.github.io/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2021/05/">五月 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2019/05/">五月 2019</a></li></ul>
     </div>
   </div>
 
@@ -151,7 +1104,23 @@
       <ul>
         
           <li>
-            <a href="/techSnapshot.github.io/2021/05/04/hello-world/">Hello World</a>
+            <a href="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/">JVM-Class文件</a>
+          </li>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2021/01/13/Docker/">Docker</a>
+          </li>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2021/01/08/SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/">SpringBoot自动配置原理</a>
+          </li>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2021/01/08/SpringBoot%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">SpringBoot核心概念</a>
+          </li>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/">Servlet容器、Spring容器、SpringMVC容器</a>
           </li>
         
       </ul>
