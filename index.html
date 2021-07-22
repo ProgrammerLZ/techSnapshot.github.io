@@ -267,7 +267,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/" data-id="ckreizh1h000iy7gg1ig9eb2j" data-title="JVM-Class文件" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/" data-id="ckrejnh9r0003fkggbgvp7d4l" data-title="JVM-Class文件" class="article-share-link">分享</a>
       
       
       
@@ -597,7 +597,7 @@ docker logout
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/01/13/Docker/" data-id="ckreizh100001y6ggde2odcz4" data-title="Docker" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2021/01/13/Docker/" data-id="ckrejnh9o0001fkgggtn92l30" data-title="Docker" class="article-share-link">分享</a>
       
       
       
@@ -722,14 +722,14 @@ public class SpringApplicationAdminJmxAutoConfiguration &#123;
 </code></pre>
 <p>看到上面的代码，终于找到了我们要找的东西——Spring 4的条件化配置。上面<code>SpringApplicationAdminJmxAutoConfiguration</code>在决定对哪些bean进行自动化配置的时候，使用了两个条件注解：<code>ConditionalOnProperty</code>和<code>ConditionalOnMissingBean</code>。只有满足这种条件的时候，对应的bean才会被创建。这样做的好处是什么？这样可以保证某些bean在没满足特定条件的情况下就可以不必初始化，避免在bean初始化过程中由于条件不足，导致应用启动失败。</p>
 <p>至此，我们可以总结一下Spring Boot的自动化配置的实现：</p>
-<p><img src="SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/r-20201030105053638.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/r-20201030105053638.png" alt="img"></p>
 <p>通过Spring 4的条件配置决定哪些bean可以被配置，将这些条件定义成具体的<code>Configuation</code>，然后将这些<code>Configuation</code>配置到<code>spring.factories</code>文件中，作为key: <code>org.springframework.boot.autoconfigure.EnableAutoConfiguration</code>的值，这时候，容器在启动的时候，由于使用了EnableAutoConfiguration注解，该注解Import的<code>EnableAutoConfigurationImportSelector</code>会去扫描classpath下的所有<code>spring.factories</code>文件，然后进行bean的自动化配置。</p>
 <p>所以，如果我们想要自定义一个starter的话，可以通过以上方式将自定义的starter中的bean自动化配置到Spring的上下文中，从而避免大量的配置。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/01/08/SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/" data-id="ckreizh1b0009y6gg71j10td1" data-title="SpringBoot自动配置原理" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2021/01/08/SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/" data-id="ckrejnha6000mfkgg9x0c7rap" data-title="SpringBoot自动配置原理" class="article-share-link">分享</a>
       
       
       
@@ -877,7 +877,7 @@ public ServiceBean serviceBean()&#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/01/08/SpringBoot%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" data-id="ckreizh180006y6ggee6257ut" data-title="SpringBoot核心概念" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2021/01/08/SpringBoot%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" data-id="ckrejnha6000lfkggdvns5scc" data-title="SpringBoot核心概念" class="article-share-link">分享</a>
       
       
       
@@ -934,17 +934,17 @@ public ServiceBean serviceBean()&#123;
 </code></pre>
 <p>在 Tomcat 启动时，根据这两段配置，究竟做了什么动作，使得 Tomcat 与 Spring 完美地结合在一起了呢？</p>
 <p>首先我们来看下 ContextLoaderListener 监听器的源码：</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205328.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205328.png" alt="img"></p>
 <p>我们发现它继承了 ContextLoader，并且实现了 ServletContextListener 接口，下面说下这两个东西的作用：</p>
 <ol>
 <li>ContextLoader：正如其名，ContextLoader 可以在启动时载入 IOC 容器；</li>
 <li>ServletContextListener：ServletContextListener 接口有两个抽象方法，contextInitialized 和 contextDestroyed，该监听器会结合 Web 容器的生命周期被调，ContextLoaderListener 正是实现了该接口。</li>
 </ol>
 <p>因此，ContextLoaderListener 最主要的作用就是在 Tomcat 启动时，根据配置加载 Spring 容器。</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205759.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205759.png" alt="img"></p>
 <p>以上就是 ContextLoaderListener 实现 contextInitialized 方法的逻辑，也是加载并初始化 Spring 容器的开始。</p>
 <p>org.springframework.web.context.ContextLoader#initWebApplicationContext</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210832.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210832.png" alt="img"></p>
 <p>以上代码逻辑主要做了以下几个操作：</p>
 <ol>
 <li>调用 createWebApplicationContext 方法创建一个容器，会创建一个 contextClass 类型的容器，如果没有配置，则默认创建 WebApplicationContext 类型的容器；</li>
@@ -954,43 +954,43 @@ public ServiceBean serviceBean()&#123;
 </ol>
 <p>还发现 Spring 容器保存到 Servlet 容器中的 key 为 ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE，我们顺藤摸瓜找到获取 Spring 容器的方法：</p>
 <p>org.springframework.web.context.support.WebApplicationContextUtils#getWebApplicationContext</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220655.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220655.png" alt="img"></p>
 <p>关于这个方法在哪里调用后面有说到。</p>
 <p>org.springframework.web.context.ContextLoader#configureAndRefreshWebApplicationContext</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210900.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210900.png" alt="img"></p>
 <p>以上是 Spring 容器初始化逻辑，其中，CONFIG_LOCATION_PARAM 即是我们在 xml 中配置的 contextConfigLocation 参数：</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320212506.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320212506.png" alt="img"></p>
 <p>同时还会将 Servlet 容器保存到 Spring 容器中，最后调用 refresh 方法进行初始化。</p>
 <p>在将 Spring 容器初始化最后以一个元素的形式保存到 Servlet 容器之后，那么 SpringMVC 在初始化时，是如何拿到 Spring 容器的呢？</p>
 <p>我们继续看 SpringMVC 初始化是怎么操作的。</p>
 <h2 id="SpringMVC-容器的加载"><a href="#SpringMVC-容器的加载" class="headerlink" title="SpringMVC 容器的加载"></a>SpringMVC 容器的加载</h2><p>SpringMVC 本质上来讲，就是一个大号的 Servlet，其各种机制都是围绕着一个名叫 DispatcherServlet 的 Servlet 展开的，因此它必然实现了 Servlet 接口，那么在 Tomcat 启动时，它必然会通过 Servlet#init 方法进行初始化动作，我在其调用链路上发现以下方法：</p>
 <p>org.springframework.web.servlet.FrameworkServlet#initWebApplicationContext</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220032.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220032.png" alt="img"></p>
 <p>DispatcherServlet 的父类同样有一个方法，该方法是加载 SpringMVC 容器，即源码中的 webApplicationContext：</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320221939.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320221939.png" alt="img"></p>
 <p>我们发现，rootContext 就是 ContextLoaderListener 加载的 <strong>Spring 容器</strong>，在这里，它会以父容器的身份保存到 SpringMVC 容器中。</p>
 <p>当然，如果是用 Springboot 环境，那么默认只会存在一个上下文环境，原因如下：</p>
 <p>1、在 Springboot 应用程序启动时，在 SpringBootServletInitializer#onStartup 方法中，会创建一个 rootAppContext 容器，如下：</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320235338.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320235338.png" alt="img"></p>
 <p><strong>同时将上文所说的 ContextLoaderListener 监听器添加到 Servlet 容器中，同样达到了 xml 配置的效果</strong>，而调用 createRootApplicationContext 方法创建 rootAppContext 容器时，会将 contextClass 设置为 AnnotationConfigServletWebServerApplicationContext.class。</p>
 <p>2、DispatcherServlet 此时作为一个 Bean，实现了 ApplicationContextAware 接口，会自动将上下文环境保存到 webApplicationContext 字段中；</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320233807.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320233807.png" alt="img"></p>
 <p>DispatcherServlet 初始化时，经过 debug 可以看到，rootContext 和 webApplicationContext 是同一个实例对象：</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320231335.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320231335.png" alt="img"></p>
 <p>原因是通过 ContextLoaderListener 加载的上下文环境，通过 ApplicationContextAware 接口自动 set 进来保存到 DispatcherServlet 的 webApplicationContext 变量中了。</p>
 <p>在 FrameworkServlet#initWebApplicationContext 方法最后，最终会将 webApplicationContext 注入以一个元素的形式保存到 Servlet 容器中：</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320234137.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320234137.png" alt="img"></p>
 <h2 id="DispatcherServlet-初始化"><a href="#DispatcherServlet-初始化" class="headerlink" title="DispatcherServlet 初始化"></a>DispatcherServlet 初始化</h2><p>最终，SpringMVC 初始化会调用该方法：</p>
 <p>org.springframework.web.servlet.DispatcherServlet#onRefresh</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321000909.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321000909.png" alt="img"></p>
 <p>DispatcherServlet 初始化时，从 Spring 容器中获取相关 Bean，初始化各种不同的组件，比如初始化 HandlerMapping：</p>
-<p><img src="Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321001725.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321001725.png" alt="img"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本质上来讲，Servlet 容器与 Spring 容器并不互通，但因为有 Servlet 容器的监听器 ServletContextListener，在它们之间构筑了桥梁。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/" data-id="ckreizh140003y6ggcqut439r" data-title="Servlet容器、Spring容器、SpringMVC容器" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/" data-id="ckrejnh9y0009fkgg85m336kr" data-title="Servlet容器、Spring容器、SpringMVC容器" class="article-share-link">分享</a>
       
       
       
@@ -1040,7 +1040,7 @@ public ServiceBean serviceBean()&#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" data-id="ckreizh1l000sy6gg588y4l8k" data-title="Java动态代理" class="article-share-link">分享</a>
+      <a data-url="https://programmerlz.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" data-id="ckrejnh9w0006fkggbalza3b1" data-title="Java动态代理" class="article-share-link">分享</a>
       
       
       
