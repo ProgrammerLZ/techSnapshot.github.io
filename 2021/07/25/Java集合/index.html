@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/techSnapshot.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/techSnapshot.github.io/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/techSnapshot.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/techSnapshot.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/techSnapshot.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/techSnapshot.github.io/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"programmerlz.github.io","root":"/techSnapshot.github.io/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Java集合前两天参与了一次面试，感觉自己写业务代码写的脑子都生锈了，很多Java基础上的东西，虽然之前学过，脑子有一个大致的印象但是几乎忘得都差不多了，面试前准备的也不够充分，回答的也只是蜻蜓点水一样，感觉可能要凉凉了。过阵子可能还要面试，趁周末，重温一下这些较为基础的东西吧。 HashMap最简单的考虑最简单的考虑，可以认为是一个数组。 1map.put(key,value)  对key做一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java集合">
+<meta property="og:url" content="https://programmerlz.github.io/2021/07/25/Java%E9%9B%86%E5%90%88/index.html">
+<meta property="og:site_name" content="小楼昨夜又东风">
+<meta property="og:description" content="Java集合前两天参与了一次面试，感觉自己写业务代码写的脑子都生锈了，很多Java基础上的东西，虽然之前学过，脑子有一个大致的印象但是几乎忘得都差不多了，面试前准备的也不够充分，回答的也只是蜻蜓点水一样，感觉可能要凉凉了。过阵子可能还要面试，趁周末，重温一下这些较为基础的东西吧。 HashMap最简单的考虑最简单的考虑，可以认为是一个数组。 1map.put(key,value)  对key做一个">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-25T12:29:29.000Z">
+<meta property="article:modified_time" content="2021-07-25T12:31:35.714Z">
+<meta property="article:author" content="liu">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="集合">
+<meta property="article:tag" content="Java基础">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://programmerlz.github.io/2021/07/25/Java%E9%9B%86%E5%90%88/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java集合 | 小楼昨夜又东风</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/techSnapshot.github.io/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小楼昨夜又东风</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/techSnapshot.github.io/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/techSnapshot.github.io/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2021/07/25/Java%E9%9B%86%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/techSnapshot.github.io/images/avatar.gif">
+      <meta itemprop="name" content="liu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小楼昨夜又东风">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java集合
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-25 20:29:29 / 修改时间：20:31:35" itemprop="dateCreated datePublished" datetime="2021-07-25T20:29:29+08:00">2021-07-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/techSnapshot.github.io/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/" itemprop="url" rel="index"><span itemprop="name">程序语言</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Java集合"><a href="#Java集合" class="headerlink" title="Java集合"></a>Java集合</h2><p>前两天参与了一次面试，感觉自己写业务代码写的脑子都生锈了，很多Java基础上的东西，虽然之前学过，脑子有一个大致的印象但是几乎忘得都差不多了，面试前准备的也不够充分，回答的也只是蜻蜓点水一样，感觉可能要凉凉了。过阵子可能还要面试，趁周末，重温一下这些较为基础的东西吧。</p>
+<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><h4 id="最简单的考虑"><a href="#最简单的考虑" class="headerlink" title="最简单的考虑"></a>最简单的考虑</h4><p>最简单的考虑，可以认为是一个数组。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.put(key,value)</span><br></pre></td></tr></table></figure>
+
+<p>对key做一个hash运算，然后跟底层的数组的长度进行取模就能够得到元素在数组中的索引，然后把value放进数组中的索引指向处即可。</p>
+<h3 id="JDK的优化"><a href="#JDK的优化" class="headerlink" title="JDK的优化"></a>JDK的优化</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.put(<span class="string">&quot;张三&quot;</span>,<span class="string">&quot;测试数据&quot;</span>)；</span><br></pre></td></tr></table></figure>
+
+<p>针对上边代码，JDK中对key的hash值的计算有优化，下边是一段hash计算的源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> h;</span><br><span class="line">	<span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : (he = key.hashCode() ^ (h&gt;&gt;&gt;<span class="number">16</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>^ : 异或</p>
+<p>h&gt;&gt;&gt;16：将h右移16位</p>
+<p>假设h的hashcode为：1111 1111 1111 1111 1111 1010 0111 1100</p>
+<p>那么h&gt;&gt;&gt;16则为：      0000 0000 0000 0000 1111 1111 1111 1111</p>
+<p>二者异或操作后为：    1111 1111 1111 1111 0000 0101 1000 0011</p>
+<p>转换为int值，</p>
+</blockquote>
+<p>为什么要这么优化呢？优化的是什么呢？后续会说，稍安勿躁。</p>
+<p>下边是在数组中进行寻址的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(n-<span class="number">1</span>) &amp; hash</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>n为数组的长度：假设为16</p>
+<p>二进制的n-1：0000 0000 0000 0000 0000 0000 0000 1111</p>
+</blockquote>
+<p>这段寻址的代码，等价于：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hash % n</span><br></pre></td></tr></table></figure>
+
+<p>但是，要比 hash % n要高效得多。前提是 n = 2的整数倍次方。</p>
+<p>进行&amp;运算的时候，由于一般情况下，底层数组的长度n都是不会超过32位的，因此，<strong>与hashcode的高16位的运算没什么意义，最终都是0，核心在于低16位的运算</strong>。</p>
+<p>现在，就能够知道为什么hash方法到底是做了什么优化了。</p>
+<p>hash方法的逻辑是，<strong>将key的hashcode右移16位后与原hashcode进行异或操作</strong>，这就能够让<strong>最终得到的hashcode的低16位同时拥有原hashcode的高16位和低16位的特征，从而降低了hashcode的低16位相同的概率，进而降低了寻址操作得到相同地址的概率。</strong></p>
+<p>其实，最终就是为了避免过多的哈希冲突，这个在下一小节去说。</p>
+<h3 id="哈希冲突"><a href="#哈希冲突" class="headerlink" title="哈希冲突"></a>哈希冲突</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String,String&gt; map = <span class="keyword">new</span> HashMap&lt;String,String&gt;();</span><br><span class="line">map.put(A,<span class="string">&quot;测试数据&quot;</span>)；</span><br><span class="line">map.put(B,<span class="string">&quot;测试数据&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>上边的代码，当A和B在寻址计算完毕之后，假设得到的在数组中的位置都是index0，那么他么就对应了数组中的同一个位置，这种情况被称为哈希冲突。</p>
+<p>产生哈希冲突的时候，则会在这个位置挂一个链表，在链表中放入多个元素，让多个键值对，同时放在数组的一个位置离。当做get操作的时候，只需要遍历这个链表从中找到要找的那个值即可。</p>
+<p>如果某个位置的链表变得很长，会导致遍历的效率变低，时间复杂度为O(n)，此时就会将这个链表转换为红黑树，遍历红黑树的时间复杂度为O(n)。</p>
+<h3 id="Hashmap扩容"><a href="#Hashmap扩容" class="headerlink" title="Hashmap扩容"></a>Hashmap扩容</h3><p>当底层的数组满了之后，会进行扩容，会将原来的容量乘以2。同时，会进行Rehash。这个Rehash的操作指的就是将原来map中的元素重新进行对数组的新长度进行寻址操作。因为数组的长度改变，因此Rehash操作之后，得到的在数组中的新地址可能会与之前的地址不一样。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/techSnapshot.github.io/tags/Java/" rel="tag"># Java</a>
+              <a href="/techSnapshot.github.io/tags/%E9%9B%86%E5%90%88/" rel="tag"># 集合</a>
+              <a href="/techSnapshot.github.io/tags/Java%E5%9F%BA%E7%A1%80/" rel="tag"># Java基础</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/techSnapshot.github.io/2021/07/24/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/" rel="prev" title="微服务架构的演进">
+      <i class="fa fa-chevron-left"></i> 微服务架构的演进
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java%E9%9B%86%E5%90%88"><span class="nav-number">1.</span> <span class="nav-text">Java集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap"><span class="nav-number">1.1.</span> <span class="nav-text">HashMap</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E8%80%83%E8%99%91"><span class="nav-number">1.1.1.</span> <span class="nav-text">最简单的考虑</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">1.2.</span> <span class="nav-text">JDK的优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81"><span class="nav-number">1.3.</span> <span class="nav-text">哈希冲突</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hashmap%E6%89%A9%E5%AE%B9"><span class="nav-number">1.4.</span> <span class="nav-text">Hashmap扩容</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">liu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/techSnapshot.github.io/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/techSnapshot.github.io/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/techSnapshot.github.io/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liu</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/techSnapshot.github.io/lib/anime.min.js"></script>
+  <script src="/techSnapshot.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/techSnapshot.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/techSnapshot.github.io/js/utils.js"></script>
+
+<script src="/techSnapshot.github.io/js/motion.js"></script>
+
+
+<script src="/techSnapshot.github.io/js/schemes/muse.js"></script>
+
+
+<script src="/techSnapshot.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
