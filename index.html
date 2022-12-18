@@ -1,218 +1,91 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!DOCTYPE HTML>
+<html>
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/techSnapshot.github.io/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/techSnapshot.github.io/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/techSnapshot.github.io/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/techSnapshot.github.io/images/logo.svg" color="#222">
+  <meta charset="utf-8">
+  
+  <title>星火燎原 | Go! Go! Go!</title>
 
-<link rel="stylesheet" href="/techSnapshot.github.io/css/main.css">
+  
 
-
-<link rel="stylesheet" href="/techSnapshot.github.io/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"programmerlz.github.io","root":"/techSnapshot.github.io/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
+  
   <meta name="description" content="记录知识，努力奋斗，绝不躺平">
-<meta property="og:type" content="website">
-<meta property="og:title" content="星火燎原">
-<meta property="og:url" content="https://programmerlz.github.io/index.html">
-<meta property="og:site_name" content="星火燎原">
-<meta property="og:description" content="记录知识，努力奋斗，绝不躺平">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:tag" content="hexo">
-<meta property="article:tag" content="javascript">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://programmerlz.github.io/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>星火燎原</title>
   
 
+  
+  <meta name="keywords" content="hexo,javascript">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="星火燎原"/>
+
+  
+  <meta property="og:image" content="/techSnapshot.github.io/favicon.ico"/>
+  
+
+  <link href="/techSnapshot.github.io/favicon.ico" rel="icon">
+  <link rel="alternate" href="/techSnapshot.github.io/atom.xml" title="星火燎原" type="application/atom+xml">
+  <link rel="stylesheet" href="/techSnapshot.github.io/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
+<body>
+<div class="blog">
+  <div class="content">
 
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/techSnapshot.github.io/">星火燎原</a>
+    </h1>
+    <p class="site-description">Go! Go! Go!</p>
   </div>
-
-  <div class="site-meta">
-
-    <a href="/techSnapshot.github.io/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">星火燎原</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">Go! Go! Go!</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/techSnapshot.github.io/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/techSnapshot.github.io/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/techSnapshot.github.io/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/techSnapshot.github.io/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/techSnapshot.github.io/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content index posts-expand">
-            
+  <nav class="site-navigation">
+    <ul>
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/techSnapshot.github.io/images/head.jpeg">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="记录知识，努力奋斗，绝不躺平">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="星火燎原">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/" class="post-title-link" itemprop="url">DDD学习系列-领域建模</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-12-18 17:28:15 / 修改时间：17:39:12" itemprop="dateCreated datePublished" datetime="2022-12-18T17:28:15+08:00">2022-12-18</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/techSnapshot.github.io/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">软件架构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+        <li><a href="/techSnapshot.github.io/">主页</a></li>
       
-          <h1 id="DDD学习——领域建模"><a href="#DDD学习——领域建模" class="headerlink" title="DDD学习——领域建模"></a>DDD学习——领域建模</h1><p>建立<strong>领域模型</strong>是DDD的核心。</p>
+        <li><a href="/techSnapshot.github.io/archives">归档</a></li>
+      
+        <li><a href="/techSnapshot.github.io/categories">分类</a></li>
+      
+        <li><a href="/techSnapshot.github.io/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/techSnapshot.github.io/2022/12/18/DDD学习系列-领域建模/"><span>DDD学习系列-领域建模</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/techSnapshot.github.io/2022/12/18/DDD学习系列-领域建模/" rel="bookmark">
+        <time class="entry-date published" datetime="2022-12-18T09:28:15.000Z">
+          2022-12-18
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>建立<strong>领域模型</strong>是DDD的核心。</p>
 <h2 id="一些基本概念"><a href="#一些基本概念" class="headerlink" title="一些基本概念"></a>一些基本概念</h2><h3 id="领域对象"><a href="#领域对象" class="headerlink" title="领域对象"></a>领域对象</h3><ul>
 <li>将知识<strong>可视化</strong>，准确、深刻地反映领域知识，并且在业务和技术人员之间达成一致</li>
 <li>指导系统的设计和编码，也就是说，领域模型应该能够比较容易地转化成数据库模式和代码实现</li>
@@ -224,435 +97,127 @@
 <li>记录对象的关键属性</li>
 <li>复杂情况下还要将领域对象组织成模块</li>
 </ul>
-<p><strong>领域对象的概念</strong></p>
-<p>系统中要处理的各种“事物”就是<strong>领域对象</strong>。比如说项目、员工、账户等等。这些对象都反映了名词性的概念。其中，有些名词化了的动词也是领域对象。比如说我们进行了一笔支付操作，并且想把这笔操作记录下来。这时，“支付”也是领域对象。支付本来是动词，但这里实际上是要把一笔支付的信息记录下来，在这里就把“支付”当名词用了。</p>
-<h3 id="领域模型图"><a href="#领域模型图" class="headerlink" title="领域模型图"></a>领域模型图</h3><p>领域模型是用领域模型图来表达的，通常用UML来画。在UML中，<strong>一个类通常与一个领域对象相对应</strong>。</p>
-<h3 id="实体"><a href="#实体" class="headerlink" title="实体"></a>实体</h3><p>DDD中，领域对象被分为<strong>实体和值对象</strong>，目前暂且只关注实体，也就是说<strong>就目前来说，一个实体对应一个领域对象</strong>。</p>
-<h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p>这个咋理解都行。我就理解成UML画出来的图就叫做类图，他表达了类之间的关系（也就意味着同时也表达了领域对象之间的关系，也就意味着同时也表达了实体之间的关系）。</p>
-<h2 id="领域建模"><a href="#领域建模" class="headerlink" title="领域建模"></a>领域建模</h2><h3 id="初步识别实体"><a href="#初步识别实体" class="headerlink" title="初步识别实体"></a>初步识别实体</h3><p>可以从领域风暴阶段识别的领域名词入手，分成几部分来建模。先考虑<strong>租户、组织和人员</strong>。领域风暴中的图是这样的：</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7e06fc4de6c1b257bfa024d81c1yy45d.jpg" alt="img" style="zoom:25%;">
-
-<p>可以<strong>先假定（这是一种比较粗暴的方式，之后还会有比较详细的分析）</strong>每个领域名词都是一个实体，把它们用类的符号画出来。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/44f07dee31058e65751607990620e9ed.jpg" alt="img" style="zoom:24%;">
-
-<p>在领域建模阶段，我们主要关注的是实体和它们之间的关系，不关心他们的属性。</p>
-<h3 id="分析实体间的关系"><a href="#分析实体间的关系" class="headerlink" title="分析实体间的关系"></a>分析实体间的关系</h3><h4 id="一对一"><a href="#一对一" class="headerlink" title="一对一"></a>一对一</h4><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/f667be3c6cfbf87c89d89069542a7559.jpg" alt="img" style="zoom:24%;">
-
-<h4 id="一对多"><a href="#一对多" class="headerlink" title="一对多"></a>一对多</h4><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7f8ebfb9ec0389e86162c15e3c109d5c.jpg" alt="img" style="zoom:24%;">
-
-
-
-<p>越多，图就越杂乱。也就是说，<strong>这个模型不够简洁</strong>。那么怎么解决这两个问题呢？我们要对这个模型进行抽象。</p>
-<h4 id="模型简单化——抽象"><a href="#模型简单化——抽象" class="headerlink" title="模型简单化——抽象"></a>模型简单化——抽象</h4><p>企业、开发中心、开发组、直属部门，其实都是组织结构中的节点而已，从这一点来说，他们是有共性的，在业务上可以抽象为“组织”。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/9e62e2bc8c9264be8bfb8d9dd578cbb8.jpg" alt="img" style="zoom:25%;">
-
-<p>经过抽象后，模型变简单了，但是无法区分出一个组织到底是开发组还是开发中心了，也就是<strong>归纳了共性，但个性却丢了</strong>。这个时候可以增加一个新的实体，来体现个性。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/ce877f6d0c1d2f75366561c09babcb70.jpg" alt="img" style="zoom:25%;">
-
-<p>为了怕以后读这个模型图的人不理解什么是组织类别，我们还可以加一个<strong>注释</strong>，用来举例说明有哪些组织类别。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/825c9dd6a61eda8aac97dec2647e9401.jpg" alt="img" style="zoom:25%;">
-
-
-
-<h4 id="自关联"><a href="#自关联" class="headerlink" title="自关联"></a>自关联</h4><p>这个图还不能表示企业、开发中心、开发组等之间的<strong>上下级关系</strong>。这可以用组织这个实体上的“自关联”来表达。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/ecb8c0aa73f3e241a98d1878fef5yyac.jpg" alt="img" style="zoom:25%;">
-
-
-
-<p>这个关联翻译成自然语言可以这么说：一<strong>个组织可以有多个组织作为自己的下级；而一个组织只能有一个组织作为自己的上级</strong>。这样就表现出了上下级的层级关系。这种一对多的自关联，实际上表达的是一种树形结构。</p>
-<p>另外，在这个自关联的两端，有上级和下级两个词。它们在 UML 里称为“<strong>角色</strong>”（role）</p>
-<h4 id="增加约束"><a href="#增加约束" class="headerlink" title="增加约束"></a>增加约束</h4><p>为了说明“一个开发中心下面有多个开发组，而不是一个开发组下面有多个开发中心”这个业务规则，又另外加了一个注释。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/ca1151c6da0e426faaa53be38aed2f8d.jpg" alt="img" style="zoom:25%;">
-
-
-
-<ul>
-<li><p>和一般性的注释不同，它的内容用大括号括起来了</p>
-</li>
-<li><p>和一般性的注释不同，凡是约束，必须在程序中的某个地方进行实现</p>
-</li>
-<li><p>约束也是一种业务规则，应该加进前面讲过的业务规则表</p>
-</li>
-</ul>
-<p>现在的图中还有一些其他业务规则没有表现出来：</p>
-<ul>
-<li>只有企业才能作为租户，其他类别的组织不能作为租户</li>
-<li>作为多租户系统，其实每一个实体都应该与租户有一个关联，说明这个实体是属于哪一个租户的，这样才能把不同租户的数据区分开</li>
-</ul>
-<p>如果把这些关联都画出来，模型图中的线条就会太多了，变得非常混乱。这个时候就可以用约束去做以简化图形。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/547ecc1f79f1020a285e9c6aced41f8b.jpg" alt="img" style="zoom:25%;">
-
-
-
-<h4 id="识别多对多"><a href="#识别多对多" class="headerlink" title="识别多对多"></a>识别多对多</h4><p>业务的角度，可以认为管理员和人事人员其实都是员工担任的岗位。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/65909b1a3449b0ac355e180a4757e0ae.jpg" alt="img" style="zoom:24%;">
-
-
-
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7d95a011d79d57f38923ae5c147cd23b.jpg" alt="img" style="zoom:25%;">
-
-<p>一个员工可以担任多个岗位，而一个岗位也可以有多个员工担任。<strong>员工和岗位之间是“多对多”关联</strong>。</p>
-<h4 id="细化多重性"><a href="#细化多重性" class="headerlink" title="细化多重性"></a>细化多重性</h4><p>关联两端的 “1” 或者 “*” 称为“多重性”。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/8b78f20c7eb5931319644c2dfe26ccbe.jpg" alt="img" style="zoom:25%;">
-
-<ul>
-<li><p>一个组织可以有没有员工或者多个员工</p>
-</li>
-<li><p>一个员工必须有一个组织</p>
-</li>
-</ul>
-<p>因此，可以将多重性进行细化。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/b0a00d1dffbcd3d7ca7177530222144d.jpg" alt="img" style="zoom:25%;">
-
-<p>整体进行细化。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/df6a6dbb07c24ea19b5a6219f5fe7a87.jpg" alt="img" style="zoom:25%;">
-
-
-
-<h4 id="深入理解多对多"><a href="#深入理解多对多" class="headerlink" title="深入理解多对多"></a>深入理解多对多</h4><p>上述是<strong>租户管理和组织管理</strong>的部分的建模过程。接下来是<strong>项目管理部分</strong>的建模。下图是事件风暴阶段对项目管理的分析结果图。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/529247a111134583dcf6f5d0ff6d5e28.jpg" alt="img" style="zoom:25%;">
-
-<p>先假定每个名词都是一个实体。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/e9132cc67d55c0968ed4f77ceb25d016.jpg" alt="img" style="zoom: 25%;">
-
-<p>每个客户有一个客户经理负责（客户经理也是员工），可以把客户添加到模型里。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/6ec056bdd9283e24d9cbcc5a776ca0db.jpg" alt="img" style="zoom:25%;">
-
-<p>这里把客户经理当作了一个角色，员工和客户的关联翻译成自然语言就是“<strong>一个员工可以充当多个客户的客户经理，而一个客户有且仅有一个员工作为他的客户经理</strong>”。接下来是合同实体，<strong>每个合同都有一个销售人员负责</strong>。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/8d07b425aafda76973c84a459117b5f5.jpg" alt="img" style="zoom:25%;">
-
-<p>客户经理也是销售人员，利用抽象工具，可以将客户经理抽象为销售人员，而负责合同的销售人员可以叫做合同经理。并且此处有两个业务规则：</p>
-<ul>
-<li>只有销售人员才能作客户经理</li>
-<li>只有销售人员才能作合同经理</li>
-</ul>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/13e1de25f2fbcd634abd72be146d3f1a.jpg" alt="img" style="zoom:25%;">
-
-<p>接下来是项目实体。<strong>一个项目经理可以负责多个项目，一个项目有一个项目经理。</strong></p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/1f47ac2ff2cda39b24af0f95a061f560.jpg" alt="img" style="zoom:25%;">
-
-<p>上述是<strong>项目管理</strong>部分的建模过程，接下来是<strong>分配员工</strong>的建模。</p>
-<p><strong>一个项目成员可以在多个项目上，一个项目可以可以有多个项目经理。</strong>并且存在一个业务规则：一个员工的预计投入百分比总和不能大于百分之百。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/0d4512cd39d0290e51a5d399a15f5c09.jpg" alt="img" style="zoom:25%;">
-
-<p>这里可以看到，<strong>两个实体之间，可以有多个关联</strong>。不同的关联代表不同含义，数量关系也可以不同，可以用角色名来区分。</p>
-<p>有一个关于投入百分比的规则，那么投入百分比这个属性应该记录在哪个实体上呢？这个百分比既不能记录在员工实体上，也不能记录在项目实体上，这是因为，只有员工和项目建立了项目成员这一关联的时候，记录投入百分比才是有意义的，也就是说，这个属性应该记录在这个多对多关联上。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/f26dc01b0db5ec19cc3a8fdc6ecfb8e4.jpg" alt="img" style="zoom:25%;">
-
-<p>任何多对多关联，总能用类似的方法，通过引入一个表示关联的实体，拆成两个一对多的关联。</p>
-<p>考虑到时间因素，有关投入百分比的业务规则可以进一步明确：</p>
-<ul>
-<li>在任何时刻，一个人的预计投入百分比总和不能大于百分之百。</li>
-<li>一个员工在同一个项目上的时间段不能重叠。</li>
-</ul>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/d5f6f3840eb9524da8278cc87f6a7991.jpg" alt="img" style="zoom:25%;">
-
-<p>上述是对<strong>项目管理</strong>不分的领域建模，接下来是对<strong>工时管理</strong>部分进行领域建模。</p>
-<p>工时管理在事件风暴阶段只产生了一个领域名词：工时，可以把其加入建模图形当中。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/4bcd55521e97a76cea3bd7df3cacf351.jpg" alt="img" style="zoom:25%;">
-
-<h4 id="识别操作"><a href="#识别操作" class="headerlink" title="识别操作"></a>识别操作</h4><p>在事件风暴中还遗留了一个问题：<strong>怎么处理客户经理上级、销售人员上级和项目经理上级这几个概念</strong>？</p>
-<p>客户经理、销售人员、项目经理，无非都是员工，所以他们的上级，其实都可以归纳为<strong>取员工上级这个操作</strong>。然后讨论出了取员工上级的逻辑：</p>
-<ul>
-<li>如果员工不是所属组织的负责人，那么这个组织的负责人就是员工的上级；</li>
-<li>如果员工就是所属组织的负责人，那么这个组织的上级组织的负责人就是这个员工的上级。</li>
-</ul>
-<p>在上述逻辑中，我们又引入了一个<strong>组织负责人</strong>的概念。可以认为，负责人是员工在与组织的关联中充当的一种角色。进一步完善建模图形。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7d26899edf0bce20a9c351c46da23357.jpg" alt="img" style="zoom:25%;">
-
-<p>有几个要注意的地方：</p>
-<ul>
-<li>为了表达组织的负责人，在员工和组织之间又增加了一个一对多关联，表示“一个员工可以作多个组织的负责人，而一个组织有且只有一个负责人”</li>
-<li>在员工实体上增加了取上级这个操作。</li>
-<li>用一个注解说明了取上级这个操作的业务逻辑</li>
-</ul>
-<p>现在，领域模型已经覆盖了事件风暴中发现的所有领域概念，但是，是不是觉得这个图已经有点乱，不太容易理解了呢？</p>
-<h3 id="划分模块"><a href="#划分模块" class="headerlink" title="划分模块"></a>划分模块</h3><p>之所以这个图不容易理解，是因为很多实体和关联混杂在一起，形成了一个“蜘蛛网”。但人的认知能力是有限的，面对这样一张复杂的对象网络，就产生了认知过载（cognitive overload）。解决这一问题的方法就是“模块化”。也就是说，把模型中的业务概念组织成若干高内聚的模块（module），而模块之间尽量低耦合。</p>
-<blockquote>
-<p>学习感悟</p>
-<ul>
-<li>模块化是需要有一个过程的。一定是要先梳理出来整体，然后基于这个整体根据实际情况判断是否要进行模块化，如果需要进行模块化一定要遵循高内聚低耦合。</li>
-</ul>
-</blockquote>
-<p>在 UML 中，可以用包来表示模块。包的符号是下面这样：</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7197514c032b23147a3531a8f5d8b67f.jpg" alt="img" style="zoom:25%;">
-
-<p>采用如下方式划分模块。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/6434d5d6260ba74f967d71145eae0de9.jpg" alt="img" style="zoom:25%;">
-
-<p>也就是说，我们把模型分成了 4 个模块，分别是</p>
-<ul>
-<li>租户管理</li>
-<li>组织管理</li>
-<li>项目管理（包含了分配项目成员）</li>
-<li>工时管理。</li>
-</ul>
-<p>有了模块，我们就可以从宏观和微观两个层面理解模型。</p>
-<p>宏观层面，不关系模块内部细节，可以在宏观层面上分析模块之间的依赖。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/22cf84702d9c9cff4518ab4b37e10c87.jpg" alt="img" style="zoom:25%;">
-
-<p>微观层面，可以深入到模块内部，了解实体和关联等等的细节。</p>
-<p>至此，领域建模基本结束。接下来进入查漏补缺阶段要做的两个事情：</p>
-<ul>
-<li>完善业务规则</li>
-<li>建立词汇表</li>
-</ul>
-<h2 id="完善业务规则"><a href="#完善业务规则" class="headerlink" title="完善业务规则"></a>完善业务规则</h2><p>在做事件风暴时就开始识别业务规则了，在领域建模中又识别出了更多的规则，所以现在我们需要把这些规则补充到业务规则表之中。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/431d4ff99edbc65c54e9a9fb083e0b96.jpg" alt="img" style="zoom:25%;">
-
-
-
-<h2 id="建立词汇表"><a href="#建立词汇表" class="headerlink" title="建立词汇表"></a>建立词汇表</h2><p>建立词汇表，也就是把事件风暴和领域模型中重要的词汇列成表，其主要有两个作用：</p>
-<ul>
-<li>需要通过词汇表来规范领域模型中的词汇</li>
-<li>可以用于后续编程中的命名</li>
-</ul>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/92704b55b0a605e9cf29c3992f76d10f.jpg" alt="img" style="zoom:25%;">
-
+        
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/techSnapshot.github.io/images/head.jpeg">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="记录知识，努力奋斗，绝不躺平">
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/techSnapshot.github.io/categories/软件架构/">软件架构</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="星火燎原">
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/techSnapshot.github.io/tags/DDD/">DDD</a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/" class="post-title-link" itemprop="url">DDD学习系列-事件风暴</a>
-        </h2>
+    
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-12-18 17:26:14 / 修改时间：17:39:04" itemprop="dateCreated datePublished" datetime="2022-12-18T17:26:14+08:00">2022-12-18</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/techSnapshot.github.io/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">软件架构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
+    </div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  </div>
+</article>
 
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/techSnapshot.github.io/2022/12/18/DDD学习系列-事件风暴/"><span>DDD学习系列-事件风暴</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/techSnapshot.github.io/2022/12/18/DDD学习系列-事件风暴/" rel="bookmark">
+        <time class="entry-date published" datetime="2022-12-18T09:26:14.000Z">
+          2022-12-18
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
       
-          <h1 id="DDD学习-事件风暴"><a href="#DDD学习-事件风暴" class="headerlink" title="DDD学习-事件风暴"></a>DDD学习-事件风暴</h1><h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>在真实项目，尤其是敏捷项目里，领域专家很可能不会像我们上一讲那样，一开始就把需求都一一列出来，需求可能仅仅停留在领域专家的脑子里。所以，我们就需要一种方法，能够将这些头脑中的需求挖掘出来。</p>
+        <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>在真实项目，尤其是敏捷项目里，领域专家很可能不会像我们上一讲那样，一开始就把需求都一一列出来，需求可能仅仅停留在领域专家的脑子里。所以，我们就需要一种方法，能够将这些头脑中的需求挖掘出来。</p>
 <p>此外，事件风暴方法也能够帮助我们识别领域对象。</p>
-<h2 id="什么是事件风暴"><a href="#什么是事件风暴" class="headerlink" title="什么是事件风暴"></a>什么是事件风暴</h2><p><strong>事件风暴是业务人员和技术人员一起协作，捕获行为需求、消化领域知识、形成统一语言的一种方法</strong>。捕获行为需求的方法包括：</p>
-<ul>
-<li>Use Case</li>
-<li>Event Storming </li>
-</ul>
-<p>他简单易学，充分体现沟通协作、统一语言的要点。</p>
-<blockquote>
-<p>捕获行为需求</p>
-<p>一般来说，为了理解需求，我们首先要分析系统具有哪些功能，这些功能由什么人操作，会产生什么效果。这个过程传统上叫做“捕获行为需求”。</p>
-</blockquote>
-<h2 id="事件风暴的过程"><a href="#事件风暴的过程" class="headerlink" title="事件风暴的过程"></a>事件风暴的过程</h2><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/ea006b757ab0b2aeff0d888128f9d31b.jpg" alt="img" style="zoom: 25%;">
-
-<ol>
-<li><p>识别领域事件。</p>
-<p>找到业务流程中发生了哪些事情</p>
-</li>
-<li><p>识别命令。</p>
-<p>进一步说明是什么角色，做了什么操作，导致上述事情的发生</p>
-</li>
-<li><p>识别领域名词</p>
-<p>从领域事件和命令中找到名词性概念，为进一步的领域建模打下基础</p>
-</li>
-</ol>
-<h3 id="开始前的准备"><a href="#开始前的准备" class="headerlink" title="开始前的准备"></a>开始前的准备</h3><p><strong>人员准备</strong></p>
-<ul>
-<li>领域专家<ul>
-<li>业务部门专家</li>
-<li>产品经理</li>
-<li>PO</li>
-<li>BA</li>
-</ul>
-</li>
-<li>技术人员<ul>
-<li>架构师</li>
-<li>技术经理</li>
-<li>其他开发人员、测试人员</li>
-</ul>
-</li>
-</ul>
-<p><strong>场地准备</strong></p>
-<ul>
-<li>一个<strong>大</strong>会议室</li>
-</ul>
-<p><strong>器材准备</strong></p>
-<ul>
-<li><p>几套彩色的便利贴</p>
-<p>把事件风暴的主要内容写在上面</p>
-</li>
-<li><p>一卷一开的大白纸</p>
-<p>白纸打横，一字排开，贴在会议室的墙上，用来贴便利贴</p>
-</li>
-</ul>
-<h3 id="识别领域事件"><a href="#识别领域事件" class="headerlink" title="识别领域事件"></a>识别领域事件</h3><p>所谓领域事件，就是在业务过程中，业务人员要关注的那些已经发生的事儿。比方说，对于电子商务系统，订单已提交、商品已签收等等，都是领域事件。实际上，领域事件表示的是，<strong>业务流程中每个步骤引发的结果</strong>。事件风暴的作者认为，从结果入手来梳理需求，比从操作入手，更容易把业务想清楚。事件风暴中的“事件”两个字就来源于领域事件。</p>
-<p>另外，还要注意领域事件的命名，如果套用英语的语法来说，一般是<strong>完成时 + 被动语态</strong>。比如说，订单已提交。</p>
-<p>关于领域事件，要注意：</p>
-<ul>
-<li>不要把技术事件当成领域事件。<strong>领域事件一定要是领域专家所关注的，用的是业务术语</strong>。像数据库事务已回滚、缓存已命中之类的技术术语，不是领域事件，不在这个阶段讨论。</li>
-<li>查询功能不算领域事件。领域事件应该是对某样事物产生了影响，并被记录的事情。一般是某个事物的创建、修改和删除。还有一种情况是向其他人或者系统发消息，例如“通知邮件已发送”也算领域事件，因为接收方可能会通过进一步处理来影响某些事物。</li>
-</ul>
-<p>下图是企业管理系统中识别出的所有领域事件。</p>
-<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/5d11a968155ea6bd40f0e4d8a6c9a99e.jpg" alt="img"></p>
-<p>注意在上图中，有些业务规则和领域事件在需求讲解阶段领域专家是没有讲解出来的，但是在事件风暴的过程中被我们挖掘了出来。比如：工时登记中的一些业务规则。</p>
-<p>另外，客户已添加的时候自然就分配了一个客户经理，无需搞出一个分配客户经理的操作。</p>
-<h3 id="识别命令"><a href="#识别命令" class="headerlink" title="识别命令"></a>识别命令</h3><p><strong>所谓命令（command），就是引发领域事件的操作，我们可以通过分析领域事件得到</strong>。除了识别出命令本身以外，我们通常还要识别出<strong>谁执行的命令</strong>，以及为了执行命令我们要<strong>查询出什么数据</strong>。</p>
-<p>下图是识别出的部分命令。</p>
-<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/8d2020e9710a44ff5b92b7cd272f72c8.jpg" alt="img"></p>
-<p>注意，从上图中可以看出：</p>
-<ul>
-<li>有些命令可能没有查询数据</li>
-<li>有的命令会有多个查询数据</li>
-<li>有的命令会有多个执行者</li>
-<li>执行者是某个角色，而不是具体的人</li>
-</ul>
-<h3 id="识别领域名词"><a href="#识别领域名词" class="headerlink" title="识别领域名词"></a>识别领域名词</h3><p>识别领域名词可以分为两个小步骤：</p>
-<ol>
-<li>挪动“识别命令”步骤中的便利贴，把围绕同一个名词的命令、事件、执行者、查询数据摆在一起，分成好几“堆”。</li>
-<li>把领域名词写在大一点的黄色便利贴上，贴在每堆便利贴的中间。</li>
-</ol>
-<p>下图是识别出的所有领域名词。</p>
-<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/61ba53b6fa9700f19d0d4066aca5afd7.jpg" alt="img"></p>
-<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/9770c0063b26fd5f7cea6c3ae91e842e.jpg" alt="img"></p>
-<h2 id="细谈事件风暴"><a href="#细谈事件风暴" class="headerlink" title="细谈事件风暴"></a>细谈事件风暴</h2><h3 id="事件风暴的作用"><a href="#事件风暴的作用" class="headerlink" title="事件风暴的作用"></a>事件风暴的作用</h3><ol>
-<li>领域事件。从代码实现的角度来看，<strong>领域事件一般会对应一段代码逻辑，这段逻辑可能会最终改变数据库中的数据</strong>。另外，在事件驱动的架构中，一个领域事件可能会表现为一个向外部发送的异步消息。</li>
-<li>命令。领域建模时，我们可以通过对命令的走查（walkthrough），细化和验证领域模型。在实现层面，<strong>一个命令可能对应前端的一个操作，例如按下按钮；对于后端而言，一个命令可能对应一个 API</strong>。</li>
-<li>执行者。在领域建模时，执行者可能本身就是一个领域对象，也可能是领域对象充当的角色，或者是权限管理中的一个角色。</li>
-<li>查询数据。每个查询数据，就对应着一个查询功能。不过，这里的查询数据是为了某个命令服务的。系统中可能还有一些单纯的查询功能，并不与某个特定的命令绑定。这些查询功能不会通过事件风暴识别出来，需要单独进行分析。</li>
-<li>领域名词。识别领域名词的最终目的是要<strong>找到领域模型中的对象</strong>。在这一步里识别出的名词，虽然很可能就是领域对象，但也未必。一个名词有可能只是一个对象充当的角色，或者对象的属性，还有些名词需要经过合并或拆解后，才是合理的领域对象，而这些需要等到领域建模时才能真正搞清楚。</li>
-</ol>
-<h3 id="事件风暴的常见问题"><a href="#事件风暴的常见问题" class="headerlink" title="事件风暴的常见问题"></a>事件风暴的常见问题</h3><ol>
-<li><p>在事件风暴里是否要列出所有的领域事件和命令？</p>
-<p><strong>在事件风暴里只列出主要的、足以用于表达和交流领域知识的步骤</strong>，例如签订合同、生效合同等等。而像修改合同和删除合同这样的步骤是显而易见的，在讨论过程中可以提一下，但不必真的列出来，这样是为了保持简洁。</p>
-</li>
-<li><p>各个领域事件需要体现严格的时间顺序吗？</p>
-<p>只需要按照大致的顺序，贴出领域事件就可以了。这是因为，如果要体现严格的时间顺序，需要用到更复杂的符号，例如条件判断，还有要画更多的连线，这<strong>会使事件风暴变得非常繁琐</strong>。因此，我们应该关注点分离。如果要体现严格的时间顺序，我们可以用流程图、用顺序图等方法，但<strong>事件风暴不必关注</strong>这一点。</p>
-</li>
-<li><p>每个步骤的颗粒度应该有多大？比如说，“签订合同”这个命令，在具体操作的时候，可能分成<em>录入合同基本信息、录入合同明细、上传附件等等</em>更小的步骤。那么，我们需要为每一个小步骤都识别出领域事件和命令吗？</p>
-<p><strong>这就要考虑从业务的角度，我们是把每个小步骤都当作独立的一个事务来看待，还是把它们合起来作为同一个事务</strong>。另外，可以设想，如果每个小步骤都向外界发出一个领域事件，对系统后续的功能是不是有意义。那么在目前的需求里，合同作为一个整体来提交就可以了，分成小的领域事件，并没有意义，所以不再分成更小的步骤了。在实践里，有时仍然会有模棱两可的情况，这时，<strong>原则上宜粗不宜细</strong>。可以先采用比较大的颗粒度。后面必要的时候，再拆细，就可以了。</p>
-</li>
-<li><p>事件风暴适用于所有项目吗？</p>
-<ol>
-<li><p><strong>事件风暴主要应用在需求不清晰，或者理解不统一的情况下，通过协作的方式理清业务、达成一致，所以通常对于新项目比较适用</strong>。至于遗留系统改造的情况，如果这个系统的<strong>知识已经流失得很严重</strong>，那么事件风暴仍然是有意义的。但如果大家对这个系统的业务知识很清楚，只是要进行架构改造，那么事件风暴的意义就不大了。</p>
-</li>
-<li><p>即便在适用的场合，事件风暴也不是唯一的方法，我们还可以用用例分析、用户故事等方法实现类似的目的。只要抓住协作、统一语言等等要点，这些方法都可以用在 DDD 的项目里。</p>
-</li>
-</ol>
-</li>
-<li><p>怎么保存和维护事件风暴的结果？</p>
-<p>一般来说，我们可以在事件风暴的过程中专门安排一个记录员，由他使用 PPT 之类的画图工具，把贴在纸上的内容重新画一遍，就可以实现电子化的保存了。</p>
-</li>
-<li><p>事件风暴是不是需要长期维护和更新？</p>
-<p>如果事件风暴的内容最终会反映到<strong>用户故事、用例、功能列表</strong>等产出物中，而这些产出物会进行维护，那我们就不必专门更新事件风暴的产出物了，只在需要的时候作为一种沟通工具，将电子化的结果作为一种中间产物保存就可以了。如果你的团队并没有用户故事和用例等保存行为需求的方式，那么我建议你对事件风暴进行维护和更新。</p>
-</li>
-<li><p>怎么保存领域规则？</p>
-<p><strong>领域规则是重要的领域知识，必须妥善保存</strong>。在事件风暴的过程里我们已经识别出了一些领域规则，在后续的领域建模阶段，可能还会识别出更多。如果只是写在便利贴上，或者画在图上，时间长了，就很难维护了。所以，我们要编一个领域规则表，把所有的领域规则都汇总在里面，然后再把领域规则表和领域模型放在一起，作为领域知识的重要组成部分，下图就是一个例子。</p>
-<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/c907a49f0bfc5f25d8f4207655eea9bc.jpg" alt="img"></p>
-</li>
-</ol>
-
+        
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-DDD%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/techSnapshot.github.io/images/head.jpeg">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="记录知识，努力奋斗，绝不躺平">
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/techSnapshot.github.io/categories/软件架构/">软件架构</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="星火燎原">
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/techSnapshot.github.io/tags/DDD/">DDD</a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-DDD%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B/" class="post-title-link" itemprop="url">DDD学习系列-DDD的基本开发过程</a>
-        </h2>
+    
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-12-18 17:24:21 / 修改时间：17:39:00" itemprop="dateCreated datePublished" datetime="2022-12-18T17:24:21+08:00">2022-12-18</time>
-            </span>
-
-          
-
-        </div>
-      </header>
+    </div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  </div>
+</article>
 
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/techSnapshot.github.io/2022/12/18/DDD学习系列-DDD的基本开发过程/"><span>DDD学习系列-DDD的基本开发过程</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/techSnapshot.github.io/2022/12/18/DDD学习系列-DDD的基本开发过程/" rel="bookmark">
+        <time class="entry-date published" datetime="2022-12-18T09:24:21.000Z">
+          2022-12-18
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
       
-          <p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-DDD%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B/3d591062766dede3e6039e1e0804261e.jpg" alt="img"></p>
+        <p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-DDD%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B/3d591062766dede3e6039e1e0804261e.jpg" alt="img"></p>
 <ul>
 <li>捕获行为需求</li>
 </ul>
@@ -669,81 +234,59 @@
 <li><p>代码实现</p>
 </li>
 </ul>
-<blockquote>
-<p>这里又提出了一种新的架构设计的分类：</p>
-<ul>
-<li>进程内架构</li>
-<li>进程间架构</li>
-</ul>
-</blockquote>
-
+        
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%9C%80%E6%B1%82/">
+  <div class="article-footer">
+    <div class="article-meta pull-left">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/techSnapshot.github.io/images/head.jpeg">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="记录知识，努力奋斗，绝不躺平">
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/techSnapshot.github.io/tags/DDD/">DDD</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="星火燎原">
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/techSnapshot.github.io/2022/12/18/DDD学习系列-需求/"><span>DDD学习系列-需求</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/techSnapshot.github.io/2022/12/18/DDD学习系列-需求/" rel="bookmark">
+        <time class="entry-date published" datetime="2022-12-18T09:11:22.000Z">
+          2022-12-18
+        </time>
+      </a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%9C%80%E6%B1%82/" class="post-title-link" itemprop="url">DDD学习系列-需求</a>
-        </h2>
+  </div>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-12-18 17:11:22 / 修改时间：17:23:28" itemprop="dateCreated datePublished" datetime="2022-12-18T17:11:22+08:00">2022-12-18</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/techSnapshot.github.io/categories/%E6%9E%B6%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">架构</span></a>
-                </span>
-            </span>
+  
 
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+  <div class="article-content">
+    <div class="entry">
       
-          <p>很多中小型企业都有诸如：</p>
+        <p>很多中小型企业都有诸如：</p>
 <ul>
 <li>考勤管理</li>
 <li>工时管理</li>
@@ -756,111 +299,66 @@
 <p>所谓 SaaS，英文全称是 Software-as-a-Service，中文译作“软件即服务”。也就是说，<strong>软件不再像传统上那样交付并安装在客户本地，而是安装到云上，成为客户可以直接使用的服务</strong>。</p>
 <p>SaaS 应用往往有个特点：用户五花八门，需求也是复杂多变。有些应用，如果只针对一个企业开发，本来挺简单，一旦放到云上，需求复杂性就会急剧上升。</p>
 </blockquote>
-<h2 id="迭代一"><a href="#迭代一" class="headerlink" title="迭代一"></a>迭代一</h2><h3 id="需求一：租户管理"><a href="#需求一：租户管理" class="headerlink" title="需求一：租户管理"></a>需求一：租户管理</h3><p>这个系统可以给多家企业使用，每家企业的数据是隔离的。这些作为客户的企业，在云原生应用里，习惯上叫做“租户（tenant）”。咱们的系统就是要对这些租户进行增删改查等管理。这样的系统叫多租户系统。假设我们做市场调研时，研究了一家叫“零零后科技有限公司”的企业，我们这个迭代，就先来满足这家企业的需求。</p>
-<h3 id="需求二：人员与组织管理"><a href="#需求二：人员与组织管理" class="headerlink" title="需求二：人员与组织管理"></a>需求二：人员与组织管理</h3><ul>
-<li><p>零零后公司有多个开发中心，每个开发中心下有多个开发组。此外，还有公司直属的人事部、财务部等部门，系统要能够管理这些部门。</p>
-</li>
-<li><p>我们对员工也要进行增删改查，并且把员工分配到部门。<strong>每个员工只能属于一个部门</strong>，比如王小牛属于开发一组。</p>
-</li>
-</ul>
-<p>下面这个图说明了需求中的人员和组织结构：</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%9C%80%E6%B1%82/image-20221218172022529.png" alt="image-20221218172022529" style="zoom:25%;">
-
-
-
-<h3 id="需求三：项目管理"><a href="#需求三：项目管理" class="headerlink" title="需求三：项目管理"></a>需求三：项目管理</h3><p>首先，租户要向它的客户提供服务，就要和客户签订合同，然后完成合同下的项目。比如说，租户零零后公司的客户可能包括安安保险公司、开心电信等等。那么，租户零零后公司就得为安安保险公司，安排一堆程序员帮他们开发核心保险系统项目，也得为开心电信，安排几个咨询师帮他们的敏捷转型做咨询。</p>
-<ul>
-<li>一个租户企业可以有多个客户，可以在系统里对客户信息进行增删改查，每个客户都有一个客户经理来跟进；</li>
-<li>租户可以和它的客户签订多份合同，在系统中对合同信息进行增删改查，每个合同都有一个销售人员负责，可以开始和结束合同；</li>
-<li>一个合同下可以有多个项目，系统可以对项目进行增删改查，每个项目有一个项目经理；</li>
-<li>可以在系统中开始和结束项目，需要记录开始和结束时间等信息。项目结束以后，很多事情就不能随便做了。</li>
-</ul>
-<p>下图说明了客户、合同、项目等概念的关系：</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%9C%80%E6%B1%82/cf692b1b743f8eb6838670427ayyde45.jpg" alt="img" style="zoom:25%;">
-
-
-
-<h3 id="需求四：人员分配"><a href="#需求四：人员分配" class="headerlink" title="需求四：人员分配"></a>需求四：人员分配</h3><p>有了项目，我们就可以把员工分配到项目上，也可以让一个人退出项目。</p>
-<p>而且，一个项目可以有多个人参与，一个人又可以同时参与多个项目。除了这些，我们在把人分配到项目上的时候，还要记录每个人预计的投入百分比。比如说，王小牛在 A 项目上准备投入自己 30% 的时间，同时在 B 项目准备投入 40% 的时间等等。之所以要记录预计的投入时间，是为了让企业能够在总体上调配人力资源。比如说管理人员看到王小牛还有 30% 的空余时间，就可以把它同时再安排到另一个项目上，以便实现“内卷最大化”。</p>
-<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%9C%80%E6%B1%82/ec5acb036d224bde8fa6fb6df27d492b.jpg" alt="img" style="zoom:25%;">
-
-
-
-<h3 id="需求五：工时登记"><a href="#需求五：工时登记" class="headerlink" title="需求五：工时登记"></a>需求五：工时登记</h3><p>我们这里规定只有当一个员工分配到一个项目上以后，才能通过这个项目报工时。这样的规定，一来是为了符合公司的管理要求，一个员工不能随意参加一个项目；二来也可以防止员工不小心把工时填到错误的项目上。而且每个员工每周都需要在系统中填报工时，登记自己哪一天在哪个项目上投入了多少时间。当然，员工可对工时进行查询和修改，还可以为每天的投入的时间填写备注。</p>
-
+        
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2022/09/12/%E5%9F%BA%E4%BA%8E%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/techSnapshot.github.io/images/head.jpeg">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="记录知识，努力奋斗，绝不躺平">
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/techSnapshot.github.io/categories/架构/">架构</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="星火燎原">
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/techSnapshot.github.io/tags/DDD/">DDD</a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/techSnapshot.github.io/2022/09/12/%E5%9F%BA%E4%BA%8E%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">基于任务的工作流程</a>
-        </h2>
+    
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-12 14:26:00" itemprop="dateCreated datePublished" datetime="2022-09-12T14:26:00+08:00">2022-09-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-13 10:56:05" itemprop="dateModified" datetime="2022-09-13T10:56:05+08:00">2022-09-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/techSnapshot.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%96%B9%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">工作方法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
+    </div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  </div>
+</article>
 
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/techSnapshot.github.io/2022/09/12/基于任务的工作流程/"><span>基于任务的工作流程</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/techSnapshot.github.io/2022/09/12/基于任务的工作流程/" rel="bookmark">
+        <time class="entry-date published" datetime="2022-09-12T06:26:00.000Z">
+          2022-09-12
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
       
-          <p>基于最近一个月的工作，感觉工作方法上有些地方值得思考和优化，再加上看《福尔摩斯探案全集》给到了一些启示，但是想法又很朦胧，苦思无用，所以就把脑子里边那些不太清晰的想法尝试着一点点的画在了图上，图已经放在下边了，以帮助自己理清一些事情。</p>
+        <p>基于最近一个月的工作，感觉工作方法上有些地方值得思考和优化，再加上看《福尔摩斯探案全集》给到了一些启示，但是想法又很朦胧，苦思无用，所以就把脑子里边那些不太清晰的想法尝试着一点点的画在了图上，图已经放在下边了，以帮助自己理清一些事情。</p>
 <p>可以明晰的有几件事：</p>
 <ol>
 <li>要优化工作方法，避免工作期间过度陷入技术细节</li>
@@ -873,414 +371,314 @@
 <p>然后，我画了一个图，这个图以任务为驱动，根据不同的任务类型抽象出来了一些通用的工作流程，供以后有个借鉴作用，这些事就是要记在某个地方，我今天要是不记录这个东西，可能明天早上吃个包子我就完全想不起来了，古人说的好记性不如烂笔头，还真的是。</p>
 <p>另外，这张图不完整，要持续补充优化。</p>
 <p><img src="/techSnapshot.github.io/2022/09/12/%E5%9F%BA%E4%BA%8E%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/%E5%9F%BA%E4%BA%8E%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%8E%A2%E7%B4%A2%E8%BF%87%E7%A8%8B.jpg" alt="基于任务的探索过程"></p>
-<p><a target="_blank" rel="noopener" href="http://web.msc.dl.zytec.cn/frontend/lowcode/home/index.html?x-zytec-application=sample&amp;authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJmM2I1YjdiMWNmYzA0MWU5YTI2NTQyOTZhNDFmZDUzNCIsInVzZXJDb2RlIjoiYWRtaW4iLCJ1c2VyTmFtZSI6bnVsbCwiZGVwYXJ0bWVudElkIjoiMCIsInVzZXJUeXBlIjpudWxsLCJwcmluY2lwYWxJZCI6bnVsbCwiYXR0cmlidXRlcyI6e30sImlzcyI6Im1zLnp5dGVjLmNuIiwic3ViIjpudWxsLCJhdWQiOm51bGwsImV4cCI6MCwibmJmIjowLCJpYXQiOjE2NjMwMzc2ODM4MTUsImp0aSI6IjRlNTg2YWRmZTRiNDQ5Y2FhNmFmZTg1NDYyZDFmNDMxIn0.cFgi8StY05z_rKWvV6qrJjV02HgPnULGW5w1dAtqnNo">http://web.msc.dl.zytec.cn/frontend/lowcode/home/index.html?x-zytec-application=sample&amp;authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJmM2I1YjdiMWNmYzA0MWU5YTI2NTQyOTZhNDFmZDUzNCIsInVzZXJDb2RlIjoiYWRtaW4iLCJ1c2VyTmFtZSI6bnVsbCwiZGVwYXJ0bWVudElkIjoiMCIsInVzZXJUeXBlIjpudWxsLCJwcmluY2lwYWxJZCI6bnVsbCwiYXR0cmlidXRlcyI6e30sImlzcyI6Im1zLnp5dGVjLmNuIiwic3ViIjpudWxsLCJhdWQiOm51bGwsImV4cCI6MCwibmJmIjowLCJpYXQiOjE2NjMwMzc2ODM4MTUsImp0aSI6IjRlNTg2YWRmZTRiNDQ5Y2FhNmFmZTg1NDYyZDFmNDMxIn0.cFgi8StY05z_rKWvV6qrJjV02HgPnULGW5w1dAtqnNo</a></p>
 
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2022/08/09/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E7%BB%B4%E5%9F%BA%E7%A1%80/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/techSnapshot.github.io/images/head.jpeg">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="记录知识，努力奋斗，绝不躺平">
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/techSnapshot.github.io/categories/工作方法/">工作方法</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="星火燎原">
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/techSnapshot.github.io/2022/08/09/架构设计思维基础/"><span>架构设计思维基础</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/techSnapshot.github.io/2022/08/09/架构设计思维基础/" rel="bookmark">
+        <time class="entry-date published" datetime="2022-08-09T07:58:08.000Z">
+          2022-08-09
+        </time>
+      </a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/techSnapshot.github.io/2022/08/09/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E7%BB%B4%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">架构设计思维基础</a>
-        </h2>
+  </div>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-08-09 15:58:08 / 修改时间：20:46:38" itemprop="dateCreated datePublished" datetime="2022-08-09T15:58:08+08:00">2022-08-09</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/techSnapshot.github.io/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">软件架构</span></a>
-                </span>
-            </span>
+  
 
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+  <div class="article-content">
+    <div class="entry">
       
-          <p>架构设计总是一边摸索要解决的问题，一边探求解决方案。为了这项任务，我们就需要一种思维来帮助我们完成这项任务。本文的重点将是如何在架构设计中运用设计思维。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/techSnapshot.github.io/2022/08/09/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E7%BB%B4%E5%9F%BA%E7%A1%80/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
+        <p>架构设计总是一边摸索要解决的问题，一边探求解决方案。为了这项任务，我们就需要一种思维来帮助我们完成这项任务。本文的重点将是如何在架构设计中运用设计思维。</p>
         
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2022/08/08/%E6%88%90%E4%B8%BA%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%B8%88/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/techSnapshot.github.io/images/head.jpeg">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="记录知识，努力奋斗，绝不躺平">
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/techSnapshot.github.io/categories/软件架构/">软件架构</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="星火燎原">
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/techSnapshot.github.io/tags/软件架构/">软件架构</a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/techSnapshot.github.io/2022/08/08/%E6%88%90%E4%B8%BA%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%B8%88/" class="post-title-link" itemprop="url">成为软件架构师</a>
-        </h2>
+    
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-08 21:31:31" itemprop="dateCreated datePublished" datetime="2022-08-08T21:31:31+08:00">2022-08-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-09 11:25:39" itemprop="dateModified" datetime="2022-08-09T11:25:39+08:00">2022-08-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/techSnapshot.github.io/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">软件架构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
+    </div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  </div>
+</article>
 
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/techSnapshot.github.io/2022/08/08/成为软件架构师/"><span>成为软件架构师</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/techSnapshot.github.io/2022/08/08/成为软件架构师/" rel="bookmark">
+        <time class="entry-date published" datetime="2022-08-08T13:31:31.000Z">
+          2022-08-08
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
       
-          <h2 id="职业生涯"><a href="#职业生涯" class="headerlink" title="职业生涯"></a>职业生涯</h2><p>从2015年作为一个iOS软件开发工程师入行以来，工作的核心始终是围绕着“开发”这两个字进行，到目前为止，差不多七个年头了。</p>
+        <h2 id="职业生涯"><a href="#职业生涯" class="headerlink" title="职业生涯"></a>职业生涯</h2><p>从2015年作为一个iOS软件开发工程师入行以来，工作的核心始终是围绕着“开发”这两个字进行，到目前为止，差不多七个年头了。</p>
 <p>2022年7月，我获得了一份软件架构师的职位。这意味着我<strong>正式</strong>触及软件架构这个知识领域，并在真正的工作当中用软件架构的相关知识去为企业效力；同时也意味着，不出意外，在未来的几年内，工作的核心将会从“开发”转换为“架构”。</p>
 <p>从“开发者”的角色转换为“架构师”，可能这需要一个缓慢的过程，在这个转变的过程当中，一定会遇到很多的挫折和挑战，也一定会有失败和折磨，但是经过过去这7年当中的磨练，我相信自己一定有能力出色的完成这个过程。</p>
 <p>在整个这个过程当中，我会在个人的职业生涯学习记录当中记录一些琐碎的片段，同时也会把一些我认为比较重要的东西放在博客当中来分享。</p>
 <p>博客之于我来说，更像是一个相册的作用，他记录了我职业生涯当中每个关键时点的快照，他的作用不在于分享内容，而在于记录职业生涯和展示自己。</p>
 <p>很多年后，当我回顾我的整过职业生涯，我希望这是一段充满了挑战的记忆。对于很多人来说，成功并非人生常事，失败才是他们的主旋律，但是在每一次的失败当中吸取足够的教训，为下一次的成功做准备这才是一个渴望成功的人、不服输的人的最应该做的事情。曼巴永不言败。</p>
 <p>无论是《肖申克的救赎》还是《阿甘正传》，都在告诉我们一个道理：专注、持之以恒是一个人最重要的品格。然而，罗翔老师也告诉我们：世界上最远的距离是知道与做到之间的距离。阳明先生告诉我们要知行合一，要致良知。把答案交给时间吧，所有的一切最终都会落幕。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/techSnapshot.github.io/2022/08/08/%E6%88%90%E4%B8%BA%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%B8%88/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2021/07/25/Java%E9%9B%86%E5%90%88/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/techSnapshot.github.io/images/head.jpeg">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="记录知识，努力奋斗，绝不躺平">
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/techSnapshot.github.io/categories/软件架构/">软件架构</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="星火燎原">
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/techSnapshot.github.io/tags/软件架构/">软件架构</a><a href="/techSnapshot.github.io/tags/职业生涯/">职业生涯</a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/techSnapshot.github.io/2021/07/25/Java%E9%9B%86%E5%90%88/" class="post-title-link" itemprop="url">Java集合</a>
-        </h2>
+    
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-25 20:29:29" itemprop="dateCreated datePublished" datetime="2021-07-25T20:29:29+08:00">2021-07-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-09 11:26:49" itemprop="dateModified" datetime="2022-08-09T11:26:49+08:00">2022-08-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/techSnapshot.github.io/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/" itemprop="url" rel="index"><span itemprop="name">程序语言</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
+    </div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  </div>
+</article>
 
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/techSnapshot.github.io/2021/07/25/Java集合/"><span>Java集合</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/techSnapshot.github.io/2021/07/25/Java集合/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-07-25T12:29:29.000Z">
+          2021-07-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
       
-          <h2 id="Java集合"><a href="#Java集合" class="headerlink" title="Java集合"></a>Java集合</h2><h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><h4 id="最简单的考虑"><a href="#最简单的考虑" class="headerlink" title="最简单的考虑"></a>最简单的考虑</h4><p>最简单的考虑，可以认为是一个数组。</p>
+        <h2 id="Java集合"><a href="#Java集合" class="headerlink" title="Java集合"></a>Java集合</h2><h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><h4 id="最简单的考虑"><a href="#最简单的考虑" class="headerlink" title="最简单的考虑"></a>最简单的考虑</h4><p>最简单的考虑，可以认为是一个数组。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.put(key,value)</span><br></pre></td></tr></table></figure>
 
 <p>对key做一个hash运算，然后跟底层的数组的长度进行取模就能够得到元素在数组中的索引，然后把value放进数组中的索引指向处即可。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/techSnapshot.github.io/2021/07/25/Java%E9%9B%86%E5%90%88/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2021/07/23/Java-NIO/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/techSnapshot.github.io/images/head.jpeg">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="记录知识，努力奋斗，绝不躺平">
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/techSnapshot.github.io/categories/程序语言/">程序语言</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="星火燎原">
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/techSnapshot.github.io/tags/Java基础/">Java基础</a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/techSnapshot.github.io/2021/07/23/Java-NIO/" class="post-title-link" itemprop="url">Java NIO</a>
-        </h2>
+    
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-23 17:31:34" itemprop="dateCreated datePublished" datetime="2021-07-23T17:31:34+08:00">2021-07-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-09 11:22:28" itemprop="dateModified" datetime="2022-08-09T11:22:28+08:00">2022-08-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/techSnapshot.github.io/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
+    </div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  </div>
+</article>
 
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/techSnapshot.github.io/2021/07/23/Java-NIO/"><span>Java NIO</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/techSnapshot.github.io/2021/07/23/Java-NIO/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-07-23T09:31:34.000Z">
+          2021-07-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
       
-          <blockquote>
+        <blockquote>
 <p> 这篇文章是引自一个牛逼的博主写的博客，并非原创，<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36704549/article/details/109014073">原文链接</a>。</p>
 </blockquote>
 <h1 id="Java-NIO：Buffer、Channel-和-Selector"><a href="#Java-NIO：Buffer、Channel-和-Selector" class="headerlink" title="Java NIO：Buffer、Channel 和 Selector"></a>Java NIO：Buffer、Channel 和 Selector</h1><p>本文将介绍 Java NIO 中三大组件 <strong>Buffer、Channel、Selector</strong> 的使用。    </p>
 <h2 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h2><p>一个 Buffer 本质上是<strong>内存中的一块</strong>，我们可以将数据写入这块内存，之后从这块内存获取数据。</p>
 <p>java.nio 定义了以下几个 Buffer 的实现，这个图读者应该也在不少地方见过了吧。</p>
 <p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/6.png"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/techSnapshot.github.io/2021/07/23/Java-NIO/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
       
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2021/07/22/MySQL%E6%9C%80%E5%B0%8F%E7%9F%A5%E8%AF%86%E9%9B%86%E5%90%88/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/techSnapshot.github.io/images/head.jpeg">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="记录知识，努力奋斗，绝不躺平">
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/techSnapshot.github.io/categories/Java/">Java</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="星火燎原">
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/techSnapshot.github.io/tags/Java基础/">Java基础</a><a href="/techSnapshot.github.io/tags/IO/">IO</a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/techSnapshot.github.io/2021/07/22/MySQL%E6%9C%80%E5%B0%8F%E7%9F%A5%E8%AF%86%E9%9B%86%E5%90%88/" class="post-title-link" itemprop="url">Mysql最小知识集合</a>
-        </h2>
+    
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-22 15:07:02" itemprop="dateCreated datePublished" datetime="2021-07-22T15:07:02+08:00">2021-07-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-08 22:05:07" itemprop="dateModified" datetime="2022-08-08T22:05:07+08:00">2022-08-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/techSnapshot.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
+    </div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  </div>
+</article>
 
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/techSnapshot.github.io/2021/07/22/MySQL最小知识集合/"><span>Mysql最小知识集合</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/techSnapshot.github.io/2021/07/22/MySQL最小知识集合/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-07-22T07:07:02.000Z">
+          2021-07-22
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
       
-          <blockquote>
+        <blockquote>
 <p>本文还有些内容待补充。</p>
 </blockquote>
 <ol>
@@ -1292,206 +690,63 @@
 <li>索引原理/索引规则/索引优化</li>
 <li>Explain执行计划分析</li>
 </ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/techSnapshot.github.io/2021/07/22/MySQL%E6%9C%80%E5%B0%8F%E7%9F%A5%E8%AF%86%E9%9B%86%E5%90%88/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/techSnapshot.github.io/page/2/">2</a><a class="extend next" rel="next" href="/techSnapshot.github.io/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
   </div>
 
-  <aside class="sidebar">
-    <div class="sidebar-inner">
+  <div class="article-footer">
+    <div class="article-meta pull-left">
 
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
+    
+      
 
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/techSnapshot.github.io/categories/数据库/">数据库</a>
+    </span>
+    
 
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt=""
-      src="/techSnapshot.github.io/images/head.jpeg">
-  <p class="site-author-name" itemprop="name"></p>
-  <div class="site-description" itemprop="description">记录知识，努力奋斗，绝不躺平</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/techSnapshot.github.io/archives/">
-        
-          <span class="site-state-item-count">16</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/techSnapshot.github.io/categories/">
-          
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/techSnapshot.github.io/tags/">
-          
-        <span class="site-state-item-count">10</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/ProgrammerLZ" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ProgrammerLZ" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="/techSnapshot.github.io/16604113102@163.com" title="E-Mail → 16604113102@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
+    
+    
 
-
-
-      </div>
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/techSnapshot.github.io/tags/MySQL/">MySQL</a>
+    </span>
+    
 
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
+
+    
+  </div>
+</article>
 
 
-      </div>
+
+
+<nav class="pagination">
+  
+  
+  <a href="/techSnapshot.github.io/page/2/" class="pagination-next">下一页</a>
+  
+</nav>
     </main>
 
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder"></span>
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2022 星火燎原
+    
+  </p>
+</footer>
+    
+    
+  </div>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/techSnapshot.github.io/lib/anime.min.js"></script>
-  <script src="/techSnapshot.github.io/lib/velocity/velocity.min.js"></script>
-  <script src="/techSnapshot.github.io/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/techSnapshot.github.io/js/utils.js"></script>
-
-<script src="/techSnapshot.github.io/js/motion.js"></script>
-
-
-<script src="/techSnapshot.github.io/js/schemes/muse.js"></script>
-
-
-<script src="/techSnapshot.github.io/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
 </body>
 </html>

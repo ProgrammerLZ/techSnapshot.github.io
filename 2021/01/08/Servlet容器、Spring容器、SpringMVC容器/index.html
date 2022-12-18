@@ -1,238 +1,88 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!DOCTYPE HTML>
+<html>
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/techSnapshot.github.io/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/techSnapshot.github.io/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/techSnapshot.github.io/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/techSnapshot.github.io/images/logo.svg" color="#222">
+  <meta charset="utf-8">
+  
+  <title>Servlet容器、Spring容器、SpringMVC容器 | 星火燎原 | Go! Go! Go!</title>
 
-<link rel="stylesheet" href="/techSnapshot.github.io/css/main.css">
-
-
-<link rel="stylesheet" href="/techSnapshot.github.io/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"programmerlz.github.io","root":"/techSnapshot.github.io/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="本文基于一个问题：在使用 SpringMVC 时，Spring 容器是如何与 Servlet 容器进行交互的？  Spring 容器的加载可否还记得，当年还没有 Springboot 的时候，在 Tomcat 的 web.xml 中进行面向 xml 编程的青葱岁月？其中有那么几段配置总是令我记忆犹新： 首先是 Spring 容器配置： 1234&lt;context-param&gt;  &amp;lt">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Servlet容器、Spring容器、SpringMVC容器">
-<meta property="og:url" content="https://programmerlz.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/index.html">
-<meta property="og:site_name" content="星火燎原">
-<meta property="og:description" content="本文基于一个问题：在使用 SpringMVC 时，Spring 容器是如何与 Servlet 容器进行交互的？  Spring 容器的加载可否还记得，当年还没有 Springboot 的时候，在 Tomcat 的 web.xml 中进行面向 xml 编程的青葱岁月？其中有那么几段配置总是令我记忆犹新： 首先是 Spring 容器配置： 1234&lt;context-param&gt;  &amp;lt">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205328.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205759.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210832.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220655.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210900.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320212506.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220032.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320221939.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320235338.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320233807.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320231335.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320234137.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321000909.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321001725.png">
-<meta property="article:published_time" content="2021-01-08T13:29:03.000Z">
-<meta property="article:modified_time" content="2022-08-08T14:05:21.676Z">
-<meta property="article:tag" content="Spring">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205328.png">
-
-<link rel="canonical" href="https://programmerlz.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
-</script>
-
-  <title>Servlet容器、Spring容器、SpringMVC容器 | 星火燎原</title>
   
 
+  
+  <meta name="description" content="记录知识，努力奋斗，绝不躺平">
+  
+
+  
+  <meta name="keywords" content="hexo,javascript">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Servlet容器、Spring容器、SpringMVC容器"/>
+
+  <meta property="og:site_name" content="星火燎原"/>
+
+  
+  <meta property="og:image" content="/techSnapshot.github.io/favicon.ico"/>
+  
+
+  <link href="/techSnapshot.github.io/favicon.ico" rel="icon">
+  <link rel="alternate" href="/techSnapshot.github.io/atom.xml" title="星火燎原" type="application/atom+xml">
+  <link rel="stylesheet" href="/techSnapshot.github.io/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
+<body>
+<div class="blog">
+  <div class="content">
 
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/techSnapshot.github.io/">星火燎原</a>
+    </h1>
+    <p class="site-description">Go! Go! Go!</p>
   </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/techSnapshot.github.io/">主页</a></li>
+      
+        <li><a href="/techSnapshot.github.io/archives">归档</a></li>
+      
+        <li><a href="/techSnapshot.github.io/categories">分类</a></li>
+      
+        <li><a href="/techSnapshot.github.io/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
 
-  <div class="site-meta">
+    <main class="site-main posts-loop">
+    <article>
 
-    <a href="/techSnapshot.github.io/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">星火燎原</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">Go! Go! Go!</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/techSnapshot.github.io/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/techSnapshot.github.io/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/techSnapshot.github.io/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/techSnapshot.github.io/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/techSnapshot.github.io/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+  
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
+    <h3 class="article-title"><span>Servlet容器、Spring容器、SpringMVC容器</span></h3>
     
   
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/techSnapshot.github.io/images/head.jpeg">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="记录知识，努力奋斗，绝不躺平">
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/techSnapshot.github.io/2021/01/08/Servlet容器、Spring容器、SpringMVC容器/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-01-08T13:29:03.000Z">
+          2021-01-08
+        </time>
+      </a>
     </span>
+  </div>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="星火燎原">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Servlet容器、Spring容器、SpringMVC容器
-        </h1>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
+  
 
-              <time title="创建时间：2021-01-08 21:29:03" itemprop="dateCreated datePublished" datetime="2021-01-08T21:29:03+08:00">2021-01-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-08 22:05:21" itemprop="dateModified" datetime="2022-08-08T22:05:21+08:00">2022-08-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/techSnapshot.github.io/categories/%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index"><span itemprop="name">框架</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+  <div class="article-content">
+    <div class="entry">
       
         <blockquote>
 <p><strong>本文基于一个问题：在使用 SpringMVC 时，Spring 容器是如何与 Servlet 容器进行交互的？</strong></p>
@@ -301,211 +151,63 @@
 <p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321001725.png" alt="img"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本质上来讲，Servlet 容器与 Spring 容器并不互通，但因为有 Servlet 容器的监听器 ServletContextListener，在它们之间构筑了桥梁。</p>
 
+      
     </div>
 
-    
-    
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/techSnapshot.github.io/tags/Spring/" rel="tag"># Spring</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/techSnapshot.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" rel="prev" title="Java动态代理">
-      <i class="fa fa-chevron-left"></i> Java动态代理
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/techSnapshot.github.io/2021/01/08/SpringBoot%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" rel="next" title="SpringBoot核心概念">
-      SpringBoot核心概念 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
   </div>
 
-  <aside class="sidebar">
-    <div class="sidebar-inner">
+  <div class="article-footer">
+    <div class="article-meta pull-left">
 
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
+    
+      
 
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-%E5%AE%B9%E5%99%A8%E7%9A%84%E5%8A%A0%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">Spring 容器的加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC-%E5%AE%B9%E5%99%A8%E7%9A%84%E5%8A%A0%E8%BD%BD"><span class="nav-number">2.</span> <span class="nav-text">SpringMVC 容器的加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DispatcherServlet-%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">DispatcherServlet 初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/techSnapshot.github.io/categories/框架/">框架</a>
+    </span>
+    
 
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt=""
-      src="/techSnapshot.github.io/images/head.jpeg">
-  <p class="site-author-name" itemprop="name"></p>
-  <div class="site-description" itemprop="description">记录知识，努力奋斗，绝不躺平</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/techSnapshot.github.io/archives/">
-        
-          <span class="site-state-item-count">16</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/techSnapshot.github.io/categories/">
-          
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/techSnapshot.github.io/tags/">
-          
-        <span class="site-state-item-count">10</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/ProgrammerLZ" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ProgrammerLZ" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="/techSnapshot.github.io/16604113102@163.com" title="E-Mail → 16604113102@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
+    
+    
 
-
-
-      </div>
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/techSnapshot.github.io/tags/Spring/">Spring</a>
+    </span>
+    
 
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
+
+    
+  </div>
+</article>
+
+  
 
 
-      </div>
+
+
+
+
+
+
+
     </main>
 
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder"></span>
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2022 星火燎原
+    
+  </p>
+</footer>
+    
+    
+  </div>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/techSnapshot.github.io/lib/anime.min.js"></script>
-  <script src="/techSnapshot.github.io/lib/velocity/velocity.min.js"></script>
-  <script src="/techSnapshot.github.io/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/techSnapshot.github.io/js/utils.js"></script>
-
-<script src="/techSnapshot.github.io/js/motion.js"></script>
-
-
-<script src="/techSnapshot.github.io/js/schemes/muse.js"></script>
-
-
-<script src="/techSnapshot.github.io/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
 </body>
 </html>
