@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/techSnapshot.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/techSnapshot.github.io/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/techSnapshot.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/techSnapshot.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/techSnapshot.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/techSnapshot.github.io/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"programmerlz.github.io","root":"/techSnapshot.github.io/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="DDD学习——领域建模建立领域模型是DDD的核心。 一些基本概念领域对象 将知识可视化，准确、深刻地反映领域知识，并且在业务和技术人员之间达成一致 指导系统的设计和编码，也就是说，领域模型应该能够比较容易地转化成数据库模式和代码实现  为了完成上述的两个目的，其主要的一些活动包括：  识别领域对象（domain object） 分析领域对象之间的关系 记录对象的关键属性 复杂情况下还要将领域对象组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DDD学习系列-领域建模">
+<meta property="og:url" content="https://programmerlz.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/index.html">
+<meta property="og:site_name" content="星火燎原">
+<meta property="og:description" content="DDD学习——领域建模建立领域模型是DDD的核心。 一些基本概念领域对象 将知识可视化，准确、深刻地反映领域知识，并且在业务和技术人员之间达成一致 指导系统的设计和编码，也就是说，领域模型应该能够比较容易地转化成数据库模式和代码实现  为了完成上述的两个目的，其主要的一些活动包括：  识别领域对象（domain object） 分析领域对象之间的关系 记录对象的关键属性 复杂情况下还要将领域对象组">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7e06fc4de6c1b257bfa024d81c1yy45d.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/44f07dee31058e65751607990620e9ed.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/f667be3c6cfbf87c89d89069542a7559.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7f8ebfb9ec0389e86162c15e3c109d5c.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/9e62e2bc8c9264be8bfb8d9dd578cbb8.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/ce877f6d0c1d2f75366561c09babcb70.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/825c9dd6a61eda8aac97dec2647e9401.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/ecb8c0aa73f3e241a98d1878fef5yyac.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/ca1151c6da0e426faaa53be38aed2f8d.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/547ecc1f79f1020a285e9c6aced41f8b.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/65909b1a3449b0ac355e180a4757e0ae.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7d95a011d79d57f38923ae5c147cd23b.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/8b78f20c7eb5931319644c2dfe26ccbe.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/b0a00d1dffbcd3d7ca7177530222144d.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/df6a6dbb07c24ea19b5a6219f5fe7a87.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/529247a111134583dcf6f5d0ff6d5e28.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/e9132cc67d55c0968ed4f77ceb25d016.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/6ec056bdd9283e24d9cbcc5a776ca0db.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/8d07b425aafda76973c84a459117b5f5.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/13e1de25f2fbcd634abd72be146d3f1a.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/1f47ac2ff2cda39b24af0f95a061f560.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/0d4512cd39d0290e51a5d399a15f5c09.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/f26dc01b0db5ec19cc3a8fdc6ecfb8e4.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/d5f6f3840eb9524da8278cc87f6a7991.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/4bcd55521e97a76cea3bd7df3cacf351.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7d26899edf0bce20a9c351c46da23357.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7197514c032b23147a3531a8f5d8b67f.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/6434d5d6260ba74f967d71145eae0de9.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/22cf84702d9c9cff4518ab4b37e10c87.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/431d4ff99edbc65c54e9a9fb083e0b96.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/92704b55b0a605e9cf29c3992f76d10f.jpg">
+<meta property="article:published_time" content="2022-12-18T09:28:15.000Z">
+<meta property="article:modified_time" content="2022-12-18T09:33:57.548Z">
+<meta property="article:tag" content="DDD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7e06fc4de6c1b257bfa024d81c1yy45d.jpg">
+
+<link rel="canonical" href="https://programmerlz.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>DDD学习系列-领域建模 | 星火燎原</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/techSnapshot.github.io/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">星火燎原</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Go! Go! Go!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/techSnapshot.github.io/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/techSnapshot.github.io/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/techSnapshot.github.io/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/techSnapshot.github.io/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/techSnapshot.github.io/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://programmerlz.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/techSnapshot.github.io/images/head.jpeg">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="记录知识，努力奋斗，绝不躺平">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="星火燎原">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DDD学习系列-领域建模
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-12-18 17:28:15 / 修改时间：17:33:57" itemprop="dateCreated datePublished" datetime="2022-12-18T17:28:15+08:00">2022-12-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/techSnapshot.github.io/categories/%E6%9E%B6%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">架构</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="DDD学习——领域建模"><a href="#DDD学习——领域建模" class="headerlink" title="DDD学习——领域建模"></a>DDD学习——领域建模</h1><p>建立<strong>领域模型</strong>是DDD的核心。</p>
+<h2 id="一些基本概念"><a href="#一些基本概念" class="headerlink" title="一些基本概念"></a>一些基本概念</h2><h3 id="领域对象"><a href="#领域对象" class="headerlink" title="领域对象"></a>领域对象</h3><ul>
+<li>将知识<strong>可视化</strong>，准确、深刻地反映领域知识，并且在业务和技术人员之间达成一致</li>
+<li>指导系统的设计和编码，也就是说，领域模型应该能够比较容易地转化成数据库模式和代码实现</li>
+</ul>
+<p>为了完成上述的两个目的，其主要的一些活动包括：</p>
+<ul>
+<li>识别领域对象（domain object）</li>
+<li>分析领域对象之间的关系</li>
+<li>记录对象的关键属性</li>
+<li>复杂情况下还要将领域对象组织成模块</li>
+</ul>
+<p><strong>领域对象的概念</strong></p>
+<p>系统中要处理的各种“事物”就是<strong>领域对象</strong>。比如说项目、员工、账户等等。这些对象都反映了名词性的概念。其中，有些名词化了的动词也是领域对象。比如说我们进行了一笔支付操作，并且想把这笔操作记录下来。这时，“支付”也是领域对象。支付本来是动词，但这里实际上是要把一笔支付的信息记录下来，在这里就把“支付”当名词用了。</p>
+<h3 id="领域模型图"><a href="#领域模型图" class="headerlink" title="领域模型图"></a>领域模型图</h3><p>领域模型是用领域模型图来表达的，通常用UML来画。在UML中，<strong>一个类通常与一个领域对象相对应</strong>。</p>
+<h3 id="实体"><a href="#实体" class="headerlink" title="实体"></a>实体</h3><p>DDD中，领域对象被分为<strong>实体和值对象</strong>，目前暂且只关注实体，也就是说<strong>就目前来说，一个实体对应一个领域对象</strong>。</p>
+<h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p>这个咋理解都行。我就理解成UML画出来的图就叫做类图，他表达了类之间的关系（也就意味着同时也表达了领域对象之间的关系，也就意味着同时也表达了实体之间的关系）。</p>
+<h2 id="领域建模"><a href="#领域建模" class="headerlink" title="领域建模"></a>领域建模</h2><h3 id="初步识别实体"><a href="#初步识别实体" class="headerlink" title="初步识别实体"></a>初步识别实体</h3><p>可以从领域风暴阶段识别的领域名词入手，分成几部分来建模。先考虑<strong>租户、组织和人员</strong>。领域风暴中的图是这样的：</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7e06fc4de6c1b257bfa024d81c1yy45d.jpg" alt="img" style="zoom:25%;">
+
+<p>可以<strong>先假定（这是一种比较粗暴的方式，之后还会有比较详细的分析）</strong>每个领域名词都是一个实体，把它们用类的符号画出来。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/44f07dee31058e65751607990620e9ed.jpg" alt="img" style="zoom:24%;">
+
+<p>在领域建模阶段，我们主要关注的是实体和它们之间的关系，不关心他们的属性。</p>
+<h3 id="分析实体间的关系"><a href="#分析实体间的关系" class="headerlink" title="分析实体间的关系"></a>分析实体间的关系</h3><h4 id="一对一"><a href="#一对一" class="headerlink" title="一对一"></a>一对一</h4><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/f667be3c6cfbf87c89d89069542a7559.jpg" alt="img" style="zoom:24%;">
+
+<h4 id="一对多"><a href="#一对多" class="headerlink" title="一对多"></a>一对多</h4><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7f8ebfb9ec0389e86162c15e3c109d5c.jpg" alt="img" style="zoom:24%;">
+
+
+
+<p>越多，图就越杂乱。也就是说，<strong>这个模型不够简洁</strong>。那么怎么解决这两个问题呢？我们要对这个模型进行抽象。</p>
+<h4 id="模型简单化——抽象"><a href="#模型简单化——抽象" class="headerlink" title="模型简单化——抽象"></a>模型简单化——抽象</h4><p>企业、开发中心、开发组、直属部门，其实都是组织结构中的节点而已，从这一点来说，他们是有共性的，在业务上可以抽象为“组织”。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/9e62e2bc8c9264be8bfb8d9dd578cbb8.jpg" alt="img" style="zoom:25%;">
+
+<p>经过抽象后，模型变简单了，但是无法区分出一个组织到底是开发组还是开发中心了，也就是<strong>归纳了共性，但个性却丢了</strong>。这个时候可以增加一个新的实体，来体现个性。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/ce877f6d0c1d2f75366561c09babcb70.jpg" alt="img" style="zoom:25%;">
+
+<p>为了怕以后读这个模型图的人不理解什么是组织类别，我们还可以加一个<strong>注释</strong>，用来举例说明有哪些组织类别。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/825c9dd6a61eda8aac97dec2647e9401.jpg" alt="img" style="zoom:25%;">
+
+
+
+<h4 id="自关联"><a href="#自关联" class="headerlink" title="自关联"></a>自关联</h4><p>这个图还不能表示企业、开发中心、开发组等之间的<strong>上下级关系</strong>。这可以用组织这个实体上的“自关联”来表达。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/ecb8c0aa73f3e241a98d1878fef5yyac.jpg" alt="img" style="zoom:25%;">
+
+
+
+<p>这个关联翻译成自然语言可以这么说：一<strong>个组织可以有多个组织作为自己的下级；而一个组织只能有一个组织作为自己的上级</strong>。这样就表现出了上下级的层级关系。这种一对多的自关联，实际上表达的是一种树形结构。</p>
+<p>另外，在这个自关联的两端，有上级和下级两个词。它们在 UML 里称为“<strong>角色</strong>”（role）</p>
+<h4 id="增加约束"><a href="#增加约束" class="headerlink" title="增加约束"></a>增加约束</h4><p>为了说明“一个开发中心下面有多个开发组，而不是一个开发组下面有多个开发中心”这个业务规则，又另外加了一个注释。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/ca1151c6da0e426faaa53be38aed2f8d.jpg" alt="img" style="zoom:25%;">
+
+
+
+<ul>
+<li><p>和一般性的注释不同，它的内容用大括号括起来了</p>
+</li>
+<li><p>和一般性的注释不同，凡是约束，必须在程序中的某个地方进行实现</p>
+</li>
+<li><p>约束也是一种业务规则，应该加进前面讲过的业务规则表</p>
+</li>
+</ul>
+<p>现在的图中还有一些其他业务规则没有表现出来：</p>
+<ul>
+<li>只有企业才能作为租户，其他类别的组织不能作为租户</li>
+<li>作为多租户系统，其实每一个实体都应该与租户有一个关联，说明这个实体是属于哪一个租户的，这样才能把不同租户的数据区分开</li>
+</ul>
+<p>如果把这些关联都画出来，模型图中的线条就会太多了，变得非常混乱。这个时候就可以用约束去做以简化图形。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/547ecc1f79f1020a285e9c6aced41f8b.jpg" alt="img" style="zoom:25%;">
+
+
+
+<h4 id="识别多对多"><a href="#识别多对多" class="headerlink" title="识别多对多"></a>识别多对多</h4><p>业务的角度，可以认为管理员和人事人员其实都是员工担任的岗位。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/65909b1a3449b0ac355e180a4757e0ae.jpg" alt="img" style="zoom:24%;">
+
+
+
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7d95a011d79d57f38923ae5c147cd23b.jpg" alt="img" style="zoom:25%;">
+
+<p>一个员工可以担任多个岗位，而一个岗位也可以有多个员工担任。<strong>员工和岗位之间是“多对多”关联</strong>。</p>
+<h4 id="细化多重性"><a href="#细化多重性" class="headerlink" title="细化多重性"></a>细化多重性</h4><p>关联两端的 “1” 或者 “*” 称为“多重性”。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/8b78f20c7eb5931319644c2dfe26ccbe.jpg" alt="img" style="zoom:25%;">
+
+<ul>
+<li><p>一个组织可以有没有员工或者多个员工</p>
+</li>
+<li><p>一个员工必须有一个组织</p>
+</li>
+</ul>
+<p>因此，可以将多重性进行细化。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/b0a00d1dffbcd3d7ca7177530222144d.jpg" alt="img" style="zoom:25%;">
+
+<p>整体进行细化。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/df6a6dbb07c24ea19b5a6219f5fe7a87.jpg" alt="img" style="zoom:25%;">
+
+
+
+<h4 id="深入理解多对多"><a href="#深入理解多对多" class="headerlink" title="深入理解多对多"></a>深入理解多对多</h4><p>上述是<strong>租户管理和组织管理</strong>的部分的建模过程。接下来是<strong>项目管理部分</strong>的建模。下图是事件风暴阶段对项目管理的分析结果图。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/529247a111134583dcf6f5d0ff6d5e28.jpg" alt="img" style="zoom:25%;">
+
+<p>先假定每个名词都是一个实体。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/e9132cc67d55c0968ed4f77ceb25d016.jpg" alt="img" style="zoom: 25%;">
+
+<p>每个客户有一个客户经理负责（客户经理也是员工），可以把客户添加到模型里。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/6ec056bdd9283e24d9cbcc5a776ca0db.jpg" alt="img" style="zoom:25%;">
+
+<p>这里把客户经理当作了一个角色，员工和客户的关联翻译成自然语言就是“<strong>一个员工可以充当多个客户的客户经理，而一个客户有且仅有一个员工作为他的客户经理</strong>”。接下来是合同实体，<strong>每个合同都有一个销售人员负责</strong>。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/8d07b425aafda76973c84a459117b5f5.jpg" alt="img" style="zoom:25%;">
+
+<p>客户经理也是销售人员，利用抽象工具，可以将客户经理抽象为销售人员，而负责合同的销售人员可以叫做合同经理。并且此处有两个业务规则：</p>
+<ul>
+<li>只有销售人员才能作客户经理</li>
+<li>只有销售人员才能作合同经理</li>
+</ul>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/13e1de25f2fbcd634abd72be146d3f1a.jpg" alt="img" style="zoom:25%;">
+
+<p>接下来是项目实体。<strong>一个项目经理可以负责多个项目，一个项目有一个项目经理。</strong></p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/1f47ac2ff2cda39b24af0f95a061f560.jpg" alt="img" style="zoom:25%;">
+
+<p>上述是<strong>项目管理</strong>部分的建模过程，接下来是<strong>分配员工</strong>的建模。</p>
+<p><strong>一个项目成员可以在多个项目上，一个项目可以可以有多个项目经理。</strong>并且存在一个业务规则：一个员工的预计投入百分比总和不能大于百分之百。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/0d4512cd39d0290e51a5d399a15f5c09.jpg" alt="img" style="zoom:25%;">
+
+<p>这里可以看到，<strong>两个实体之间，可以有多个关联</strong>。不同的关联代表不同含义，数量关系也可以不同，可以用角色名来区分。</p>
+<p>有一个关于投入百分比的规则，那么投入百分比这个属性应该记录在哪个实体上呢？这个百分比既不能记录在员工实体上，也不能记录在项目实体上，这是因为，只有员工和项目建立了项目成员这一关联的时候，记录投入百分比才是有意义的，也就是说，这个属性应该记录在这个多对多关联上。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/f26dc01b0db5ec19cc3a8fdc6ecfb8e4.jpg" alt="img" style="zoom:25%;">
+
+<p>任何多对多关联，总能用类似的方法，通过引入一个表示关联的实体，拆成两个一对多的关联。</p>
+<p>考虑到时间因素，有关投入百分比的业务规则可以进一步明确：</p>
+<ul>
+<li>在任何时刻，一个人的预计投入百分比总和不能大于百分之百。</li>
+<li>一个员工在同一个项目上的时间段不能重叠。</li>
+</ul>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/d5f6f3840eb9524da8278cc87f6a7991.jpg" alt="img" style="zoom:25%;">
+
+<p>上述是对<strong>项目管理</strong>不分的领域建模，接下来是对<strong>工时管理</strong>部分进行领域建模。</p>
+<p>工时管理在事件风暴阶段只产生了一个领域名词：工时，可以把其加入建模图形当中。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/4bcd55521e97a76cea3bd7df3cacf351.jpg" alt="img" style="zoom:25%;">
+
+<h4 id="识别操作"><a href="#识别操作" class="headerlink" title="识别操作"></a>识别操作</h4><p>在事件风暴中还遗留了一个问题：<strong>怎么处理客户经理上级、销售人员上级和项目经理上级这几个概念</strong>？</p>
+<p>客户经理、销售人员、项目经理，无非都是员工，所以他们的上级，其实都可以归纳为<strong>取员工上级这个操作</strong>。然后讨论出了取员工上级的逻辑：</p>
+<ul>
+<li>如果员工不是所属组织的负责人，那么这个组织的负责人就是员工的上级；</li>
+<li>如果员工就是所属组织的负责人，那么这个组织的上级组织的负责人就是这个员工的上级。</li>
+</ul>
+<p>在上述逻辑中，我们又引入了一个<strong>组织负责人</strong>的概念。可以认为，负责人是员工在与组织的关联中充当的一种角色。进一步完善建模图形。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7d26899edf0bce20a9c351c46da23357.jpg" alt="img" style="zoom:25%;">
+
+<p>有几个要注意的地方：</p>
+<ul>
+<li>为了表达组织的负责人，在员工和组织之间又增加了一个一对多关联，表示“一个员工可以作多个组织的负责人，而一个组织有且只有一个负责人”</li>
+<li>在员工实体上增加了取上级这个操作。</li>
+<li>用一个注解说明了取上级这个操作的业务逻辑</li>
+</ul>
+<p>现在，领域模型已经覆盖了事件风暴中发现的所有领域概念，但是，是不是觉得这个图已经有点乱，不太容易理解了呢？</p>
+<h3 id="划分模块"><a href="#划分模块" class="headerlink" title="划分模块"></a>划分模块</h3><p>之所以这个图不容易理解，是因为很多实体和关联混杂在一起，形成了一个“蜘蛛网”。但人的认知能力是有限的，面对这样一张复杂的对象网络，就产生了认知过载（cognitive overload）。解决这一问题的方法就是“模块化”。也就是说，把模型中的业务概念组织成若干高内聚的模块（module），而模块之间尽量低耦合。</p>
+<blockquote>
+<p>学习感悟</p>
+<ul>
+<li>模块化是需要有一个过程的。一定是要先梳理出来整体，然后基于这个整体根据实际情况判断是否要进行模块化，如果需要进行模块化一定要遵循高内聚低耦合。</li>
+</ul>
+</blockquote>
+<p>在 UML 中，可以用包来表示模块。包的符号是下面这样：</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/7197514c032b23147a3531a8f5d8b67f.jpg" alt="img" style="zoom:25%;">
+
+<p>采用如下方式划分模块。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/6434d5d6260ba74f967d71145eae0de9.jpg" alt="img" style="zoom:25%;">
+
+<p>也就是说，我们把模型分成了 4 个模块，分别是</p>
+<ul>
+<li>租户管理</li>
+<li>组织管理</li>
+<li>项目管理（包含了分配项目成员）</li>
+<li>工时管理。</li>
+</ul>
+<p>有了模块，我们就可以从宏观和微观两个层面理解模型。</p>
+<p>宏观层面，不关系模块内部细节，可以在宏观层面上分析模块之间的依赖。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/22cf84702d9c9cff4518ab4b37e10c87.jpg" alt="img" style="zoom:25%;">
+
+<p>微观层面，可以深入到模块内部，了解实体和关联等等的细节。</p>
+<p>至此，领域建模基本结束。接下来进入查漏补缺阶段要做的两个事情：</p>
+<ul>
+<li>完善业务规则</li>
+<li>建立词汇表</li>
+</ul>
+<h2 id="完善业务规则"><a href="#完善业务规则" class="headerlink" title="完善业务规则"></a>完善业务规则</h2><p>在做事件风暴时就开始识别业务规则了，在领域建模中又识别出了更多的规则，所以现在我们需要把这些规则补充到业务规则表之中。</p>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/431d4ff99edbc65c54e9a9fb083e0b96.jpg" alt="img" style="zoom:25%;">
+
+
+
+<h2 id="建立词汇表"><a href="#建立词汇表" class="headerlink" title="建立词汇表"></a>建立词汇表</h2><p>建立词汇表，也就是把事件风暴和领域模型中重要的词汇列成表，其主要有两个作用：</p>
+<ul>
+<li>需要通过词汇表来规范领域模型中的词汇</li>
+<li>可以用于后续编程中的命名</li>
+</ul>
+<img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/92704b55b0a605e9cf29c3992f76d10f.jpg" alt="img" style="zoom:25%;">
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/techSnapshot.github.io/tags/DDD/" rel="tag"># DDD</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/" rel="prev" title="DDD学习系列-事件风暴">
+      <i class="fa fa-chevron-left"></i> DDD学习系列-事件风暴
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DDD%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1"><span class="nav-number">1.</span> <span class="nav-text">DDD学习——领域建模</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">一些基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%86%E5%9F%9F%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.1.1.</span> <span class="nav-text">领域对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B%E5%9B%BE"><span class="nav-number">1.1.2.</span> <span class="nav-text">领域模型图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BD%93"><span class="nav-number">1.1.3.</span> <span class="nav-text">实体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9B%BE"><span class="nav-number">1.1.4.</span> <span class="nav-text">类图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1"><span class="nav-number">1.2.</span> <span class="nav-text">领域建模</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E6%AD%A5%E8%AF%86%E5%88%AB%E5%AE%9E%E4%BD%93"><span class="nav-number">1.2.1.</span> <span class="nav-text">初步识别实体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E5%AE%9E%E4%BD%93%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.2.2.</span> <span class="nav-text">分析实体间的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E5%AF%B9%E4%B8%80"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">一对一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E5%AF%B9%E5%A4%9A"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">一对多</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%AE%80%E5%8D%95%E5%8C%96%E2%80%94%E2%80%94%E6%8A%BD%E8%B1%A1"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">模型简单化——抽象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%85%B3%E8%81%94"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">自关联</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.2.2.5.</span> <span class="nav-text">增加约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%86%E5%88%AB%E5%A4%9A%E5%AF%B9%E5%A4%9A"><span class="nav-number">1.2.2.6.</span> <span class="nav-text">识别多对多</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%86%E5%8C%96%E5%A4%9A%E9%87%8D%E6%80%A7"><span class="nav-number">1.2.2.7.</span> <span class="nav-text">细化多重性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%A4%9A%E5%AF%B9%E5%A4%9A"><span class="nav-number">1.2.2.8.</span> <span class="nav-text">深入理解多对多</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%86%E5%88%AB%E6%93%8D%E4%BD%9C"><span class="nav-number">1.2.2.9.</span> <span class="nav-text">识别操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%92%E5%88%86%E6%A8%A1%E5%9D%97"><span class="nav-number">1.2.3.</span> <span class="nav-text">划分模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E5%96%84%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99"><span class="nav-number">1.3.</span> <span class="nav-text">完善业务规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%AF%8D%E6%B1%87%E8%A1%A8"><span class="nav-number">1.4.</span> <span class="nav-text">建立词汇表</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt=""
+      src="/techSnapshot.github.io/images/head.jpeg">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description">记录知识，努力奋斗，绝不躺平</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/techSnapshot.github.io/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/techSnapshot.github.io/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/techSnapshot.github.io/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ProgrammerLZ" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ProgrammerLZ" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/techSnapshot.github.io/16604113102@163.com" title="E-Mail → 16604113102@163.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/techSnapshot.github.io/lib/anime.min.js"></script>
+  <script src="/techSnapshot.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/techSnapshot.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/techSnapshot.github.io/js/utils.js"></script>
+
+<script src="/techSnapshot.github.io/js/motion.js"></script>
+
+
+<script src="/techSnapshot.github.io/js/schemes/muse.js"></script>
+
+
+<script src="/techSnapshot.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
