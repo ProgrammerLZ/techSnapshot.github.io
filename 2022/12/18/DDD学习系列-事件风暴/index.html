@@ -1,97 +1,125 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   
-  <title>DDD学习系列-事件风暴 | 星火燎原 | Go! Go! Go!</title>
+  
+  <title>DDD学习系列-事件风暴 | 星火燎原</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="目的在真实项目，尤其是敏捷项目里，领域专家很可能不会像我们上一讲那样，一开始就把需求都一一列出来，需求可能仅仅停留在领域专家的脑子里。所以，我们就需要一种方法，能够将这些头脑中的需求挖掘出来。 此外，事件风暴方法也能够帮助我们识别领域对象。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DDD学习系列-事件风暴">
+<meta property="og:url" content="https://programmerlz.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/index.html">
+<meta property="og:site_name" content="星火燎原">
+<meta property="og:description" content="目的在真实项目，尤其是敏捷项目里，领域专家很可能不会像我们上一讲那样，一开始就把需求都一一列出来，需求可能仅仅停留在领域专家的脑子里。所以，我们就需要一种方法，能够将这些头脑中的需求挖掘出来。 此外，事件风暴方法也能够帮助我们识别领域对象。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/ea006b757ab0b2aeff0d888128f9d31b.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/5d11a968155ea6bd40f0e4d8a6c9a99e.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/8d2020e9710a44ff5b92b7cd272f72c8.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/61ba53b6fa9700f19d0d4066aca5afd7.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/9770c0063b26fd5f7cea6c3ae91e842e.jpg">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/c907a49f0bfc5f25d8f4207655eea9bc.jpg">
+<meta property="article:published_time" content="2022-12-18T09:26:14.000Z">
+<meta property="article:modified_time" content="2022-12-18T10:05:29.465Z">
+<meta property="article:tag" content="DDD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://programmerlz.github.io/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/ea006b757ab0b2aeff0d888128f9d31b.jpg">
+  
+    <link rel="alternate" href="/techSnapshot.github.io/atom.xml" title="星火燎原" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/techSnapshot.github.io/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
 
   
+  
+<link rel="stylesheet" href="/techSnapshot.github.io/css/style.css">
 
   
-  <meta name="description" content="记录知识，努力奋斗，绝不躺平">
-  
+    
+<link rel="stylesheet" href="/techSnapshot.github.io/fancybox/jquery.fancybox.min.css">
 
   
-  <meta name="keywords" content="hexo,javascript">
   
-
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="DDD学习系列-事件风暴"/>
-
-  <meta property="og:site_name" content="星火燎原"/>
-
-  
-  <meta property="og:image" content="/techSnapshot.github.io/favicon.ico"/>
-  
-
-  <link href="/techSnapshot.github.io/favicon.ico" rel="icon">
-  <link rel="alternate" href="/techSnapshot.github.io/atom.xml" title="星火燎原" type="application/atom+xml">
-  <link rel="stylesheet" href="/techSnapshot.github.io/css/style.css" media="screen" type="text/css">
 <meta name="generator" content="Hexo 5.4.2"></head>
 
-
 <body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
-    <h1 class="site-title">
-      <a href="/techSnapshot.github.io/">星火燎原</a>
-    </h1>
-    <p class="site-description">Go! Go! Go!</p>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/techSnapshot.github.io/" id="logo">星火燎原</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/techSnapshot.github.io/" id="subtitle">莫听穿林打夜声，何妨吟啸且徐行</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/techSnapshot.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/techSnapshot.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/techSnapshot.github.io/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://programmerlz.github.io"></form>
+      </div>
+    </div>
   </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/techSnapshot.github.io/">主页</a></li>
-      
-        <li><a href="/techSnapshot.github.io/archives">归档</a></li>
-      
-        <li><a href="/techSnapshot.github.io/categories">分类</a></li>
-      
-        <li><a href="/techSnapshot.github.io/tags">标签</a></li>
-      
-    </ul>
-  </nav>
 </header>
 
-    <main class="site-main posts-loop">
-    <article>
-
-  
+      <div class="outer">
+        <section id="main"><article id="post-DDD学习系列-事件风暴" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/" class="article-date">
+  <time class="dt-published" datetime="2022-12-18T09:26:14.000Z" itemprop="datePublished">2022-12-18</time>
+</a>
     
-    <h3 class="article-title"><span>DDD学习系列-事件风暴</span></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/techSnapshot.github.io/2022/12/18/DDD学习系列-事件风暴/" rel="bookmark">
-        <time class="entry-date published" datetime="2022-12-18T09:26:14.000Z">
-          2022-12-18
-        </time>
-      </a>
-    </span>
+  <div class="article-category">
+    <a class="article-category-link" href="/techSnapshot.github.io/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/">软件架构</a>
   </div>
 
-
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      DDD学习系列-事件风暴
+    </h1>
   
 
-  <div class="article-content">
-    <div class="entry">
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>在真实项目，尤其是敏捷项目里，领域专家很可能不会像我们上一讲那样，一开始就把需求都一一列出来，需求可能仅仅停留在领域专家的脑子里。所以，我们就需要一种方法，能够将这些头脑中的需求挖掘出来。</p>
 <p>此外，事件风暴方法也能够帮助我们识别领域对象。</p>
-<span id="more"></span>    
+<span id="more"></span>	
 
 <h2 id="什么是事件风暴"><a href="#什么是事件风暴" class="headerlink" title="什么是事件风暴"></a>什么是事件风暴</h2><p><strong>事件风暴是业务人员和技术人员一起协作，捕获行为需求、消化领域知识、形成统一语言的一种方法</strong>。捕获行为需求的方法包括：</p>
 <ul>
 <li>Use Case</li>
-<li>Event Storming </li>
+<li>Event Storming</li>
 </ul>
 <p>他简单易学，充分体现沟通协作、统一语言的要点。</p>
 <blockquote>
@@ -148,12 +176,12 @@
 <li>查询功能不算领域事件。领域事件应该是对某样事物产生了影响，并被记录的事情。一般是某个事物的创建、修改和删除。还有一种情况是向其他人或者系统发消息，例如“通知邮件已发送”也算领域事件，因为接收方可能会通过进一步处理来影响某些事物。</li>
 </ul>
 <p>下图是企业管理系统中识别出的所有领域事件。</p>
-<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/5d11a968155ea6bd40f0e4d8a6c9a99e.jpg" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/5d11a968155ea6bd40f0e4d8a6c9a99e.jpg" alt="img"></p>
 <p>注意在上图中，有些业务规则和领域事件在需求讲解阶段领域专家是没有讲解出来的，但是在事件风暴的过程中被我们挖掘了出来。比如：工时登记中的一些业务规则。</p>
 <p>另外，客户已添加的时候自然就分配了一个客户经理，无需搞出一个分配客户经理的操作。</p>
 <h3 id="识别命令"><a href="#识别命令" class="headerlink" title="识别命令"></a>识别命令</h3><p><strong>所谓命令（command），就是引发领域事件的操作，我们可以通过分析领域事件得到</strong>。除了识别出命令本身以外，我们通常还要识别出<strong>谁执行的命令</strong>，以及为了执行命令我们要<strong>查询出什么数据</strong>。</p>
 <p>下图是识别出的部分命令。</p>
-<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/8d2020e9710a44ff5b92b7cd272f72c8.jpg" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/8d2020e9710a44ff5b92b7cd272f72c8.jpg" alt="img"></p>
 <p>注意，从上图中可以看出：</p>
 <ul>
 <li>有些命令可能没有查询数据</li>
@@ -167,8 +195,8 @@
 <li>把领域名词写在大一点的黄色便利贴上，贴在每堆便利贴的中间。</li>
 </ol>
 <p>下图是识别出的所有领域名词。</p>
-<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/61ba53b6fa9700f19d0d4066aca5afd7.jpg" alt="img"></p>
-<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/9770c0063b26fd5f7cea6c3ae91e842e.jpg" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/61ba53b6fa9700f19d0d4066aca5afd7.jpg" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/9770c0063b26fd5f7cea6c3ae91e842e.jpg" alt="img"></p>
 <h2 id="细谈事件风暴"><a href="#细谈事件风暴" class="headerlink" title="细谈事件风暴"></a>细谈事件风暴</h2><h3 id="事件风暴的作用"><a href="#事件风暴的作用" class="headerlink" title="事件风暴的作用"></a>事件风暴的作用</h3><ol>
 <li>领域事件。从代码实现的角度来看，<strong>领域事件一般会对应一段代码逻辑，这段逻辑可能会最终改变数据库中的数据</strong>。另外，在事件驱动的架构中，一个领域事件可能会表现为一个向外部发送的异步消息。</li>
 <li>命令。领域建模时，我们可以通过对命令的走查（walkthrough），细化和验证领域模型。在实现层面，<strong>一个命令可能对应前端的一个操作，例如按下按钮；对于后端而言，一个命令可能对应一个 API</strong>。</li>
@@ -202,67 +230,161 @@
 </li>
 <li><p>怎么保存领域规则？</p>
 <p><strong>领域规则是重要的领域知识，必须妥善保存</strong>。在事件风暴的过程里我们已经识别出了一些领域规则，在后续的领域建模阶段，可能还会识别出更多。如果只是写在便利贴上，或者画在图上，时间长了，就很难维护了。所以，我们要编一个领域规则表，把所有的领域规则都汇总在里面，然后再把领域规则表和领域模型放在一起，作为领域知识的重要组成部分，下图就是一个例子。</p>
-<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/c907a49f0bfc5f25d8f4207655eea9bc.jpg" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/c907a49f0bfc5f25d8f4207655eea9bc.jpg" alt="img"></p>
 </li>
 </ol>
 
       
     </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
+    <footer class="article-footer">
+      <a data-url="https://programmerlz.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/" data-id="cm5ktr3hn00037ewfhzc05v3w" data-title="DDD学习系列-事件风暴" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/techSnapshot.github.io/tags/DDD/" rel="tag">DDD</a></li></ul>
 
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/techSnapshot.github.io/categories/软件架构/">软件架构</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/techSnapshot.github.io/tags/DDD/">DDD</a>
-    </span>
-    
-
-    </div>
-
-    
+    </footer>
   </div>
-</article>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          DDD学习系列-领域建模
+        
+      </div>
+    </a>
+  
+  
+    <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-DDD%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">DDD学习系列-DDD的基本开发过程</div>
+    </a>
+  
+</nav>
 
   
+</article>
 
 
-
-
-
-
-
-
-
-    </main>
-
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
+</section>
+        
+          <aside id="sidebar">
+  
     
-    &copy; 2024 星火燎原
-    
-  </p>
-</footer>
-    
-    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%96%B9%E6%B3%95/">工作方法</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/">程序语言</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/">软件架构</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E9%83%A8%E7%BD%B2/">部署</a></li></ul>
+    </div>
   </div>
-</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/DDD/" rel="tag">DDD</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/IO/" rel="tag">IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/Java%E5%9F%BA%E7%A1%80/" rel="tag">Java基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/%E5%AE%B9%E5%99%A8/" rel="tag">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/" rel="tag">职业生涯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/" rel="tag">软件架构</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/techSnapshot.github.io/tags/DDD/" style="font-size: 20px;">DDD</a> <a href="/techSnapshot.github.io/tags/IO/" style="font-size: 10px;">IO</a> <a href="/techSnapshot.github.io/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/techSnapshot.github.io/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">Java基础</a> <a href="/techSnapshot.github.io/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/techSnapshot.github.io/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/techSnapshot.github.io/tags/SpringBoot/" style="font-size: 13.33px;">SpringBoot</a> <a href="/techSnapshot.github.io/tags/%E5%AE%B9%E5%99%A8/" style="font-size: 10px;">容器</a> <a href="/techSnapshot.github.io/tags/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/" style="font-size: 10px;">职业生涯</a> <a href="/techSnapshot.github.io/tags/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/" style="font-size: 13.33px;">软件架构</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2019/05/">五月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/">DDD学习系列-领域建模</a>
+          </li>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/">DDD学习系列-事件风暴</a>
+          </li>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-DDD%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B/">DDD学习系列-DDD的基本开发过程</a>
+          </li>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%9C%80%E6%B1%82/">DDD学习系列-需求</a>
+          </li>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2022/09/12/%E5%9F%BA%E4%BA%8E%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/">基于任务的工作流程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 星火燎原<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/techSnapshot.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/techSnapshot.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/techSnapshot.github.io/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/techSnapshot.github.io/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/techSnapshot.github.io/js/script.js"></script>
+
+
+
+
+
+  </div>
 </body>
 </html>

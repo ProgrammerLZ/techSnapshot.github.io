@@ -1,88 +1,124 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   
-  <title>Servlet容器、Spring容器、SpringMVC容器 | 星火燎原 | Go! Go! Go!</title>
+  
+  <title>Servlet容器、Spring容器、SpringMVC容器 | 星火燎原</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="本文基于一个问题：在使用 SpringMVC 时，Spring 容器是如何与 Servlet 容器进行交互的？  Spring 容器的加载可否还记得，当年还没有 Springboot 的时候，在 Tomcat 的 web.xml 中进行面向 xml 编程的青葱岁月？其中有那么几段配置总是令我记忆犹新： 首先是 Spring 容器配置： 1234&lt;context-param&gt;  &amp;lt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Servlet容器、Spring容器、SpringMVC容器">
+<meta property="og:url" content="https://programmerlz.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/index.html">
+<meta property="og:site_name" content="星火燎原">
+<meta property="og:description" content="本文基于一个问题：在使用 SpringMVC 时，Spring 容器是如何与 Servlet 容器进行交互的？  Spring 容器的加载可否还记得，当年还没有 Springboot 的时候，在 Tomcat 的 web.xml 中进行面向 xml 编程的青葱岁月？其中有那么几段配置总是令我记忆犹新： 首先是 Spring 容器配置： 1234&lt;context-param&gt;  &amp;lt">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205328.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205759.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210832.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220655.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210900.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320212506.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220032.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320221939.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320235338.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320233807.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320231335.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320234137.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321000909.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321001725.png">
+<meta property="article:published_time" content="2021-01-08T13:29:03.000Z">
+<meta property="article:modified_time" content="2022-08-08T14:05:21.676Z">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205328.png">
+  
+    <link rel="alternate" href="/techSnapshot.github.io/atom.xml" title="星火燎原" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/techSnapshot.github.io/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
 
   
+  
+<link rel="stylesheet" href="/techSnapshot.github.io/css/style.css">
 
   
-  <meta name="description" content="记录知识，努力奋斗，绝不躺平">
-  
+    
+<link rel="stylesheet" href="/techSnapshot.github.io/fancybox/jquery.fancybox.min.css">
 
   
-  <meta name="keywords" content="hexo,javascript">
   
-
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="Servlet容器、Spring容器、SpringMVC容器"/>
-
-  <meta property="og:site_name" content="星火燎原"/>
-
-  
-  <meta property="og:image" content="/techSnapshot.github.io/favicon.ico"/>
-  
-
-  <link href="/techSnapshot.github.io/favicon.ico" rel="icon">
-  <link rel="alternate" href="/techSnapshot.github.io/atom.xml" title="星火燎原" type="application/atom+xml">
-  <link rel="stylesheet" href="/techSnapshot.github.io/css/style.css" media="screen" type="text/css">
 <meta name="generator" content="Hexo 5.4.2"></head>
 
-
 <body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
-    <h1 class="site-title">
-      <a href="/techSnapshot.github.io/">星火燎原</a>
-    </h1>
-    <p class="site-description">Go! Go! Go!</p>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/techSnapshot.github.io/" id="logo">星火燎原</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/techSnapshot.github.io/" id="subtitle">莫听穿林打夜声，何妨吟啸且徐行</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/techSnapshot.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/techSnapshot.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/techSnapshot.github.io/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://programmerlz.github.io"></form>
+      </div>
+    </div>
   </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/techSnapshot.github.io/">主页</a></li>
-      
-        <li><a href="/techSnapshot.github.io/archives">归档</a></li>
-      
-        <li><a href="/techSnapshot.github.io/categories">分类</a></li>
-      
-        <li><a href="/techSnapshot.github.io/tags">标签</a></li>
-      
-    </ul>
-  </nav>
 </header>
 
-    <main class="site-main posts-loop">
-    <article>
-
-  
+      <div class="outer">
+        <section id="main"><article id="post-Servlet容器、Spring容器、SpringMVC容器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2021-01-08T13:29:03.000Z" itemprop="datePublished">2021-01-08</time>
+</a>
     
-    <h3 class="article-title"><span>Servlet容器、Spring容器、SpringMVC容器</span></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/techSnapshot.github.io/2021/01/08/Servlet容器、Spring容器、SpringMVC容器/" rel="bookmark">
-        <time class="entry-date published" datetime="2021-01-08T13:29:03.000Z">
-          2021-01-08
-        </time>
-      </a>
-    </span>
+  <div class="article-category">
+    <a class="article-category-link" href="/techSnapshot.github.io/categories/%E6%A1%86%E6%9E%B6/">框架</a>
   </div>
 
-
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Servlet容器、Spring容器、SpringMVC容器
+    </h1>
   
 
-  <div class="article-content">
-    <div class="entry">
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
       
         <blockquote>
 <p><strong>本文基于一个问题：在使用 SpringMVC 时，Spring 容器是如何与 Servlet 容器进行交互的？</strong></p>
@@ -95,20 +131,20 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;listener&gt;</span><br><span class="line">  &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;</span><br><span class="line">&lt;/listener&gt;</span><br></pre></td></tr></table></figure>
 
 <p>在 Tomcat 启动时，根据这两段配置，究竟做了什么动作，使得 Tomcat 与 Spring 完美地结合在一起了呢？</p>
-<span id="more"></span>    
+<span id="more"></span>	
 
 <p>首先我们来看下 ContextLoaderListener 监听器的源码：</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205328.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205328.png" alt="img"></p>
 <p>我们发现它继承了 ContextLoader，并且实现了 ServletContextListener 接口，下面说下这两个东西的作用：</p>
 <ol>
 <li>ContextLoader：正如其名，ContextLoader 可以在启动时载入 IOC 容器；</li>
 <li>ServletContextListener：ServletContextListener 接口有两个抽象方法，contextInitialized 和 contextDestroyed，该监听器会结合 Web 容器的生命周期被调，ContextLoaderListener 正是实现了该接口。</li>
 </ol>
 <p>因此，ContextLoaderListener 最主要的作用就是在 Tomcat 启动时，根据配置加载 Spring 容器。</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205759.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320205759.png" alt="img"></p>
 <p>以上就是 ContextLoaderListener 实现 contextInitialized 方法的逻辑，也是加载并初始化 Spring 容器的开始。</p>
 <p>org.springframework.web.context.ContextLoader#initWebApplicationContext</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210832.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210832.png" alt="img"></p>
 <p>以上代码逻辑主要做了以下几个操作：</p>
 <ol>
 <li>调用 createWebApplicationContext 方法创建一个容器，会创建一个 contextClass 类型的容器，如果没有配置，则默认创建 WebApplicationContext 类型的容器；</li>
@@ -118,96 +154,190 @@
 </ol>
 <p>还发现 Spring 容器保存到 Servlet 容器中的 key 为 ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE，我们顺藤摸瓜找到获取 Spring 容器的方法：</p>
 <p>org.springframework.web.context.support.WebApplicationContextUtils#getWebApplicationContext</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220655.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220655.png" alt="img"></p>
 <p>关于这个方法在哪里调用后面有说到。</p>
 <p>org.springframework.web.context.ContextLoader#configureAndRefreshWebApplicationContext</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210900.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320210900.png" alt="img"></p>
 <p>以上是 Spring 容器初始化逻辑，其中，CONFIG_LOCATION_PARAM 即是我们在 xml 中配置的 contextConfigLocation 参数：</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320212506.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320212506.png" alt="img"></p>
 <p>同时还会将 Servlet 容器保存到 Spring 容器中，最后调用 refresh 方法进行初始化。</p>
 <p>在将 Spring 容器初始化最后以一个元素的形式保存到 Servlet 容器之后，那么 SpringMVC 在初始化时，是如何拿到 Spring 容器的呢？</p>
 <p>我们继续看 SpringMVC 初始化是怎么操作的。</p>
 <h2 id="SpringMVC-容器的加载"><a href="#SpringMVC-容器的加载" class="headerlink" title="SpringMVC 容器的加载"></a>SpringMVC 容器的加载</h2><p>SpringMVC 本质上来讲，就是一个大号的 Servlet，其各种机制都是围绕着一个名叫 DispatcherServlet 的 Servlet 展开的，因此它必然实现了 Servlet 接口，那么在 Tomcat 启动时，它必然会通过 Servlet#init 方法进行初始化动作，我在其调用链路上发现以下方法：</p>
 <p>org.springframework.web.servlet.FrameworkServlet#initWebApplicationContext</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220032.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320220032.png" alt="img"></p>
 <p>DispatcherServlet 的父类同样有一个方法，该方法是加载 SpringMVC 容器，即源码中的 webApplicationContext：</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320221939.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320221939.png" alt="img"></p>
 <p>我们发现，rootContext 就是 ContextLoaderListener 加载的 <strong>Spring 容器</strong>，在这里，它会以父容器的身份保存到 SpringMVC 容器中。</p>
 <p>当然，如果是用 Springboot 环境，那么默认只会存在一个上下文环境，原因如下：</p>
 <p>1、在 Springboot 应用程序启动时，在 SpringBootServletInitializer#onStartup 方法中，会创建一个 rootAppContext 容器，如下：</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320235338.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320235338.png" alt="img"></p>
 <p><strong>同时将上文所说的 ContextLoaderListener 监听器添加到 Servlet 容器中，同样达到了 xml 配置的效果</strong>，而调用 createRootApplicationContext 方法创建 rootAppContext 容器时，会将 contextClass 设置为 AnnotationConfigServletWebServerApplicationContext.class。</p>
 <p>2、DispatcherServlet 此时作为一个 Bean，实现了 ApplicationContextAware 接口，会自动将上下文环境保存到 webApplicationContext 字段中；</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320233807.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320233807.png" alt="img"></p>
 <p>DispatcherServlet 初始化时，经过 debug 可以看到，rootContext 和 webApplicationContext 是同一个实例对象：</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320231335.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320231335.png" alt="img"></p>
 <p>原因是通过 ContextLoaderListener 加载的上下文环境，通过 ApplicationContextAware 接口自动 set 进来保存到 DispatcherServlet 的 webApplicationContext 变量中了。</p>
 <p>在 FrameworkServlet#initWebApplicationContext 方法最后，最终会将 webApplicationContext 注入以一个元素的形式保存到 Servlet 容器中：</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320234137.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200320234137.png" alt="img"></p>
 <h2 id="DispatcherServlet-初始化"><a href="#DispatcherServlet-初始化" class="headerlink" title="DispatcherServlet 初始化"></a>DispatcherServlet 初始化</h2><p>最终，SpringMVC 初始化会调用该方法：</p>
 <p>org.springframework.web.servlet.DispatcherServlet#onRefresh</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321000909.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321000909.png" alt="img"></p>
 <p>DispatcherServlet 初始化时，从 Spring 容器中获取相关 Bean，初始化各种不同的组件，比如初始化 HandlerMapping：</p>
-<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321001725.png" alt="img"></p>
+<p><img src="/techSnapshot.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/20200321001725.png" alt="img"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本质上来讲，Servlet 容器与 Spring 容器并不互通，但因为有 Servlet 容器的监听器 ServletContextListener，在它们之间构筑了桥梁。</p>
 
       
     </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
+    <footer class="article-footer">
+      <a data-url="https://programmerlz.github.io/2021/01/08/Servlet%E5%AE%B9%E5%99%A8%E3%80%81Spring%E5%AE%B9%E5%99%A8%E3%80%81SpringMVC%E5%AE%B9%E5%99%A8/" data-id="cm5ktr3i8001d7ewf6debcb9e" data-title="Servlet容器、Spring容器、SpringMVC容器" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/techSnapshot.github.io/tags/Spring/" rel="tag">Spring</a></li></ul>
 
-    <span class="post-categories">
-      <i class="icon-categories"></i>
-        <a href="/techSnapshot.github.io/categories/框架/">框架</a>
-    </span>
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/techSnapshot.github.io/tags/Spring/">Spring</a>
-    </span>
-    
-
-    </div>
-
-    
+    </footer>
   </div>
-</article>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/techSnapshot.github.io/2021/01/08/SpringBoot%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          SpringBoot核心概念
+        
+      </div>
+    </a>
+  
+  
+    <a href="/techSnapshot.github.io/2019/05/10/Java%20%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Java动态代理</div>
+    </a>
+  
+</nav>
 
   
+</article>
 
 
-
-
-
-
-
-
-
-    </main>
-
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
+</section>
+        
+          <aside id="sidebar">
+  
     
-    &copy; 2024 星火燎原
-    
-  </p>
-</footer>
-    
-    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%96%B9%E6%B3%95/">工作方法</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E6%9E%B6%E6%9E%84/">架构</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/">程序语言</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/">软件架构</a></li><li class="category-list-item"><a class="category-list-link" href="/techSnapshot.github.io/categories/%E9%83%A8%E7%BD%B2/">部署</a></li></ul>
+    </div>
   </div>
-</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/DDD/" rel="tag">DDD</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/IO/" rel="tag">IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/Java%E5%9F%BA%E7%A1%80/" rel="tag">Java基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/%E5%AE%B9%E5%99%A8/" rel="tag">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/" rel="tag">职业生涯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/techSnapshot.github.io/tags/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/" rel="tag">软件架构</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/techSnapshot.github.io/tags/DDD/" style="font-size: 20px;">DDD</a> <a href="/techSnapshot.github.io/tags/IO/" style="font-size: 10px;">IO</a> <a href="/techSnapshot.github.io/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/techSnapshot.github.io/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">Java基础</a> <a href="/techSnapshot.github.io/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/techSnapshot.github.io/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/techSnapshot.github.io/tags/SpringBoot/" style="font-size: 13.33px;">SpringBoot</a> <a href="/techSnapshot.github.io/tags/%E5%AE%B9%E5%99%A8/" style="font-size: 10px;">容器</a> <a href="/techSnapshot.github.io/tags/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/" style="font-size: 10px;">职业生涯</a> <a href="/techSnapshot.github.io/tags/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/" style="font-size: 13.33px;">软件架构</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2022/09/">九月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2022/08/">八月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2021/07/">七月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/techSnapshot.github.io/archives/2019/05/">五月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%A2%86%E5%9F%9F%E5%BB%BA%E6%A8%A1/">DDD学习系列-领域建模</a>
+          </li>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E4%BA%8B%E4%BB%B6%E9%A3%8E%E6%9A%B4/">DDD学习系列-事件风暴</a>
+          </li>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-DDD%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B/">DDD学习系列-DDD的基本开发过程</a>
+          </li>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2022/12/18/DDD%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97-%E9%9C%80%E6%B1%82/">DDD学习系列-需求</a>
+          </li>
+        
+          <li>
+            <a href="/techSnapshot.github.io/2022/09/12/%E5%9F%BA%E4%BA%8E%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/">基于任务的工作流程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 星火燎原<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/techSnapshot.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/techSnapshot.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/techSnapshot.github.io/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/techSnapshot.github.io/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/techSnapshot.github.io/js/script.js"></script>
+
+
+
+
+
+  </div>
 </body>
 </html>
