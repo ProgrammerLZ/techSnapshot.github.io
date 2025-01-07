@@ -112,7 +112,7 @@
         <h2 id="容器-VS-虚拟机"><a href="#容器-VS-虚拟机" class="headerlink" title="容器 VS 虚拟机"></a>容器 VS 虚拟机</h2><p>操作系统太重了<img src="/techSnapshot.github.io/2021/01/13/Docker/v2-c20cb49c88034e73e09059668b8cecfb_1440w.jpg" alt="v2-c20cb49c88034e73e09059668b8cecfb_1440w" style="zoom:50%;"></p>
 <p>操作系统重启是非常慢的</p>
 <p>与虚拟机通过操作系统实现隔离不同，容器技术<strong>只隔离应用程序的运行时环境但容器之间可以共享同一个操作系统</strong></p>
-<span id="more"></span>	
+<span id="more"></span>    
 
 <h2 id="什么是Docker？"><a href="#什么是Docker？" class="headerlink" title="什么是Docker？"></a>什么是Docker？</h2><p>Docker是一个开源的引擎，可以轻松的为任何应用创建一个：</p>
 <ul>
@@ -129,7 +129,7 @@
 <li>响应式发布和扩展</li>
 <li>在相同的硬件上能够运行更多的工作负载</li>
 </ul>
-<p>​	</p>
+<p>​    </p>
 <h2 id="Docker引擎介绍"><a href="#Docker引擎介绍" class="headerlink" title="Docker引擎介绍"></a>Docker引擎介绍</h2><p>docker客户端</p>
 <ul>
 <li>SERVER（docker daemon）</li>
@@ -186,7 +186,7 @@
 
 <p><strong>为什么Docker刚运行完run命令就停止了？</strong></p>
 <blockquote>
-<p>Docker 容器启动后，默认会把容器内部第一个进程，也就是pid&#x3D;1的程序作为docker容器是否正在运行的依据。<br>如果docker 容器pid&#x3D;1进程挂了，那么docker容器便会直接退出。这样的话，如果我们在前台维持一个运行的进程，docker 容器就会一直处于运行的状态中。</p>
+<p>Docker 容器启动后，默认会把容器内部第一个进程，也就是pid=1的程序作为docker容器是否正在运行的依据。<br>如果docker 容器pid=1进程挂了，那么docker容器便会直接退出。这样的话，如果我们在前台维持一个运行的进程，docker 容器就会一直处于运行的状态中。</p>
 </blockquote>
 <h4 id="监控容器"><a href="#监控容器" class="headerlink" title="监控容器"></a>监控容器</h4><h5 id="查看容器日志"><a href="#查看容器日志" class="headerlink" title="查看容器日志"></a>查看容器日志</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看日志</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1 查看标准输出</span></span><br><span class="line">docker logs &#123;容器ID或者容器名称&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash">2 让docker logs 像使用 tail -f 一样来输出容器内部的标准输出。</span></span><br><span class="line">docker logs -f &#123;容器ID或者容器名称&#125;  </span><br></pre></td></tr></table></figure>
 
@@ -254,7 +254,7 @@
 <li><strong>-m:</strong> 提交的描述信息</li>
 <li><strong>-a:</strong> 指定镜像作者</li>
 <li><strong>e218edb10161：</strong>容器 ID</li>
-<li><strong>runoob&#x2F;ubuntu:v2:</strong> 指定要创建的目标镜像名</li>
+<li><strong>runoob/ubuntu:v2:</strong> 指定要创建的目标镜像名</li>
 </ul>
 <h5 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h5><p><strong>Dockerfile</strong> 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。下边是一个Dockerfile的示例：</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span>    centos:<span class="number">6.7</span></span><br><span class="line"><span class="keyword">MAINTAINER</span>      Fisher <span class="string">&quot;fisher@sudops.com&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">     /bin/<span class="built_in">echo</span> <span class="string">&#x27;root:123456&#x27;</span> |chpasswd</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">     useradd runoob</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">     /bin/<span class="built_in">echo</span> <span class="string">&#x27;runoob:123456&#x27;</span> |chpasswd</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">     /bin/<span class="built_in">echo</span> -e <span class="string">&quot;LANG=\&quot;en_US.UTF-8\&quot;&quot;</span> &gt;/etc/default/<span class="built_in">local</span></span></span><br><span class="line"><span class="keyword">EXPOSE</span>  <span class="number">22</span></span><br><span class="line"><span class="keyword">EXPOSE</span>  <span class="number">80</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash">     /usr/sbin/sshd -D</span></span><br></pre></td></tr></table></figure>
@@ -285,7 +285,7 @@
 
 
 
-<h5 id="绑定UDP端口"><a href="#绑定UDP端口" class="headerlink" title="绑定UDP端口"></a>绑定UDP端口</h5><p>端口后面加上 <strong>&#x2F;udp</strong></p>
+<h5 id="绑定UDP端口"><a href="#绑定UDP端口" class="headerlink" title="绑定UDP端口"></a>绑定UDP端口</h5><p>端口后面加上 <strong>/udp</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 127.0.0.1:5000:5000/udp training/webapp python app.py</span><br></pre></td></tr></table></figure>
 
 
@@ -319,7 +319,7 @@
 
 
 
-<h4 id="配置DNS"><a href="#配置DNS" class="headerlink" title="配置DNS"></a>配置DNS</h4><h5 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h5><p>CentOS上，Docker的配置文件在：&#x2F;etc&#x2F;docker&#x2F;daemon.json这个位置。</p>
+<h4 id="配置DNS"><a href="#配置DNS" class="headerlink" title="配置DNS"></a>配置DNS</h4><h5 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h5><p>CentOS上，Docker的配置文件在：/etc/docker/daemon.json这个位置。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;dns&quot; : [</span><br><span class="line">    &quot;114.114.114.114&quot;,</span><br><span class="line">    &quot;8.8.8.8&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>配置完后，重启Docker。</p>
@@ -331,11 +331,11 @@
 <h5 id="指定容器配置"><a href="#指定容器配置" class="headerlink" title="指定容器配置"></a>指定容器配置</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --rm -h host_ubuntu  --dns=114.114.114.114 --dns-search=test.com ubuntu</span><br></pre></td></tr></table></figure>
 
 <p><strong>–rm</strong>：容器退出时自动清理容器内部的文件系统。</p>
-<p><strong>-h HOSTNAME 或者 –hostname&#x3D;HOSTNAME</strong>： 设定容器的主机名，它会被写到容器内的 &#x2F;etc&#x2F;hostname 和 &#x2F;etc&#x2F;hosts。</p>
-<p><strong>–dns&#x3D;IP_ADDRESS</strong>： 添加 DNS 服务器到容器的 &#x2F;etc&#x2F;resolv.conf 中，让容器用这个服务器来解析所有不在 &#x2F;etc&#x2F;hosts 中的主机名。</p>
-<p><strong>–dns-search&#x3D;DOMAIN</strong>： 设定容器的搜索域，当设定搜索域为 .example.com 时，在搜索一个名为 host 的主机时，DNS 不仅搜索 host，还会搜索 host.example.com。</p>
+<p><strong>-h HOSTNAME 或者 –hostname=HOSTNAME</strong>： 设定容器的主机名，它会被写到容器内的 /etc/hostname 和 /etc/hosts。</p>
+<p><strong>–dns=IP_ADDRESS</strong>： 添加 DNS 服务器到容器的 /etc/resolv.conf 中，让容器用这个服务器来解析所有不在 /etc/hosts 中的主机名。</p>
+<p><strong>–dns-search=DOMAIN</strong>： 设定容器的搜索域，当设定搜索域为 .example.com 时，在搜索一个名为 host 的主机时，DNS 不仅搜索 host，还会搜索 host.example.com。</p>
 <blockquote>
-<p>如果在容器启动时没有指定 <strong>–dns</strong> 和 <strong>–dns-search</strong>，Docker 会默认用宿主主机上的 &#x2F;etc&#x2F;resolv.conf 来配置容器的 DNS。</p>
+<p>如果在容器启动时没有指定 <strong>–dns</strong> 和 <strong>–dns-search</strong>，Docker 会默认用宿主主机上的 /etc/resolv.conf 来配置容器的 DNS。</p>
 </blockquote>
 <h3 id="仓库管理"><a href="#仓库管理" class="headerlink" title="仓库管理"></a>仓库管理</h3><p>仓库（Repository）是集中存放镜像的地方。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker login</span><br><span class="line">docker search ubuntu</span><br><span class="line">docker pull ubuntu </span><br><span class="line">docker tag ubuntu:18.04 &lt;username&gt;/ubuntu:18.04</span><br><span class="line">docker push &lt;username&gt;/ubuntu:18.04</span><br><span class="line">docker search &lt;username&gt;/ubuntu</span><br><span class="line">docker logout</span><br></pre></td></tr></table></figure>
@@ -352,7 +352,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/01/13/Docker/" data-id="cm5ktr3hu000b7ewf7uhp9iun" data-title="Docker" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://programmerlz.github.io/2021/01/13/Docker/" data-id="cm5ku3xyh000bzewf541ubm59" data-title="Docker" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       

@@ -6,28 +6,28 @@
   
   <title>Java NIO | 星火燎原</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="这篇文章是引自一个牛逼的博主写的博客，并非原创，原文链接。  Java NIO：Buffer、Channel 和 Selector本文将介绍 Java NIO 中三大组件 Buffer、Channel、Selector 的使用。	 Buffer一个 Buffer 本质上是内存中的一块，我们可以将数据写入这块内存，之后从这块内存获取数据。 java.nio 定义了以下几个 Buffer 的实现，">
+  <meta name="description" content="这篇文章是引自一个牛逼的博主写的博客，并非原创，原文链接。  Java NIO：Buffer、Channel 和 Selector本文将介绍 Java NIO 中三大组件 Buffer、Channel、Selector 的使用。     Buffer一个 Buffer 本质上是内存中的一块，我们可以将数据写入这块内存，之后从这块内存获取数据。 java.nio 定义了以下几个 Buffer 的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java NIO">
 <meta property="og:url" content="https://programmerlz.github.io/2021/07/23/Java-NIO/index.html">
 <meta property="og:site_name" content="星火燎原">
-<meta property="og:description" content="这篇文章是引自一个牛逼的博主写的博客，并非原创，原文链接。  Java NIO：Buffer、Channel 和 Selector本文将介绍 Java NIO 中三大组件 Buffer、Channel、Selector 的使用。	 Buffer一个 Buffer 本质上是内存中的一块，我们可以将数据写入这块内存，之后从这块内存获取数据。 java.nio 定义了以下几个 Buffer 的实现，">
+<meta property="og:description" content="这篇文章是引自一个牛逼的博主写的博客，并非原创，原文链接。  Java NIO：Buffer、Channel 和 Selector本文将介绍 Java NIO 中三大组件 Buffer、Channel、Selector 的使用。     Buffer一个 Buffer 本质上是内存中的一块，我们可以将数据写入这块内存，之后从这块内存获取数据。 java.nio 定义了以下几个 Buffer 的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/6.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/5.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/7.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/8.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/9-20190522151756191.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/10.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/0-20190523142142854.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/1-8592503.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/6.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/5.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/7.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/8.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/9-20190522151756191.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/10.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/0-20190523142142854.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/1-8592503.png">
 <meta property="og:image" content="https://www.javadoop.com/blogimages/tomcat-nio/0.png">
 <meta property="article:published_time" content="2021-07-23T09:31:34.000Z">
 <meta property="article:modified_time" content="2022-08-09T03:22:28.015Z">
 <meta property="article:tag" content="Java基础">
 <meta property="article:tag" content="IO">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/6.png">
+<meta name="twitter:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/07/23/Java-NIO/6.png">
   
     <link rel="alternate" href="/techSnapshot.github.io/atom.xml" title="星火燎原" type="application/atom+xml">
   
@@ -119,24 +119,24 @@
         <blockquote>
 <p> 这篇文章是引自一个牛逼的博主写的博客，并非原创，<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36704549/article/details/109014073">原文链接</a>。</p>
 </blockquote>
-<h1 id="Java-NIO：Buffer、Channel-和-Selector"><a href="#Java-NIO：Buffer、Channel-和-Selector" class="headerlink" title="Java NIO：Buffer、Channel 和 Selector"></a>Java NIO：Buffer、Channel 和 Selector</h1><p>本文将介绍 Java NIO 中三大组件 <strong>Buffer、Channel、Selector</strong> 的使用。	</p>
+<h1 id="Java-NIO：Buffer、Channel-和-Selector"><a href="#Java-NIO：Buffer、Channel-和-Selector" class="headerlink" title="Java NIO：Buffer、Channel 和 Selector"></a>Java NIO：Buffer、Channel 和 Selector</h1><p>本文将介绍 Java NIO 中三大组件 <strong>Buffer、Channel、Selector</strong> 的使用。    </p>
 <h2 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h2><p>一个 Buffer 本质上是<strong>内存中的一块</strong>，我们可以将数据写入这块内存，之后从这块内存获取数据。</p>
 <p>java.nio 定义了以下几个 Buffer 的实现，这个图读者应该也在不少地方见过了吧。</p>
-<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/6.png"></p>
-<span id="more"></span>	
+<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/6.png"></p>
+<span id="more"></span>    
 
 <p>其实核心是最后的 <strong>ByteBuffer</strong>，前面的一大串类只是包装了一下它而已，我们使用最多的通常也是 ByteBuffer。</p>
 <p><strong>我们应该将 Buffer 理解为一个数组</strong>，IntBuffer、CharBuffer、DoubleBuffer 等分别对应 int[]、char[]、double[] 等。</p>
 <p><strong>MappedByteBuffer</strong> 用于实现内存映射文件，也不是本文关注的重点。</p>
 <p>我觉得操作 Buffer 和操作数组、类集差不多，只不过大部分时候我们都把它放到了 NIO 的场景里面来使用而已。下面介绍 Buffer 中的几个重要属性和几个重要方法。</p>
 <h3 id="position、limit、capacity"><a href="#position、limit、capacity" class="headerlink" title="position、limit、capacity"></a>position、limit、capacity</h3><p>就像数组有数组容量，每次访问元素要指定下标，Buffer 中也有几个重要属性：position、limit、capacity。</p>
-<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/5.png" alt="5"></p>
+<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/5.png" alt="5"></p>
 <p>最好理解的当然是 capacity，它代表这个缓冲区的容量，一旦设定就不可以更改。比如 capacity 为 1024 的 IntBuffer，代表其一次可以存放 1024 个 int 类型的值。一旦 Buffer 的容量达到 capacity，需要清空 Buffer，才能重新写入值。</p>
 <p>position 和 limit 是变化的，我们分别看下读和写操作下，它们是如何变化的。</p>
 <p><strong>position</strong> 的初始值是 0，每往 Buffer 中写入一个值，position 就自动加 1，代表下一次的写入位置。读操作的时候也是类似的，每读一个值，position 就自动加 1。</p>
 <p>从写操作模式到读操作模式切换的时候（<strong>flip</strong>），position 都会归零，这样就可以从头开始读写了。</p>
 <p><strong>Limit</strong>：写操作模式下，limit 代表的是最大能写入的数据，这个时候 limit 等于 capacity。写结束后，切换到读模式，此时的 limit 等于 Buffer 中实际的数据大小，因为 Buffer 不一定被写满了。</p>
-<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/7.png" alt="7"></p>
+<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/7.png" alt="7"></p>
 <h3 id="初始化-Buffer"><a href="#初始化-Buffer" class="headerlink" title="初始化 Buffer"></a>初始化 Buffer</h3><p>每个 Buffer 实现类都提供了一个静态方法 <code>allocate(int capacity)</code> 帮助我们快速实例化一个 Buffer。如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ByteBuffer byteBuf = ByteBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line">IntBuffer intBuf = IntBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line">LongBuffer longBuf = LongBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
 
@@ -151,7 +151,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> num = channel.read(buf);</span><br></pre></td></tr></table></figure>
 
 <p>上述方法会返回从 Channel 中读入到 Buffer 的数据大小。</p>
-<h3 id="提取-Buffer-中的值"><a href="#提取-Buffer-中的值" class="headerlink" title="提取 Buffer 中的值"></a>提取 Buffer 中的值</h3><h4 id="填充-提取的模式切换"><a href="#填充-提取的模式切换" class="headerlink" title="填充-&gt;提取的模式切换"></a>填充-&gt;提取的模式切换</h4><p>前面介绍了写操作，每写入一个值，position 的值都需要加 1，所以 position 最后会指向<strong>最后一次写入的位置的后面一个</strong>，如果 Buffer 写满了，那么 position 等于 capacity（position 从 0 开始）。</p>
+<h3 id="提取-Buffer-中的值"><a href="#提取-Buffer-中的值" class="headerlink" title="提取 Buffer 中的值"></a>提取 Buffer 中的值</h3><h4 id="填充-gt-提取的模式切换"><a href="#填充-gt-提取的模式切换" class="headerlink" title="填充-&gt;提取的模式切换"></a>填充-&gt;提取的模式切换</h4><p>前面介绍了写操作，每写入一个值，position 的值都需要加 1，所以 position 最后会指向<strong>最后一次写入的位置的后面一个</strong>，如果 Buffer 写满了，那么 position 等于 capacity（position 从 0 开始）。</p>
 <p>如果要读 Buffer 中的值，需要切换模式，从写入模式切换到读出模式。注意，通常在说 NIO 的读操作的时候，我们说的是从 Channel 中读数据到 Buffer 中，对应的是对 Buffer 的写入操作，初学者需要理清楚这个。</p>
 <p>调用 Buffer 的 <strong>flip()</strong> 方法，可以从写入模式切换到读取模式。其实这个方法也就是设置了一下 position 和 limit 值罢了。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Buffer <span class="title">flip</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    limit = position; <span class="comment">// 将 limit 设置为实际写入的数据数量</span></span><br><span class="line">    position = <span class="number">0</span>; <span class="comment">// 重置 position 为 0</span></span><br><span class="line">    mark = -<span class="number">1</span>; <span class="comment">// mark 之后再说</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -165,14 +165,14 @@
 <h4 id="通道读"><a href="#通道读" class="headerlink" title="通道读"></a>通道读</h4><p>当然了，除了将数据从 Buffer 取出来使用，更常见的操作是<strong>将我们写入的数据传输到 Channel 中</strong>，如通过 FileChannel 将数据写入到文件中，通过 SocketChannel 将数据写入网络发送到远程机器等。对应的，这种操作，我们称之为<strong>写操作</strong>。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> num = channel.write(buf);</span><br></pre></td></tr></table></figure>
 
-<h3 id="mark-reset-基本上是成对使用"><a href="#mark-reset-基本上是成对使用" class="headerlink" title="mark() &amp; reset()(基本上是成对使用)"></a>mark() &amp; reset()(基本上是成对使用)</h3><p>除了 position、limit、capacity 这三个基本的属性外，还有一个常用的属性就是 <strong>mark</strong>。</p>
+<h3 id="mark-amp-reset-基本上是成对使用"><a href="#mark-amp-reset-基本上是成对使用" class="headerlink" title="mark() &amp; reset()(基本上是成对使用)"></a>mark() &amp; reset()(基本上是成对使用)</h3><p>除了 position、limit、capacity 这三个基本的属性外，还有一个常用的属性就是 <strong>mark</strong>。</p>
 <p><strong>mark 用于临时保存 position 的值</strong>，每次调用 mark() 方法都会将 mark 设值为当前的 position，便于后续需要的时候使用。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Buffer <span class="title">mark</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mark = position;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>那到底什么时候用呢？考虑以下场景，我们在 position 为 5 的时候，先 mark() 一下，然后继续往下读，读到第 10 的时候，我想重新回到 position 为 5 的地方重新来一遍，那只要调一下 reset() 方法，position 就回到 5 了。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Buffer <span class="title">reset</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m = mark;</span><br><span class="line">    <span class="keyword">if</span> (m &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> InvalidMarkException();</span><br><span class="line">    position = m;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="rewind-clear-compact"><a href="#rewind-clear-compact" class="headerlink" title="rewind() &amp; clear() &amp; compact()"></a>rewind() &amp; clear() &amp; compact()</h3><p>**rewind()**：会重置 position 为 0，通常用于重新从头读写 Buffer。</p>
+<h3 id="rewind-amp-clear-amp-compact"><a href="#rewind-amp-clear-amp-compact" class="headerlink" title="rewind() &amp; clear() &amp; compact()"></a>rewind() &amp; clear() &amp; compact()</h3><p>**rewind()**：会重置 position 为 0，通常用于重新从头读写 Buffer。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Buffer <span class="title">rewind</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    position = <span class="number">0</span>;</span><br><span class="line">    mark = -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>**clear()**：有点重置 Buffer 的意思，相当于重新实例化了一样。</p>
@@ -183,7 +183,7 @@
 <p>前面说的 clear() 方法会重置几个属性，但是我们要看到，clear() 方法并不会将 Buffer 中的数据清空，只<strong>不过后续的写入会覆盖掉原来的数据</strong>，也就相当于清空了数据了。</p>
 <p>而 compact() 方法有点不一样，调用这个方法以后，会先处理还没有读取的数据，也就是 position 到 limit 之间的数据（还没有读过的数据），先将这些数据移到左边，然后在这个基础上再开始写入。很明显，此时 limit 还是等于 capacity，position 指向原来数据的右边。</p>
 <h2 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h2><p>所有的 NIO 操作始于通道，通道是数据来源或数据写入的目的地，主要地，我们将关心 java.nio 包中实现的以下几个 Channel：</p>
-<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/8.png" alt="8"></p>
+<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/8.png" alt="8"></p>
 <ul>
 <li><strong>FileChannel</strong>：文件通道，用于文件的读和写</li>
 <li><strong>DatagramChannel</strong>：用于 UDP 连接的接收和发送</li>
@@ -192,8 +192,8 @@
 </ul>
 <p><strong>这里不是很理解这些也没关系，后面介绍了代码之后就清晰了。还有，我们最应该关注，也是后面将会重点介绍的是 <code>SocketChannel</code> 和 <code>ServerSocketChannel</code>。</strong></p>
 <p>Channel 经常翻译为通道，类似 IO 中的流，用于读取和写入。它与前面介绍的 Buffer 打交道，读操作的时候将 Channel 中的数据填充到 Buffer 中，而写操作时将 Buffer 中的数据写入到 Channel 中。</p>
-<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/9-20190522151756191.png" alt="9"></p>
-<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/10.png" alt="10"></p>
+<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/9-20190522151756191.png" alt="9"></p>
+<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/10.png" alt="10"></p>
 <p>至少读者应该记住一点，这两个方法都是 channel 实例的方法。</p>
 <h3 id="FileChannel"><a href="#FileChannel" class="headerlink" title="FileChannel"></a>FileChannel</h3><p>我想文件操作对于大家来说应该是最熟悉的，不过我们在说 NIO 的时候，其实 FileChannel 并不是关注的重点。而且后面我们说非阻塞的时候会看到，<strong>FileChannel 是不支持非阻塞的</strong>。</p>
 <p><strong>这里算是简单介绍下常用的操作吧，感兴趣的读者瞄一眼就是了。</strong></p>
@@ -243,8 +243,7 @@
 <p>读者在这一节不能消化 Selector 也没关系，因为后续在介绍非阻塞 IO 的时候还得说到这个，这里先介绍一些基本的接口操作。</p>
 <ol>
 <li><p>首先，我们开启一个 Selector。你们爱翻译成<strong>选择器</strong>也好，<strong>多路复用器</strong>也好。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Selector selector = Selector.open();</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Selector selector = Selector.open();</span><br></pre></td></tr></table></figure></li>
 <li><p>将 Channel 注册到 Selector 上。前面我们说了，Selector 建立在非阻塞模式之上，所以注册到 Selector 的 Channel 必须要支持非阻塞模式，<strong>FileChannel 不支持非阻塞</strong>，我们这里讨论最常见的 SocketChannel 和 ServerSocketChannel。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将通道设置为非阻塞模式，因为默认都是阻塞模式的</span></span><br><span class="line">channel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line"><span class="comment">// 注册</span></span><br><span class="line">SelectionKey key = channel.register(selector, SelectionKey.OP_READ);</span><br></pre></td></tr></table></figure>
 
@@ -341,7 +340,7 @@
 <p><strong>poll</strong>：1997 年，出现了 poll 作为 select 的替代者，最大的区别就是，<strong>poll 不再限制 socket 数量</strong>。</p>
 <p>select 和 poll 都有一个共同的问题，那就是<strong>它们都只会告诉你有几个通道准备好了，但是不会告诉你具体是哪几个通道</strong>。所以，一旦知道有通道准备好以后，自己还是需要进行一次扫描，显然这个不太好，通道少的时候还行，一旦通道的数量是几十万个以上的时候，扫描一次的时间都很可观了，时间复杂度 O(n)。所以，后来才催生了以下实现。</p>
 <p><strong>epoll</strong>：2002 年随 Linux 内核 2.5.44 发布，<strong>epoll 能直接返回具体的准备好的通道</strong>，时间复杂度 O(1)。</p>
-<p>除了 Linux 中的 epoll，2000 年 FreeBSD 出现了 <strong>Kqueue</strong>，还有就是，Solaris 中有 <strong>&#x2F;dev&#x2F;poll</strong>。</p>
+<p>除了 Linux 中的 epoll，2000 年 FreeBSD 出现了 <strong>Kqueue</strong>，还有就是，Solaris 中有 <strong>/dev/poll</strong>。</p>
 <blockquote>
 <p>前面说了那么多实现，但是没有出现 Windows，Windows 平台的非阻塞 IO 使用 select，我们也不必觉得 Windows 很落后，在 Windows 中 IOCP 提供的异步 IO 是比较强大的。</p>
 </blockquote>
@@ -355,8 +354,8 @@
 <p>通常，我们会<strong>有一个线程池用于执行异步任务</strong>，提交任务的线程将任务提交到线程池就可以立马返回，不必等到任务真正完成。如果想要知道任务的执行结果，通常是通过传递一个回调函数的方式，任务结束后去调用这个函数。</p>
 <p>同样的原理，Java 中的异步 IO 也是一样的，都是由一个线程池来负责执行任务，然后使用回调或自己去查询结果。</p>
 <p>大部分开发者都知道为什么要这么设计了，这里再啰嗦一下。<strong>异步 IO 主要是为了控制线程数量，减少过多的线程带来的内存消耗和 CPU 在线程调度上的开销。</strong></p>
-<p><strong>在 Unix&#x2F;Linux 等系统中，JDK 使用了并发包中的线程池来管理任务</strong>，具体可以查看 AsynchronousChannelGroup 的源码。</p>
-<p>在 Windows 操作系统中，提供了一个叫做 <a target="_blank" rel="noopener" href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa365198.aspx">I&#x2F;O Completion Ports</a> 的方案，通常简称为 <strong>IOCP</strong>，操作系统负责管理线程池，其性能非常优异，所以<strong>在 Windows 中 JDK 直接采用了 IOCP 的支持</strong>，使用系统支持，把更多的操作信息暴露给操作系统，也使得操作系统能够对我们的 IO 进行一定程度的优化。</p>
+<p><strong>在 Unix/Linux 等系统中，JDK 使用了并发包中的线程池来管理任务</strong>，具体可以查看 AsynchronousChannelGroup 的源码。</p>
+<p>在 Windows 操作系统中，提供了一个叫做 <a target="_blank" rel="noopener" href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa365198.aspx">I/O Completion Ports</a> 的方案，通常简称为 <strong>IOCP</strong>，操作系统负责管理线程池，其性能非常优异，所以<strong>在 Windows 中 JDK 直接采用了 IOCP 的支持</strong>，使用系统支持，把更多的操作信息暴露给操作系统，也使得操作系统能够对我们的 IO 进行一定程度的优化。</p>
 <blockquote>
 <p>在 Linux 中其实也是有异步 IO 系统实现的，但是限制比较多，性能也一般，所以 JDK 采用了自建线程池的方式。</p>
 </blockquote>
@@ -475,13 +474,13 @@
 <p>到这里，异步 IO 就算介绍完成了。</p>
 <h2 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h2><p>我想，本文应该是说清楚了非阻塞 IO 和异步 IO 了，对于异步 IO，由于网上的资料比较少，所以不免篇幅多了些。</p>
 <p>我们也要知道，看懂了这些，确实可以学到一些东西，多了解一些知识，但是我们还是很少在工作中将这些知识变成工程代码。一般而言，我们需要在网络应用中使用 NIO 或 AIO 来提升性能，但是，在工程上，绝不是了解了一些概念，知道了一些接口就可以的，需要处理的细节还非常多。</p>
-<p>这也是为什么 Netty&#x2F;Mina 如此盛行的原因，因为它们帮助封装好了很多细节，提供给我们用户友好的接口，后面有时间我也会对 Netty 进行介绍。</p>
+<p>这也是为什么 Netty/Mina 如此盛行的原因，因为它们帮助封装好了很多细节，提供给我们用户友好的接口，后面有时间我也会对 Netty 进行介绍。</p>
 <h1 id="Tomcat-中的-NIO-源码分析"><a href="#Tomcat-中的-NIO-源码分析" class="headerlink" title="Tomcat 中的 NIO 源码分析"></a>Tomcat 中的 NIO 源码分析</h1><p>之前写了两篇关于 NIO 的文章，第一篇介绍了 NIO 的 Channel、Buffer、Selector 使用，第二篇介绍了非阻塞 IO 和异步 IO，并展示了简单的用例。</p>
 <p>本文将介绍 Tomcat 中的 NIO 使用，使大家对 Java NIO 的生产使用有更加直观的认识。</p>
 <p>虽然本文的源码篇幅也不短，但是 Tomcat 的源码毕竟不像 Doug Lea 的并发源码那么“变态”，对于大部分读者来说，阅读难度比之前介绍的其他并发源码要简单一些，所以读者不要觉得有什么压力。</p>
 <p>本文基于 Tomcat 当前（2018-03-20）<strong>最新版本 9.0.6</strong>。</p>
 <p>先简单画一张图示意一下本文的主要内容：</p>
-<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/0-20190523142142854.png" alt="0"></p>
+<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/0-20190523142142854.png" alt="0"></p>
 <h2 id="源码环境准备"><a href="#源码环境准备" class="headerlink" title="源码环境准备"></a>源码环境准备</h2><p>由于上面下载的 tomcat 的源码并没有使用 maven 进行组织，不方便我们看源码，也不方便我们进行调试。这里我们将使用 maven 仓库中的 tomcat-embed-core，自己编写代码进行启动的方式来进行调试。</p>
 <p>首先，创建一个空的 maven 工程，然后添加以下依赖。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.tomcat.embed<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tomcat-embed-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>9.0.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -512,12 +511,12 @@
 <p>8.5 及之前版本的 Tomcat#start() 方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> <span class="keyword">throws</span> LifecycleException </span>&#123;</span><br><span class="line">    getServer();</span><br><span class="line">    <span class="comment">// 自动配置一个使用非阻塞 IO 的 connector</span></span><br><span class="line">    getConnector();</span><br><span class="line">    server.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </blockquote>
-<h2 id="endpoint"><a href="#endpoint" class="headerlink" title="endpoint"></a>endpoint</h2><p>前面我们说过一个 Connector 对应一个协议，当然这描述也不太对，NIO 和 NIO2 就都是处理 HTTP&#x2F;1.1 的，只不过一个使用非阻塞，一个使用异步。进到指定 protocol 代码，我们就会发现，它们的代码及其简单，只不过是指定了特定的 <strong>endpoint</strong>。</p>
+<h2 id="endpoint"><a href="#endpoint" class="headerlink" title="endpoint"></a>endpoint</h2><p>前面我们说过一个 Connector 对应一个协议，当然这描述也不太对，NIO 和 NIO2 就都是处理 HTTP/1.1 的，只不过一个使用非阻塞，一个使用异步。进到指定 protocol 代码，我们就会发现，它们的代码及其简单，只不过是指定了特定的 <strong>endpoint</strong>。</p>
 <p>打开 <code>Http11NioProtocol</code> 和 <code>Http11Nio2Protocol</code>源码，我们可以看到，在构造方法中，它们分别指定了 NioEndpoint 和 Nio2Endpoint。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 非阻塞模式</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Http11NioProtocol</span> <span class="keyword">extends</span> <span class="title">AbstractHttp11JsseProtocol</span>&lt;<span class="title">NioChannel</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Http11NioProtocol</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// NioEndpoint</span></span><br><span class="line">        <span class="keyword">super</span>(<span class="keyword">new</span> NioEndpoint());</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 异步模式</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Http11Nio2Protocol</span> <span class="keyword">extends</span> <span class="title">AbstractHttp11JsseProtocol</span>&lt;<span class="title">Nio2Channel</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Http11Nio2Protocol</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Nio2Endpoint</span></span><br><span class="line">        <span class="keyword">super</span>(<span class="keyword">new</span> Nio2Endpoint());</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>这里介绍第二个重要的概念：<strong>endpoint</strong>。Tomcat 使用不同的 endpoint 来处理不同的协议请求，今天我们的重点是 <strong>NioEndpoint</strong>，其使用<strong>非阻塞 IO</strong> 来进行处理 HTTP&#x2F;1.1 协议的请求。</p>
-<p><strong>NioEndpoint</strong> 继承 &#x3D;&gt; <strong>AbstractJsseEndpoint</strong> 继承 &#x3D;&gt; <strong>AbstractEndpoint</strong>。中间的 AbstractJsseEndpoint 主要是提供了一些关于 <code>HTTPS</code> 的方法，这块我们暂时忽略它，后面所有关于 HTTPS 的我们都直接忽略，感兴趣的读者请自行分析。</p>
+<p>这里介绍第二个重要的概念：<strong>endpoint</strong>。Tomcat 使用不同的 endpoint 来处理不同的协议请求，今天我们的重点是 <strong>NioEndpoint</strong>，其使用<strong>非阻塞 IO</strong> 来进行处理 HTTP/1.1 协议的请求。</p>
+<p><strong>NioEndpoint</strong> 继承 =&gt; <strong>AbstractJsseEndpoint</strong> 继承 =&gt; <strong>AbstractEndpoint</strong>。中间的 AbstractJsseEndpoint 主要是提供了一些关于 <code>HTTPS</code> 的方法，这块我们暂时忽略它，后面所有关于 HTTPS 的我们都直接忽略，感兴趣的读者请自行分析。</p>
 <h2 id="init-过程分析"><a href="#init-过程分析" class="headerlink" title="init 过程分析"></a>init 过程分析</h2><p>下面，我们看看从 tomcat.start() 一直到 NioEndpoint 的过程。</p>
 <p><strong>1. AbstractProtocol</strong> # <strong>init</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    String endpointName = getName();</span><br><span class="line">    endpoint.setName(endpointName.substring(<span class="number">1</span>, endpointName.length()-<span class="number">1</span>));</span><br><span class="line">    endpoint.setDomain(domain);</span><br><span class="line">    <span class="comment">// endpoint 的 name=http-nio-8089,domain=Tomcat</span></span><br><span class="line">    endpoint.init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -548,7 +547,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startInternal</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!running) &#123;</span><br><span class="line">        running = <span class="keyword">true</span>;</span><br><span class="line">        paused = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 以下几个是缓存用的，之后我们也会看到很多这样的代码，为了减少 new 很多对象出来</span></span><br><span class="line">        processorCache = <span class="keyword">new</span> SynchronizedStack&lt;&gt;(SynchronizedStack.DEFAULT_SIZE,</span><br><span class="line">                socketProperties.getProcessorCache());</span><br><span class="line">        eventCache = <span class="keyword">new</span> SynchronizedStack&lt;&gt;(SynchronizedStack.DEFAULT_SIZE,</span><br><span class="line">                        socketProperties.getEventCache());</span><br><span class="line">        nioChannels = <span class="keyword">new</span> SynchronizedStack&lt;&gt;(SynchronizedStack.DEFAULT_SIZE,</span><br><span class="line">                socketProperties.getBufferPool());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建【工作线程池】，Tomcat 自己包装了一下 ThreadPoolExecutor，</span></span><br><span class="line">        <span class="comment">// 1. 为了在创建线程池以后，先启动 corePoolSize 个线程(这个属于线程池的知识了，不熟悉的读者可以看看我之前的文章)</span></span><br><span class="line">        <span class="comment">// 2. 自己管理线程池的增长方式（默认 corePoolSize 10, maxPoolSize 200），不是本文重点，不分析</span></span><br><span class="line">        <span class="keyword">if</span> ( getExecutor() == <span class="keyword">null</span> ) &#123;</span><br><span class="line">            createExecutor();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置一个栅栏（tomcat 自定义了类 LimitLatch），控制最大的连接数，默认是 10000</span></span><br><span class="line">        initializeConnectionLatch();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 开启 poller 线程</span></span><br><span class="line">        <span class="comment">// 还记得之前 init 的时候，默认地设置了 poller 的数量为 2，所以这里启动 2 个 poller 线程</span></span><br><span class="line">        pollers = <span class="keyword">new</span> Poller[getPollerThreadCount()];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;pollers.length; i++) &#123;</span><br><span class="line">            pollers[i] = <span class="keyword">new</span> Poler();</span><br><span class="line">            Thread pollerThread = <span class="keyword">new</span> Thread(pollers[i], getName() + <span class="string">&quot;-ClientPoller-&quot;</span>+i);</span><br><span class="line">            pollerThread.setPriority(threadPriority);</span><br><span class="line">            pollerThread.setDaemon(<span class="keyword">true</span>);</span><br><span class="line">            pollerThread.start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 开启 acceptor 线程，和开启 poller 线程组差不多。</span></span><br><span class="line">        <span class="comment">// init 的时候，默认地，acceptor 的线程数是 1</span></span><br><span class="line">        startAcceptorThreads();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>到这里，我们启动了<strong>工作线程池</strong>、 <strong>poller 线程组</strong>、<strong>acceptor 线程组</strong>。同时，工作线程池初始就已经启动了 10 个线程。我们用 <strong>jconsole</strong> 来看看此时的线程，请看下图：</p>
-<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/Java-NIO/1-8592503.png" alt="1"></p>
+<p><img src="/techSnapshot.github.io/2021/07/23/Java-NIO/1-8592503.png" alt="1"></p>
 <p>从 jconsole 中，我们可以看到，此时启动了 BlockPoller、worker、poller、acceptor、AsyncTimeout，大家应该都已经清楚了每个线程是哪里启动的吧。</p>
 <blockquote>
 <p>Tomcat 中并没有 Worker 这个类，此名字是我瞎编。</p>
@@ -653,7 +652,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/07/23/Java-NIO/" data-id="cm5ktr3i500167ewf1jdt0wgq" data-title="Java NIO" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://programmerlz.github.io/2021/07/23/Java-NIO/" data-id="cm5ku3xyn000nzewfb4bmc3rw" data-title="Java NIO" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       

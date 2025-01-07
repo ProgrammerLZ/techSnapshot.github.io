@@ -109,7 +109,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.put(key,value)</span><br></pre></td></tr></table></figure>
 
 <p>对key做一个hash运算，然后跟底层的数组的长度进行取模就能够得到元素在数组中的索引，然后把value放进数组中的索引指向处即可。</p>
-<span id="more"></span>	
+<span id="more"></span>    
 
 <h3 id="JDK的优化"><a href="#JDK的优化" class="headerlink" title="JDK的优化"></a>JDK的优化</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.put(<span class="string">&quot;张三&quot;</span>,<span class="string">&quot;测试数据&quot;</span>)；</span><br></pre></td></tr></table></figure>
 
@@ -135,7 +135,7 @@
 <p>这段寻址的代码，等价于：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hash % n</span><br></pre></td></tr></table></figure>
 
-<p>但是，要比 hash % n要高效得多。前提是 n &#x3D; 2的整数倍次方。</p>
+<p>但是，要比 hash % n要高效得多。前提是 n = 2的整数倍次方。</p>
 <p>进行&amp;运算的时候，由于一般情况下，底层数组的长度n都是不会超过32位的，因此，<strong>与hashcode的高16位的运算没什么意义，最终都是0，核心在于低16位的运算</strong>。</p>
 <p>现在，就能够知道为什么hash方法到底是做了什么优化了。</p>
 <p>hash方法的逻辑是，<strong>将key的hashcode右移16位后与原hashcode进行异或操作</strong>，这就能够让<strong>最终得到的hashcode的低16位同时拥有原hashcode的高16位和低16位的特征，从而降低了hashcode的低16位相同的概率，进而降低了寻址操作得到相同地址的概率。</strong></p>
@@ -150,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/07/25/Java%E9%9B%86%E5%90%88/" data-id="cm5ktr3hz000k7ewf8s86f5pv" data-title="Java集合" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://programmerlz.github.io/2021/07/25/Java%E9%9B%86%E5%90%88/" data-id="cm5ku3xym000kzewfc7fk3chv" data-title="Java集合" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       

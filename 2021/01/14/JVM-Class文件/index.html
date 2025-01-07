@@ -14,17 +14,17 @@
 <meta property="og:description" content="Class文件的结构为了先有一个整体的认识，先从整体上去总览一下Class文件字节码结构。每一个类编译后的字节码都是严格按照这种序列进行排列，不同的JDK版本之间有小的差异，但是自从JDK正式发布以来，Class文件的字节码的变化并不大，保持了比较高的稳定性。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114213638161.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615185645247.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615185645247.png">
 <meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114214609620.png">
 <meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114215706024.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615133401442.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615133401442.png">
 <meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114220816073.png">
 <meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114223641114.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615141656095.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615175055639.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615181145572.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615183202638.png">
-<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615183705276.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615141656095.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615175055639.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615181145572.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615183202638.png">
+<meta property="og:image" content="https://programmerlz.github.io/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615183705276.png">
 <meta property="article:published_time" content="2021-01-14T14:54:24.000Z">
 <meta property="article:modified_time" content="2024-06-16T09:15:00.123Z">
 <meta property="article:tag" content="JVM">
@@ -121,18 +121,18 @@
         <h2 id="Class文件的结构"><a href="#Class文件的结构" class="headerlink" title="Class文件的结构"></a>Class文件的结构</h2><p>为了先有一个整体的认识，先从整体上去总览一下Class文件字节码结构。每一个类编译后的字节码都是严格按照这种序列进行排列，不同的JDK版本之间有小的差异，但是自从JDK正式发布以来，Class文件的字节码的变化并不大，保持了比较高的稳定性。</p>
 <img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114213638161.png" alt="image-20210114213638161" style="zoom:80%;">
 
-<span id="more"></span>	
+<span id="more"></span>    
 
 <h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>Class文件采用一种类似于C语言的结构体的伪结构来存储数据，这种结构只有两种数据类型：<strong>无符号数和表</strong>。</p>
 <p><strong>无符号数</strong></p>
 <p>基本的数据类型，以u1,u2,u4,u8来分别代表1、2、4、8个字节的无符号数。无符号数<strong>可以用来描述数字、索引引用、数量值或者按照UTF-8编码构成字符串值</strong>。</p>
 <p><strong>表</strong></p>
 <p>由多个无符号数或者其他表作为数据项构成的<strong>复合数据类型</strong>，所有表都习惯性的用<code>_info</code>结尾。表用于描述有层次关系的复合结构的数据，整个Class文件本质上就是一张表，它由下表所示的数据项构成。</p>
-<p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615185645247.png" alt="image-20240615185645247"></p>
+<p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615185645247.png" alt="image-20240615185645247"></p>
 <h3 id="魔数和class文件版本信息"><a href="#魔数和class文件版本信息" class="headerlink" title="魔数和class文件版本信息"></a>魔数和class文件版本信息</h3><p>魔术用来标识是否是一个Class文件，Class文件的魔数用16进制标识是<code>CAFEBABE</code>。</p>
 <p>版本信息分为次版本和主版本，主版本号从<code>45</code>开始，对应JDK1.1。</p>
 <p>JDK1.1 &lt;——&gt; 45</p>
-<p>JDK<strong>向下兼容</strong>旧版本的Class文件。例如，Class文件的major_version（主版本号）为0x34（52），则支持的JDK为，1 + (52 -45) &#x3D; 8，也就是1.8以及1.8以上版本的JDK都可以执行这个Class文件。</p>
+<p>JDK<strong>向下兼容</strong>旧版本的Class文件。例如，Class文件的major_version（主版本号）为0x34（52），则支持的JDK为，1 + (52 -45) = 8，也就是1.8以及1.8以上版本的JDK都可以执行这个Class文件。</p>
 <blockquote>
 <p>可见<strong>JVM是要和Class文件相兼容的</strong>。如果Class的主版本号过高导致JDK无法兼容，则会抛出“<em>java.lang.UnsupportedClassVersionError: Bad version number in .class file</em>”异常。</p>
 </blockquote>
@@ -143,7 +143,7 @@
 
 <p>常量池计数器的作用主要是为常量池计数。他的数量是常量池中的常量的数量的值加一。例如，常量池中的常量的数量为100，那么这个计数器的值为101。<code>constant_pool</code>表的<strong>索引值</strong>只有在大于 0 且小于<code>constant_pool_count</code>时才会被认为是有效的。</p>
 <blockquote>
-<p>也就是说，常量池计数器的计数&#x3D;A的长度。</p>
+<p>也就是说，常量池计数器的计数=A的长度。</p>
 </blockquote>
 <p>A的0号索引处的值被空出，当某些数据在特定的情况下想表达<strong>不引用任何一个常量池项</strong>的意思时，就可以将其引用的常量的索引值设置为0来表示。这也是常量池计数器大于等于一的原因。</p>
 <h3 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h3><p>常量池可以比喻为Class文件中的资源库，它是在Class文件中，与其他项目关联最多的数据，通常也是占用Class文件空间最大的数据项目之一。</p>
@@ -159,7 +159,7 @@
 </ul>
 <p>这些符号引用不经过虚拟机在运行期进行转换（后续会在类加载相关的主题中聊到）的话，是无法得到真正的内存入口地址的，也就无法被虚拟机直接使用。</p>
 <p>截止JDK13，常量池中共有17种类型的表，如下图所示。并且每种类型的表都有自己的结构，表的起始都是一个u1类型的标志位。</p>
-<p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615133401442.png" alt="image-20240615133401442"></p>
+<p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615133401442.png" alt="image-20240615133401442"></p>
 <h3 id="访问标志"><a href="#访问标志" class="headerlink" title="访问标志"></a>访问标志</h3><p>用于表示当前这个类或者接口的<strong>访问权限</strong>及<strong>基础属性</strong>。</p>
 <img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/image-20210114220816073.png" alt="image-20210114220816073" style="zoom:50%;">
 
@@ -182,10 +182,10 @@
 <h3 id="字段计数器"><a href="#字段计数器" class="headerlink" title="字段计数器"></a>字段计数器</h3><p><code>fields_count</code>的值表示当前 Class 文件 fields的成员个数。 fields 中每一项都是一个field_info结构的数据项，它用于表示该类或接口声明的类字段或者实例字段。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassA</span> <span class="keyword">implements</span> <span class="title">InterfaceA</span>,<span class="title">InterfaceB</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">		<span class="keyword">private</span> String str0;</span><br><span class="line">    <span class="keyword">private</span> String str1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>字段计数器的值 &#x3D; 2。</p>
+<p>字段计数器的值 = 2。</p>
 <h3 id="字段表集合"><a href="#字段表集合" class="headerlink" title="字段表集合"></a>字段表集合</h3><p><code>fields</code>中的每个成员都必须是一个fields_info结构的数据项，用于表示当前类或接口中某个字段的完整描述，其描述当前类或接口声明的所有字段，但不包括从父类或父接 口继承的部分。字段表的结构，如下：</p>
-<p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615141656095.png" alt="image-20240615141656095"></p>
-<h4 id="访问标志位"><a href="#访问标志位" class="headerlink" title="访问标志位"></a>访问标志位</h4><p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615175055639.png" alt="image-20240615175055639"></p>
+<p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615141656095.png" alt="image-20240615141656095"></p>
+<h4 id="访问标志位"><a href="#访问标志位" class="headerlink" title="访问标志位"></a>访问标志位</h4><p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615175055639.png" alt="image-20240615175055639"></p>
 <p>访问标志位表示字段的一些修饰符。例如：</p>
 <ul>
 <li>字段的作用域（public、private、protected）</li>
@@ -197,11 +197,11 @@
 <h4 id="名称索引和描述符索引"><a href="#名称索引和描述符索引" class="headerlink" title="名称索引和描述符索引"></a>名称索引和描述符索引</h4><p>名称索引是对常量池的引用，代表着字段的<strong>简单名称</strong>。简单名称指的是没有类型和修饰符的字段名称，例如<code>private int number</code>这个字段的简单名称就是number。</p>
 <p>描述符索引也是对常量池的引用，代表着字段的<strong>描述符</strong>。字段描述符的作用是用来描述字段的数据类型。例如<code>private int number</code>这个字段的描述符就是<code>I</code>。</p>
 <p>基本数据类型以及void的描述符：</p>
-<p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615181145572.png" alt="image-20240615181145572"></p>
+<p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615181145572.png" alt="image-20240615181145572"></p>
 <p>数组类型的描述符为[，每增加一个维度都会增加一个[。</p>
 <h4 id="属性列表"><a href="#属性列表" class="headerlink" title="属性列表"></a>属性列表</h4><p>属性列表用于存储一些额外的信息，filed_info可以在属性列表中附加描述零至多项额外的信息。</p>
 <h3 id="方法计数器"><a href="#方法计数器" class="headerlink" title="方法计数器"></a>方法计数器</h3><p><code>methods_count</code>的值表示当前Class 文件 methods的成员个数。methods中每一项都是一个 method_info 结构的数据项。</p>
-<h3 id="方法表集合"><a href="#方法表集合" class="headerlink" title="方法表集合"></a>方法表集合</h3><p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615183202638.png" alt="image-20240615183202638"></p>
+<h3 id="方法表集合"><a href="#方法表集合" class="headerlink" title="方法表集合"></a>方法表集合</h3><p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615183202638.png" alt="image-20240615183202638"></p>
 <p><code>methods</code>中的每个成员都必须是一个 method_info 结构的数据项，用于表示当前类或接口中某个方法的完整描述。</p>
 <p>如果某个method_info 结构的<code>access_flags</code>项既没有设置 ACC_NATIVE 标志也没有设置 ACC_ABSTRACT 标志，那么它所对应的方法体就应当可以被 Java 虚拟机直接从当前类加载，而不需 要引用其它类。</p>
 <p>method_info结构可以表示类和接口中定义的所有方法，包括实例方法、类方法、实例初始化方法和类 或接口初始化方法 。</p>
@@ -210,7 +210,7 @@
 </blockquote>
 <h3 id="属性计数器"><a href="#属性计数器" class="headerlink" title="属性计数器"></a>属性计数器</h3><p><code>attributes_count</code>的值表示当前 Class 文件attributes表的成员个数。 attributes表中每一项都是一个attribute_info 结构的数据项。</p>
 <h3 id="属性列表集合"><a href="#属性列表集合" class="headerlink" title="属性列表集合"></a>属性列表集合</h3><p>在最新的《Java虚拟机规范》的Java SE 12版本中，预定义属性有29项。一个符合规则的属性表应该满足下图定义的结构。</p>
-<p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/assets/JVM-Class%E6%96%87%E4%BB%B6/image-20240615183705276.png" alt="image-20240615183705276"></p>
+<p><img src="/techSnapshot.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/JVM-Class%E6%96%87%E4%BB%B6/image-20240615183705276.png" alt="image-20240615183705276"></p>
 <h4 id="属性名称索引（attribute-name-index）"><a href="#属性名称索引（attribute-name-index）" class="headerlink" title="属性名称索引（attribute_name_index）"></a>属性名称索引（attribute_name_index）</h4><p>从常量池中引用一个CONSTANT_Utf8_info类型的常量来表示。</p>
 <h4 id="属性值长度（attribute-length）"><a href="#属性值长度（attribute-length）" class="headerlink" title="属性值长度（attribute_length）"></a>属性值长度（attribute_length）</h4><p>一个u4的长度属性去说明属性值所占用的位数。</p>
 <h4 id="属性信息（info）"><a href="#属性信息（info）" class="headerlink" title="属性信息（info）"></a>属性信息（info）</h4><p>属性值的结构是完全自定义的。</p>
@@ -218,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/" data-id="cm5ktr3hw000e7ewf72ckhlcd" data-title="JVM-Class文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://programmerlz.github.io/2021/01/14/JVM-Class%E6%96%87%E4%BB%B6/" data-id="cm5ku3xyj000ezewfbwref901" data-title="JVM-Class文件" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
